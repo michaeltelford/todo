@@ -1,29 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Tool from './Tool';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tool: {
-        name: 'React',
-      },
+      tool: 'React',
     };
   }
 
-  render() {
-    const { tool } = this.props;
+  handleSubmit = (evt) => {
+    evt.preventDefault();
 
+    const newTool = document.getElementById('tool').value;
+
+    this.setState({
+      tool: newTool,
+    });
+  }
+
+  render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Tool tool={tool || this.state.tool} />
-        </header>
-      </div>
-    );
+      <>
+        <form onSubmit={(evt) => this.handleSubmit(evt)}>
+          <input id="tool" type="text" />
+          <input type="submit" value="Submit" />
+        </form>
+        <p id="output">Your chosen tool is {this.state.tool}</p>
+      </>
+    )
   }
 }
 
