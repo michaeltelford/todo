@@ -1,4 +1,5 @@
 import React from 'react';
+import Add from './Add';
 import './App.css';
 
 class App extends React.Component {
@@ -18,23 +19,12 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <input />
+        <Add callback={this.addTodo} />
         {this.state.todos.map(todo => {
-          return (
-            <>
-              <p onClick={this.handler}>{todo.name} - {todo.done ? 'true' : 'false'}</p>
-              <hr />
-            </>
-          )
+          return <p>{todo.name} - {todo.done ? 'true' : 'false'}</p>
         })}
       </>
-    )
-  }
-
-  handler = evt => {
-    const text = evt.target.innerText;
-    const value = text.includes('true') ? false : true;
-    this.toggleTodo({ name: 'blah', done: value });
+    );
   }
 
   /* State Modifiers */
