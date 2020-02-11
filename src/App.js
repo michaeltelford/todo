@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Small from './Small';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,26 +10,19 @@ class App extends React.Component {
     };
   }
 
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-
-    const newTool = document.getElementById('tool').value;
-
-    this.setState({
-      tool: newTool,
-    });
-  }
-
   render() {
     return (
       <>
-        <form onSubmit={(evt) => this.handleSubmit(evt)}>
-          <input id="tool" type="text" />
-          <input type="submit" value="Submit" />
-        </form>
-        <p id="output">Your chosen tool is {this.state.tool}</p>
+        <Small tool={this.state.tool} callback={this.updateTool} />
+        <p>The parent's state is: {this.state.tool}</p>
       </>
     )
+  }
+
+  updateTool = (newTool) => {
+    this.setState({
+      tool: newTool,
+    });
   }
 }
 
