@@ -1,5 +1,6 @@
 import React from 'react';
 import Add from './Add';
+import Checkbox from './Checkbox';
 import './App.css';
 
 class App extends React.Component {
@@ -21,7 +22,13 @@ class App extends React.Component {
       <>
         <Add callback={this.addTodo} />
         {this.state.todos.map(todo => {
-          return <p>{todo.name} - {todo.done ? 'true' : 'false'}</p>
+          return (
+            <>
+              <Checkbox name={todo.name} checked={todo.done} callback={this.toggleTodo} />
+              <p>{todo.done ? 'true' : 'false'}</p>
+              <br />
+            </>
+          )
         })}
       </>
     );

@@ -22,9 +22,9 @@ class Add extends React.Component {
       name: nameInput.value,
       done: false,
     };
-    nameInput.value = '';
 
     this.props.callback(newTodo);
+    nameInput.value = '';
   }
 }
 
