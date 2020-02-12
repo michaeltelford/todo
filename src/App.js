@@ -20,12 +20,14 @@ class App extends React.Component {
   render() {
     return (
       <>
+        <h1>TODO Checklist</h1>
         <Add callback={this.addTodo} />
+        <br />
         <CheckboxGroup
           todos={this.filterTodos(false)}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        <hr />
+        <br />
         <CheckboxGroup
           todos={this.filterTodos(true)}
           toggleCallback={this.updateTodo}
