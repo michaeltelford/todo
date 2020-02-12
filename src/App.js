@@ -24,11 +24,11 @@ class App extends React.Component {
         {this.state.todos.map(todo => {
           return (
             <>
-              <Checkbox name={todo.name} checked={todo.done} callback={this.toggleTodo} />
-              <p>{todo.done ? 'true' : 'false'}</p>
+              <Checkbox name={todo.name} checked={todo.done}
+                toggleCallback={this.updateTodo} removeCallback={this.removeTodo} />
               <br />
             </>
-          )
+          );
         })}
       </>
     );
@@ -37,25 +37,37 @@ class App extends React.Component {
   /* State Modifiers */
 
   addTodo = newTodo => {
-    this.setState(prevState => prevState.todos.push(newTodo));
+    this.setState(prevState => {
+      prevState.todos.push(newTodo);
+
+      return {
+        todos: prevState.todos,
+      }
+    });
   }
 
   removeTodo = obsoleteTodo => {
     this.setState(prevState => {
-      prevState.todos = prevState.todos.filter(todo => {
+      const filteredTodos = prevState.todos.filter(todo => {
         return todo.name !== obsoleteTodo.name;
       });
-      return prevState.todos;
+
+      return {
+        todos: filteredTodos,
+      }
     });
   }
 
-  toggleTodo = updatedTodo => {
+  updateTodo = updatedTodo => {
     this.setState(prevState => {
       const index = prevState.todos.findIndex(todo => {
         return todo.name === updatedTodo.name;
       });
       prevState.todos.splice(index, 1, updatedTodo);
-      return prevState.todos;
+
+      return {
+        todos: prevState.todos,
+      }
     });
   }
 

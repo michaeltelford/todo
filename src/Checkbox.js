@@ -1,28 +1,35 @@
 import React from 'react';
 
 class Checkbox extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <>
-        <input type='checkbox' name={this.props.name} value={this.props.name}
-          onClick={this.clickHandler} checked={this.props.checked} />
-        <label for={this.props.name}>{this.props.name}</label>
+        <input type='checkbox' name={this.props.name}
+          checked={this.props.checked} onChange={this.toggleHandler} />
+        <label>{this.props.name}</label>
+        <button onClick={this.removeHandler}>X</button>
       </>
     );
   }
 
-  clickHandler = evt => {
-    const el = evt.target;
-    const updatedTodo = {
-      name: el.name,
-      done: el.checked,
-    };
+  toggleHandler = () => {
+    let toggledTodo = this.getTodo();
+    toggledTodo.done = !toggledTodo.done;
 
-    this.props.callback(updatedTodo);
+    this.props.toggleCallback(toggledTodo);
+  }
+
+  removeHandler = () => {
+    const obsoleteTodo = this.getTodo();
+
+    this.props.removeCallback(obsoleteTodo);
+  }
+
+  getTodo = () => {
+    return {
+      name: this.props.name,
+      done: this.props.checked,
+    }
   }
 }
 
