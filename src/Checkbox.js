@@ -7,7 +7,7 @@ class Checkbox extends React.Component {
         <label>
           <input type='checkbox' name={this.props.name}
           checked={this.props.checked} onChange={this.toggleHandler} />
-          {this.props.name}
+          {' ' + this.props.name + ' '}
         </label>
         <button onClick={this.removeHandler}>X</button>
       </>

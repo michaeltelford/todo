@@ -1,7 +1,6 @@
 import React from 'react';
 import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
-import './App.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -22,12 +21,12 @@ class App extends React.Component {
       <>
         <h1>TODO Checklist</h1>
         <Add callback={this.addTodo} />
-        <br />
+        <hr />
         <CheckboxGroup
           todos={this.filterTodos(false)}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        <br />
+        <hr />
         <CheckboxGroup
           todos={this.filterTodos(true)}
           toggleCallback={this.updateTodo}
