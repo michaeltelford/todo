@@ -4,9 +4,11 @@ class Checkbox extends React.Component {
   render() {
     return (
       <>
-        <input type='checkbox' name={this.props.name}
+        <label>
+          <input type='checkbox' name={this.props.name}
           checked={this.props.checked} onChange={this.toggleHandler} />
-        <label>{this.props.name}</label>
+          {this.props.name}
+        </label>
         <button onClick={this.removeHandler}>X</button>
       </>
     );
