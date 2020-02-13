@@ -39,12 +39,19 @@ class App extends React.Component {
   /* State Modifiers */
 
   addTodo = newTodo => {
-    this.setState(prevState => {
-      prevState.todos.push(newTodo);
+    if (newTodo.name === '') {
+      alert('TODO item must have a name');
+      return;
+    }
 
-      return {
-        todos: prevState.todos,
+    this.setState(prevState => {
+      if (this.getTodo(newTodo, prevState)) {
+        alert('TODO item already exists');
+      } else {
+        prevState.todos.push(newTodo);
       }
+
+      return prevState;
     });
   }
 
@@ -67,9 +74,7 @@ class App extends React.Component {
       });
       prevState.todos.splice(index, 1, updatedTodo);
 
-      return {
-        todos: prevState.todos,
-      }
+      return prevState;
     });
   }
 
@@ -77,6 +82,11 @@ class App extends React.Component {
     return this.state.todos.filter(todo => {
       return done ? todo.done : !todo.done;
     });
+  }
+
+  getTodo = (todo, prevState) => {
+    const state = prevState || this.state;
+    return state.todos.find(el => el.name === todo.name);
   }
 }
 
