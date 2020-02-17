@@ -4,8 +4,8 @@ class Add extends React.Component {
   render() {
     return (
       <form onSubmit={this.submitHandler}>
-        <input id='add_name_input' type='text' />
-        <input type='submit' value='Add' />
+        <input id='input_add_name' type='text' />
+        <input id='input_add_submit' type='submit' value='Add' />
       </form>
     );
   }
@@ -13,7 +13,7 @@ class Add extends React.Component {
   submitHandler = evt => {
     evt.preventDefault();
 
-    const nameInput = document.getElementById('add_name_input');
+    const nameInput = document.getElementById('input_add_name');
     const newTodo = {
       name: nameInput.value,
       done: false,

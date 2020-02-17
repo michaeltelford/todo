@@ -1,13 +1,29 @@
 #root {
-  width: 26.4em;
+  width: 80%;
+  max-width: 40em;
   margin: 0 auto;
 }
 
-label {
-  min-width: 21.2em;
-  display: inline-block;
+#input_add_name {
+  width: 87%;
 }
 
-#add_name_input {
-  min-width: 20em;
+#input_add_submit {
+  float: right;
+}
+
+.input_remove_todo {
+  float: right;
+}
+
+@media screen and (max-width: 600px) {
+  #root {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  #input_add_name {
+    width: 82%;
+  }
 }
