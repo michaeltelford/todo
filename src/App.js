@@ -2,17 +2,25 @@ import React from 'react';
 import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
 
+const API_URL = 'http://localhost:8080';
+
+/*
+ * App is the main container component for the TODO application logic.
+ *
+ * On mount, the todos are fetched from the API. The user interacts with them,
+ * updating the component state. Each state change is persisted to the API
+ * after each event e.g. adding a new todo item to the list.
+ *
+ * All todo list state is stored in App, not in its child components. The child
+ * components are passed callback functions which manipulate the state when
+ * fired. This of course causes a re-render of App and the UI gets updated.
+ */
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      todos: [
-        {
-          name: 'Add some TODOs',
-          done: false,
-        },
-      ],
+      todos: [],
     };
   }
 
@@ -35,6 +43,10 @@ class App extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.apiGetTodos();
+  }
+
   /* State Modifiers */
 
   addTodo = newTodo => {
@@ -48,6 +60,7 @@ class App extends React.Component {
         alert('TODO item already exists');
       } else {
         prevState.todos.push(newTodo);
+        this.apiSyncTodos(prevState);
       }
 
       return prevState;
@@ -59,10 +72,10 @@ class App extends React.Component {
       const filteredTodos = prevState.todos.filter(todo => {
         return todo.name !== obsoleteTodo.name;
       });
+      const newState = { todos: filteredTodos }
+      this.apiSyncTodos(newState);
 
-      return {
-        todos: filteredTodos,
-      }
+      return newState;
     });
   }
 
@@ -72,6 +85,7 @@ class App extends React.Component {
         return todo.name === updatedTodo.name;
       });
       prevState.todos.splice(index, 1, updatedTodo);
+      this.apiSyncTodos(prevState);
 
       return prevState;
     });
@@ -86,6 +100,47 @@ class App extends React.Component {
   getTodo = (todo, prevState) => {
     const state = prevState || this.state;
     return state.todos.find(el => el.name === todo.name);
+  }
+
+  /* API Helpers */
+
+  api = endpoint => API_URL + endpoint;
+
+  handleApiError = err => {
+    console.error(err);
+    alert('Error communicating with the API');
+  }
+
+  apiGetTodos = async () => {
+    await fetch(this.api('/list/101'))
+      .then(res => res.json())
+      .then(
+        data => {
+          this.setState(() => {
+            return { todos: data.list.todos };
+          });
+        },
+        error => {
+          this.handleApiError(error);
+        }
+      ).catch(error => {
+        this.handleApiError(error);
+      });
+  }
+
+  apiSyncTodos = async (state) => {
+    const data = { list: state };
+    await fetch(this.api('/list/101'), {
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify(data),
+    }).then(resp => {
+      if (!resp.ok) {
+        this.handleApiError(resp.body);
+      }
+    }).catch(error => {
+      this.handleApiError(error);
+    });
   }
 }
 
