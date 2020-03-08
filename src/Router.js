@@ -1,5 +1,6 @@
 import React from 'react';
 import List from './List';
+import Auth from './Auth';
 
 class Router extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Router extends React.Component {
 
   // Checks with the API if this user is auth'd or not. Returns a boolean.
   isLoggedIn = () => {
-    return document.cookie.includes('loggedIn=true');
+    return false;
   }
 
   // Redirect to the new url, which must start with a slash ('/').
@@ -35,8 +36,7 @@ class Router extends React.Component {
           return <List />;
         }
       case '/auth':
-        document.cookie = "loggedIn=true; expires=Tue, 03 March 2021 12:00:00 UTC; path=/";
-        return <p>You're now authenticated. Click <a href="/">here</a> to return to the home page.</p>;
+        return <Auth />
       default:
         return <p>Page not found. Click <a href="/">here</a> to return to the home page.</p>;
     }
