@@ -1,16 +1,7 @@
 import React from 'react';
 
 class Add extends React.Component {
-  render() {
-    return (
-      <form onSubmit={this.submitHandler}>
-        <input id='input_add_name' type='text' />
-        <input id='input_add_submit' type='submit' value='Add' />
-      </form>
-    );
-  }
-
-  submitHandler = evt => {
+  submitHandler = (evt) => {
     evt.preventDefault();
 
     const nameInput = document.getElementById('input_add_name');
@@ -21,6 +12,15 @@ class Add extends React.Component {
 
     this.props.callback(newTodo);
     nameInput.value = '';
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.submitHandler}>
+        <input id='input_add_name' type='text' />
+        <input id='input_add_submit' type='submit' value='Add' />
+      </form>
+    );
   }
 }
 
