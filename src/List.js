@@ -2,8 +2,6 @@ import React from 'react';
 import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
 
-const API_URL = 'http://localhost:8080';
-
 /*
  * List is the main container component for the TODO application logic.
  *
@@ -20,9 +18,9 @@ class List extends React.Component {
     super(props);
 
     this.state = {
-      todos: [],
       loading: true,
       errored: false,
+      todos: [],
     };
   }
 
@@ -87,8 +85,6 @@ class List extends React.Component {
 
   /* API Helpers */
 
-  api = (endpoint) => API_URL + endpoint;
-
   handleApiError = (err) => {
     console.error(err);
 
@@ -99,7 +95,7 @@ class List extends React.Component {
   }
 
   apiGetTodos = () => {
-    fetch(this.api('/list/101'))
+    fetch(this.props.api('/list/101'))
       .then((res) => res.json())
       .then(
         (data) => {
@@ -121,9 +117,9 @@ class List extends React.Component {
   apiSyncTodos = (state) => {
     const data = { list: state };
 
-    fetch(this.api('/list/101'), {
+    fetch(this.props.api('/list/101'), {
       method: 'PUT',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       body: JSON.stringify(data),
     }).then((resp) => {
       if (!resp.ok) this.handleApiError(resp.body);

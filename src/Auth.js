@@ -4,9 +4,10 @@ class Auth extends React.Component {
   constructor(props) {
     super(props);
 
+    // TODO: Move clientId into config.
     this.clientId = 'KzfccwIo2mpN9Z0BCHiqEk6fc6SbD94A';
     this.authState = 'spagolemongrass231';
-    this.callbackUrl = 'http://localhost:3000/auth';
+    this.callbackUrl = window.location.href; // This page/component.
     this.unbuiltAuthUrl = 'https://todo-checklist.auth0.com/authorize' +
       '?response_type=code&client_id=CLIENT_ID' +
       '&redirect_uri=YOUR_CALLBACK_URL&scope=SCOPE&state=STATE';
@@ -25,19 +26,29 @@ class Auth extends React.Component {
     }
   }
 
-  handleLogin = (code, authState) => {
-    const base = window.location.protocol + '//' + window.location.host;
+  handleLogin = async (code, authState) => {
+    const origin = window.location.origin; // Site index.
 
     if (authState !== this.authState) {
-      window.location.replace(base);
+      window.location.replace(origin);
       return;
     }
 
     // Auth against the API.
-    //TODO.
-
-    // Login complete, redirect to index.
-    //window.location.replace(base);
+    await fetch(this.props.api('/session'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      credentials: "include",
+      body: JSON.stringify({ authorizationCode: code }),
+    }).then(() => {
+        // Login complete, redirect to index.
+        window.location.replace(origin);
+      }, (error) => {
+        console.error(error);
+      }
+    ).catch((error) => {
+      console.error(error);
+    });
   }
 
   buildAuthUrl = () => {
