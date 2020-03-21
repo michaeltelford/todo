@@ -22,10 +22,20 @@ class List extends React.Component {
       errored: false,
       todos: [],
     };
+
+    debugger;
   }
 
   componentDidMount() {
-    this.apiGetTodos();
+    this.props.getSession()
+      .then(
+        (resp) => {
+          if (resp.ok) this.apiGetTodos();
+          else window.location.replace(window.location.origin + '/auth');
+        },
+        (error) => this.handleApiError(error)
+      )
+      .catch((error) => this.handleApiError(error));
   }
 
   /* State Modifiers */
@@ -123,9 +133,7 @@ class List extends React.Component {
       body: JSON.stringify(data),
     }).then((resp) => {
       if (!resp.ok) this.handleApiError(resp.body);
-    }).catch((error) => {
-      this.handleApiError(error);
-    });
+    }).catch((error) => this.handleApiError(error));
   }
 
   render() {
