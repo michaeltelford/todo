@@ -22,8 +22,6 @@ class List extends React.Component {
       errored: false,
       todos: [],
     };
-
-    debugger;
   }
 
   componentDidMount() {
@@ -105,8 +103,9 @@ class List extends React.Component {
   }
 
   apiGetTodos = () => {
-    fetch(this.props.api('/list/101'))
-      .then((res) => res.json())
+    fetch(this.props.api('/list/101'), {
+      credentials: "include",
+    }).then((res) => res.json())
       .then(
         (data) => {
           this.setState(() => {
@@ -130,6 +129,7 @@ class List extends React.Component {
     fetch(this.props.api('/list/101'), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      credentials: "include",
       body: JSON.stringify(data),
     }).then((resp) => {
       if (!resp.ok) this.handleApiError(resp.body);

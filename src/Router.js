@@ -8,18 +8,24 @@ const API_URL = 'http://127.0.0.1:8080';
 
 const api = (endpoint) => API_URL + endpoint;
 
-// Checks with API if this user is auth'd or not. Returns a Promise<HTTPResponse>.
+// Checks with API if this user is auth'd or not. Returns a Promise<Response>.
 const getSession = () => {
-  return fetch(this.api('/session'), { credentials: "include" });
+  return fetch(api('/session'), { credentials: "include" });
 }
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/list" element={<List api={api} getSession={getSession} />} />
-        <Route exact path="/auth" element={<Auth api={api} />} />
-        <Route exact path="/"><Redirect to="/list" /></Route>
+        <Route exact path="/list">
+          <List api={api} getSession={getSession} />
+        </Route>
+        <Route exact path="/auth">
+          <Auth api={api} />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/list" />
+        </Route>
         <Route path="*" render={() => (
           <p>Page not found. Click <a href="/">here</a> to return to the home page.</p>
         )} />
