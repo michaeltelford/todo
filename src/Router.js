@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import List from './List';
 import Auth from './Auth';
 
@@ -8,17 +8,12 @@ const API_URL = 'http://127.0.0.1:8080';
 
 const api = (endpoint) => API_URL + endpoint;
 
-// Checks with API if this user is auth'd or not. Returns a Promise<Response>.
-const getSession = () => {
-  return fetch(api('/session'), { credentials: "include" });
-}
-
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/list">
-          <List api={api} getSession={getSession} />
+          <List api={api} />
         </Route>
         <Route exact path="/auth">
           <Auth api={api} />

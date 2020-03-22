@@ -1,43 +1,37 @@
 import React from 'react';
 
-class Checkbox extends React.Component {
-  toggleHandler = () => {
-    let toggledTodo = this.getTodo();
-    toggledTodo.done = !toggledTodo.done;
-
-    this.props.toggleCallback(toggledTodo);
+const handleToggle = (target, toggleCallback) => {
+  const toggledTodo = {
+    name: target.name,
+    done: target.checked
   }
 
-  removeHandler = () => {
-    const obsoleteTodo = this.getTodo();
+  toggleCallback(toggledTodo);
+}
 
-    this.props.removeCallback(obsoleteTodo);
-  }
+function Checkbox(props) {
+  const { name, checked, toggleCallback, removeCallback } = props;
 
-  getTodo = () => {
-    const { name, checked } = this.props;
-
-    return {
-      name: name,
-      done: checked,
-    }
-  }
-
-  render() {
-    const { name, checked } = this.props;
-
-    return (
+  return (
+    <>
       <div>
         <label>
-          <input type='checkbox' name={name}
-            checked={checked} onChange={this.toggleHandler} />
+          <input
+            type='checkbox'
+            name={name}
+            checked={checked}
+            onChange={(evt) => handleToggle(evt.target, toggleCallback)} />
           {' ' + name + ' '}
         </label>
-        <input class='input_remove_todo' type='button' value='X'
-          onClick={this.removeHandler} />
+        <button
+          className='input_remove_todo'
+          onClick={() => removeCallback({ name: name })}>
+          X
+        </button>
       </div>
-    );
-  }
+      <br />
+    </>
+  );
 }
 
 export default Checkbox;

@@ -21,19 +21,15 @@ class List extends React.Component {
       loading: true,
       errored: false,
       todos: [],
-    };
+    }
   }
 
   componentDidMount() {
-    this.props.getSession()
-      .then(
-        (resp) => {
-          if (resp.ok) this.apiGetTodos();
-          else window.location.replace(window.location.origin + '/auth');
-        },
-        (error) => this.handleApiError(error)
-      )
-      .catch((error) => this.handleApiError(error));
+    this.apiGetTodos();
+  }
+
+  componentDidUpdate() {
+    this.apiSyncTodos(this.state);
   }
 
   /* State Modifiers */
@@ -49,7 +45,6 @@ class List extends React.Component {
         alert('TODO item already exists');
       } else {
         prevState.todos.push(newTodo);
-        this.apiSyncTodos(prevState);
       }
 
       return prevState;
@@ -61,10 +56,8 @@ class List extends React.Component {
       const filteredTodos = prevState.todos.filter(todo => {
         return todo.name !== obsoleteTodo.name;
       });
-      const newState = { todos: filteredTodos }
-      this.apiSyncTodos(newState);
 
-      return newState;
+      return { todos: filteredTodos }
     });
   }
 
@@ -74,7 +67,6 @@ class List extends React.Component {
         return todo.name === updatedTodo.name;
       });
       prevState.todos.splice(index, 1, updatedTodo);
-      this.apiSyncTodos(prevState);
 
       return prevState;
     });
@@ -93,8 +85,8 @@ class List extends React.Component {
 
   /* API Helpers */
 
-  handleApiError = (err) => {
-    console.error(err);
+  handleApiError = (error) => {
+    console.error(error);
 
     this.setState({
       loading: false,
@@ -103,64 +95,61 @@ class List extends React.Component {
   }
 
   apiGetTodos = () => {
-    fetch(this.props.api('/list/101'), {
+    const { api } = this.props;
+
+    fetch(api('/list/101'), {
       credentials: "include",
-    }).then((res) => res.json())
-      .then(
-        (data) => {
-          this.setState(() => {
-            return {
-              loading: false,
-              todos: data.list.todos,
-            };
-          });
-        },
-        (error) => {
-          this.handleApiError(error);
-        }
-      ).catch((error) => {
-        this.handleApiError(error);
+    }).then((resp) => {
+      if (resp.ok) resp.json().then((data) => {
+        this.setState(() => {
+          return {
+            loading: false,
+            todos: data.list.todos,
+          }
+        });
       });
+      else if (resp.status === 401) {
+        window.location.replace(window.location.origin + '/auth');
+      }
+      else this.handleApiError(resp);
+    }, (error) => this.handleApiError(error))
+    .catch((error) => this.handleApiError(error));
   }
 
   apiSyncTodos = (state) => {
-    const data = { list: { todos: state.todos } };
+    const { api } = this.props;
+    const data = { list: { todos: state.todos } }
 
-    fetch(this.props.api('/list/101'), {
+    fetch(api('/list/101'), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       credentials: "include",
       body: JSON.stringify(data),
     }).then((resp) => {
-      if (!resp.ok) this.handleApiError(resp.body);
-    }).catch((error) => this.handleApiError(error));
+      if (!resp.ok) this.handleApiError(resp);
+    }, (error) => this.handleApiError(error))
+    .catch((error) => this.handleApiError(error));
   }
 
   render() {
     const { loading, errored } = this.state;
 
+    if (loading) return <p>Loading data...</p>;
+    if (errored) return <p>An error occurred, please try again later.</p>;
+
     return (
       <>
-        <h1>TODO Checklist</h1>
-        { loading ? (
-          <p>Loading data...</p>
-        ) : errored ? (
-          <p>An error occurred, please try again later.</p>
-        ) : (
-          <>
-            <Add callback={this.addTodo} />
-            <hr />
-            <CheckboxGroup
-              todos={this.filterTodos(false)}
-              toggleCallback={this.updateTodo}
-              removeCallback={this.removeTodo} />
-            <hr />
-            <CheckboxGroup
-              todos={this.filterTodos(true)}
-              toggleCallback={this.updateTodo}
-              removeCallback={this.removeTodo} />
-          </>
-        )}
+        <Add callback={this.addTodo} />
+        <hr />
+        <CheckboxGroup
+          todos={this.filterTodos(false)}
+          toggleCallback={this.updateTodo}
+          removeCallback={this.removeTodo} />
+        <hr />
+        <CheckboxGroup
+          todos={this.filterTodos(true)}
+          toggleCallback={this.updateTodo}
+          removeCallback={this.removeTodo} />
       </>
     );
   }
