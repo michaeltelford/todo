@@ -124,7 +124,7 @@ class List extends React.Component {
   }
 
   apiSyncTodos = (state) => {
-    const data = { list: state };
+    const data = { list: { todos: state.todos } };
 
     fetch(this.props.api('/list/101'), {
       method: 'PUT',
