@@ -29,7 +29,7 @@ const handleLogin = async (code, state, apiAuthUrl) => {
   await fetch(apiAuthUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify({ authorizationCode: code }),
   }).then(() => {
       // Login complete, redirect to index.

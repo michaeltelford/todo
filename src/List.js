@@ -98,7 +98,7 @@ class List extends React.Component {
     const { api } = this.props;
 
     fetch(api('/list/101'), {
-      credentials: "include",
+      credentials: 'include',
     }).then((resp) => {
       if (resp.ok) resp.json().then((data) => {
         this.setState(() => {
@@ -123,7 +123,7 @@ class List extends React.Component {
     fetch(api('/list/101'), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(data),
     }).then((resp) => {
       if (!resp.ok) this.handleApiError(resp);

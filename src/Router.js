@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Wrapper from './Wrapper';
 import List from './List';
 import Auth from './Auth';
 
@@ -12,18 +13,22 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/list">
-          <List api={api} />
+        <Route exact path='/list'>
+          <Wrapper>
+            <List api={api} />
+          </Wrapper>
         </Route>
-        <Route exact path="/auth">
+        <Route exact path='/auth'>
           <Auth api={api} />
         </Route>
-        <Route exact path="/">
-          <Redirect to="/list" />
+        <Route exact path='/'>
+          <Redirect to='/list' />
         </Route>
-        <Route path="*" render={() => (
-          <p>Page not found. Click <a href="/">here</a> to return to the home page.</p>
-        )} />
+        <Route path='*'>
+          <Wrapper>
+            <p>Page not found. Click <a href='/'>here</a> to return to the home page.</p>
+          </Wrapper>
+        </Route>
       </Switch>
     </BrowserRouter>
   );
