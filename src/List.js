@@ -29,7 +29,7 @@ class List extends React.Component {
   }
 
   componentDidUpdate() {
-    this.apiSyncTodos(this.state);
+    this.apiSyncTodos();
   }
 
   /* State Modifiers */
@@ -40,13 +40,13 @@ class List extends React.Component {
       return;
     }
 
-    this.setState((prevState) => {
-      if (this.getTodo(newTodo, prevState)) {
-        alert('TODO item already exists');
-      } else {
-        prevState.todos.push(newTodo);
-      }
+    if (this.getTodo(newTodo)) {
+      alert('TODO item already exists');
+      return;
+    }
 
+    this.setState((prevState) => {
+      prevState.todos.push(newTodo);
       return prevState;
     });
   }
@@ -66,8 +66,8 @@ class List extends React.Component {
       const index = prevState.todos.findIndex(todo => {
         return todo.name === updatedTodo.name;
       });
-      prevState.todos.splice(index, 1, updatedTodo);
 
+      prevState.todos.splice(index, 1, updatedTodo);
       return prevState;
     });
   }
@@ -78,9 +78,8 @@ class List extends React.Component {
     });
   }
 
-  getTodo = (todo, prevState) => {
-    const state = prevState || this.state;
-    return state.todos.find((el) => el.name === todo.name);
+  getTodo = (todo) => {
+    return this.state.todos.find((el) => el.name === todo.name);
   }
 
   /* API Helpers */
@@ -116,9 +115,9 @@ class List extends React.Component {
     .catch((error) => this.handleApiError(error));
   }
 
-  apiSyncTodos = (state) => {
+  apiSyncTodos = () => {
     const { api } = this.props;
-    const data = { list: { todos: state.todos } }
+    const data = { list: { todos: this.state.todos } }
 
     fetch(api('/list/101'), {
       method: 'PUT',
