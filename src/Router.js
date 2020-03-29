@@ -13,7 +13,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path='/list'>
+        <Route exact path='/list/:id'>
           <Wrapper>
             <List api={api} />
           </Wrapper>

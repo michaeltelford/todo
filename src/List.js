@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
 
@@ -16,6 +17,8 @@ import CheckboxGroup from './CheckboxGroup';
 class List extends React.Component {
   constructor(props) {
     super(props);
+
+    this.id = props.match.params.id;
 
     this.state = {
       loading: true,
@@ -96,7 +99,7 @@ class List extends React.Component {
   apiGetTodos = () => {
     const { api } = this.props;
 
-    fetch(api('/list/101'), {
+    fetch(api(`/list/${this.id}`), {
       credentials: 'include',
     }).then((resp) => {
       if (resp.ok) resp.json().then((data) => {
@@ -119,7 +122,7 @@ class List extends React.Component {
     const { api } = this.props;
     const data = { list: { todos: this.state.todos } }
 
-    fetch(api('/list/101'), {
+    fetch(api(`/list/${this.id}`), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       credentials: 'include',
@@ -154,4 +157,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default withRouter(List);
