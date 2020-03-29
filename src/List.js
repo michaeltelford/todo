@@ -88,12 +88,15 @@ class List extends React.Component {
   /* API Helpers */
 
   handleApiError = (error) => {
+    const { loading, errored } = this.state;
     console.error(error);
 
-    this.setState({
-      loading: false,
-      errored: true,
-    });
+    if (loading || !errored) {
+      this.setState({
+        loading: false,
+        errored: true,
+      });
+    }
   }
 
   apiGetTodos = () => {
@@ -103,6 +106,7 @@ class List extends React.Component {
       credentials: 'include',
     }).then((resp) => {
       if (resp.ok) resp.json().then((data) => {
+        this.name = data.list.name;
         this.setState(() => {
           return {
             loading: false,
@@ -120,7 +124,10 @@ class List extends React.Component {
 
   apiSyncTodos = () => {
     const { api } = this.props;
-    const data = { list: { todos: this.state.todos } }
+    const data = { list: {
+      name: this.name,
+      todos: this.state.todos,
+    }}
 
     fetch(api(`/list/${this.id}`), {
       method: 'PUT',

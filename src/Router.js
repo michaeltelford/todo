@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import Wrapper from './Wrapper';
-import List from './List';
 import Auth from './Auth';
+import Wrapper from './Wrapper';
+import Lists from './Lists';
+import List from './List';
 
 // TODO: Move API_URL into config.
 const API_URL = 'http://127.0.0.1:8080';
@@ -18,11 +19,16 @@ function Router() {
             <List api={api} />
           </Wrapper>
         </Route>
+        <Route exact path='/lists'>
+          <Wrapper>
+            <Lists api={api} />
+          </Wrapper>
+        </Route>
         <Route exact path='/auth'>
           <Auth api={api} />
         </Route>
         <Route exact path='/'>
-          <Redirect to='/list' />
+          <Redirect to='/lists' />
         </Route>
         <Route path='*'>
           <Wrapper>
