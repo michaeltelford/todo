@@ -4,11 +4,12 @@ import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
 
 /*
- * List is the main container component for the TODO application logic.
+ * List is the main container component for interacting with a list's TODO
+ * items. It represents a single list belonging to the user.
  *
  * On mount, the todos are fetched from the API. The user interacts with them,
  * updating the component state. Each state change is persisted to the API
- * after each event e.g. adding a new todo item to the list.
+ * after each event update e.g. adding a new todo item to the list.
  *
  * All todo list state is stored in List, not in its child components. Child
  * components are passed callback functions which manipulate the state when
@@ -82,14 +83,19 @@ class List extends React.Component {
   }
 
   getTodo = (todo) => {
-    return this.state.todos.find((el) => el.name === todo.name);
+    const { todos } = this.state;
+    return todos.find(el => el.name.toLowerCase() === todo.name.toLowerCase());
   }
 
   /* API Helpers */
 
   handleApiError = (error) => {
-    const { loading, errored } = this.state;
+    if (error.status === 401) {
+      window.location.replace(window.location.origin + '/auth');
+    }
     console.error(error);
+
+    const { loading, errored } = this.state;
 
     if (loading || !errored) {
       this.setState({
@@ -114,9 +120,6 @@ class List extends React.Component {
           }
         });
       });
-      else if (resp.status === 401) {
-        window.location.replace(window.location.origin + '/auth');
-      }
       else this.handleApiError(resp);
     }, (error) => this.handleApiError(error))
     .catch((error) => this.handleApiError(error));

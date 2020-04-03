@@ -1,6 +1,6 @@
 # TODO
 
-A React JS front end application for user based TODO checklist's.
+A React JS front end application allowing users to create TODO checklist's.
 
 ## Usage
 
@@ -11,7 +11,8 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.<br />
-Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in the browser.
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in the browser.<br />
+**Note**: Using `localhost` will not allow CORS requests with the API, so always use `127.0.0.1`. Unfortunately `npm start` opens `localhost` automatically, so you'll need to manually change it.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
