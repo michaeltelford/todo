@@ -24,7 +24,7 @@ function CreateList(props) {
 
   return (
     <div>
-      <p>You're using {lists.length} of {MAX_LISTS} lists.</p>
+      <p>You've created {lists.length} out of {MAX_LISTS} lists.</p>
       {createNewLink}
     </div>
   );

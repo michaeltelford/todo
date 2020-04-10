@@ -10,7 +10,9 @@ function ListSummary(props) {
   return (
     <div id={list.id} key={list.id}>
       <span>
-        <Link to={`/list/${list.id}`}>{list.name}</Link>
+        <Link to={`/list/${list.id}`}>
+          <strong>{list.name}</strong>
+        </Link>
         {' '}
         <a href='#' onClick={(evt) => {
           evt.preventDefault();
