@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ListSummary from './ListSummary';
 import ListModal from './ListModal';
 
 const MAX_LISTS = 5;
@@ -47,11 +47,8 @@ class Lists extends React.Component {
     });
   }
 
-  handleEdit = (evt) => {
-    evt.preventDefault();
-
+  handleEdit = (id) => {
     const { lists } = this.state;
-    const { id } = evt.target.parentElement.parentElement;
     const list = lists.find(list => list.id.toString() === id);
 
     this.setState({
@@ -62,11 +59,8 @@ class Lists extends React.Component {
     });
   }
 
-  handleDelete = (evt) => {
-    evt.preventDefault();
-
+  handleDelete = (id) => {
     const { lists } = this.state;
-    const { id } = evt.target.parentElement.parentElement;
     const list = lists.find(list => list.id.toString() === id);
     const msg = 'All todo items will be deleted forever, are you sure?';
 
@@ -188,14 +182,6 @@ class Lists extends React.Component {
     .catch((error) => this.handleApiError(error));
   }
 
-  renderCreate = () => {
-    const { lists } = this.state;
-
-    if (lists.length < MAX_LISTS) {
-      return <p><a href='#' onClick={this.handleNew}>Create</a> a new list.</p>;
-    }
-  }
-
   render() {
     const {
       loading, errored, lists, currentList, showModal, createList,
@@ -208,26 +194,18 @@ class Lists extends React.Component {
       <>
         <div>
           <p>You're using {lists.length} of {MAX_LISTS} lists.</p>
-          { this.renderCreate() }
+          {lists.length < MAX_LISTS && (
+            <p><a href='#' onClick={this.handleNew}>Create</a> a new list.</p>
+          )}
         </div>
         <hr />
 
-        {lists.map((list) => {
-          const numItems     = list.todos.length;
-          const numItemsTodo = list.todos.filter(todo => !todo.done).length;
-
-          return (
-            <div id={list.id} key={list.id}>
-              <span>
-                <Link to={`/list/${list.id}`}>{list.name}</Link>{' '}
-                <a href='#' onClick={this.handleEdit}>Edit</a>{' '}
-                <a href='#' onClick={this.handleDelete}>Delete</a>
-              </span>
-              <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-              <hr />
-            </div>
-          );
-        })}
+        {lists.map(list => (
+          <ListSummary
+            list={list}
+            handleEdit={this.handleEdit}
+            handleDelete={this.handleDelete} />
+        ))}
 
         <ListModal
           isOpen={showModal}
