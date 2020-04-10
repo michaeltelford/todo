@@ -84,24 +84,8 @@ class Lists extends React.Component {
 
   /* API Helpers */
 
-  handleApiError = (error) => {
-    if (error.status === 401) {
-      window.location.replace(window.location.origin + '/auth');
-    }
-    console.error(error);
-
-    const { loading, errored } = this.state;
-
-    if (loading || !errored) {
-      this.setState({
-        loading: false,
-        errored: true,
-      });
-    }
-  }
-
   apiGetLists = () => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
 
     fetch(api(`/lists`), {
       credentials: 'include',
@@ -113,13 +97,13 @@ class Lists extends React.Component {
           showModal: false,
         });
       });
-      else this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      else handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   apiCreateList = (list) => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
 
     fetch(api(`/list`), {
       method: 'POST',
@@ -130,13 +114,13 @@ class Lists extends React.Component {
       // Normally if resp.ok, we add list to state but a bug in the API tech stack
       // means we don't receive the created list ID; so we call apiGetLists instead.
       if (resp.ok) this.apiGetLists();
-      else this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      else handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   apiEditList = (updatedList, index) => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
     const { id } = updatedList;
 
     fetch(api(`/list/${id}`), {
@@ -154,13 +138,13 @@ class Lists extends React.Component {
           }
         });
       }
-      else this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      else handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   apiDeleteList = (id) => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
 
     fetch(api(`/list/${id}`), {
       method: 'DELETE',
@@ -171,9 +155,9 @@ class Lists extends React.Component {
           lists: prevState.lists.filter(list => list.id.toString() !== id),
         }));
       }
-      else this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      else handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   render() {

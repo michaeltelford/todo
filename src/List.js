@@ -89,24 +89,8 @@ class List extends React.Component {
 
   /* API Helpers */
 
-  handleApiError = (error) => {
-    if (error.status === 401) {
-      window.location.replace(window.location.origin + '/auth');
-    }
-    console.error(error);
-
-    const { loading, errored } = this.state;
-
-    if (loading || !errored) {
-      this.setState({
-        loading: false,
-        errored: true,
-      });
-    }
-  }
-
   apiGetTodos = () => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
 
     fetch(api(`/list/${this.id}`), {
       credentials: 'include',
@@ -120,13 +104,13 @@ class List extends React.Component {
           }
         });
       });
-      else this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      else handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   apiSyncTodos = () => {
-    const { api } = this.props;
+    const { api, handleApiError } = this.props;
     const data = { list: {
       name: this.name,
       todos: this.state.todos,
@@ -138,9 +122,9 @@ class List extends React.Component {
       credentials: 'include',
       body: JSON.stringify(data),
     }).then((resp) => {
-      if (!resp.ok) this.handleApiError(resp);
-    }, (error) => this.handleApiError(error))
-    .catch((error) => this.handleApiError(error));
+      if (!resp.ok) handleApiError(resp, this);
+    }, (error) => handleApiError(error, this))
+    .catch((error) => handleApiError(error, this));
   }
 
   render() {
