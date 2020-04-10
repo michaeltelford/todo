@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Auth } from './Auth';
 import Wrapper from './Wrapper';
-import Lists from './Lists';
-import List from './List';
+import Lists from './lists/Lists';
+import List from './list/List';
 
 // TODO: Move API_URL into config.
 const API_URL = 'http://127.0.0.1:8080';

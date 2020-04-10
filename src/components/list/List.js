@@ -25,7 +25,7 @@ class List extends React.Component {
       loading: true,
       errored: false,
       todos: [],
-    }
+    };
   }
 
   componentDidMount() {
@@ -57,7 +57,7 @@ class List extends React.Component {
 
   removeTodo = (obsoleteTodo) => {
     this.setState((prevState) => {
-      const filteredTodos = prevState.todos.filter(todo => {
+      const filteredTodos = prevState.todos.filter((todo) => {
         return todo.name !== obsoleteTodo.name;
       });
 
@@ -67,7 +67,7 @@ class List extends React.Component {
 
   updateTodo = (updatedTodo) => {
     this.setState((prevState) => {
-      const index = prevState.todos.findIndex(todo => {
+      const index = prevState.todos.findIndex((todo) => {
         return todo.name === updatedTodo.name;
       });
 
@@ -77,9 +77,8 @@ class List extends React.Component {
   }
 
   filterTodos = (done) => {
-    return this.state.todos.filter((todo) => {
-      return done ? todo.done : !todo.done;
-    });
+    const { todos } = this.state;
+    return todos.filter(todo => done ? todo.done : !todo.done);
   }
 
   getTodo = (todo) => {
@@ -97,12 +96,10 @@ class List extends React.Component {
     }).then((resp) => {
       if (resp.ok) resp.json().then((data) => {
         this.name = data.list.name;
-        this.setState(() => {
-          return {
-            loading: false,
-            todos: data.list.todos,
-          }
-        });
+        this.setState(() => ({
+          loading: false,
+          todos: data.list.todos,
+        }));
       });
       else handleApiError(resp, this);
     }, (error) => handleApiError(error, this))
@@ -111,10 +108,12 @@ class List extends React.Component {
 
   apiSyncTodos = () => {
     const { api, handleApiError } = this.props;
-    const data = { list: {
-      name: this.name,
-      todos: this.state.todos,
-    }}
+    const data = {
+      list: {
+        name: this.name,
+        todos: this.state.todos,
+      },
+    };
 
     fetch(api(`/list/${this.id}`), {
       method: 'PUT',

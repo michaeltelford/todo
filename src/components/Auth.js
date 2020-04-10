@@ -31,15 +31,10 @@ const handleLogin = async (code, state, apiAuthUrl) => {
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
     credentials: 'include',
     body: JSON.stringify({ authorizationCode: code }),
-  }).then(() => {
-      // Login complete, redirect to index.
-      window.location.replace(origin);
-    }, (error) => {
-      console.error(error);
-    }
-  ).catch((error) => {
-    console.error(error);
-  });
+  }).then( // Login complete, redirect to index.
+    () => window.location.replace(origin),
+    (error) => console.error(error)
+  ).catch(error => console.error(error));
 }
 
 const handleLogout = (api) => {

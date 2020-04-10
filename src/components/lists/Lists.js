@@ -22,7 +22,7 @@ class Lists extends React.Component {
       showModal: false,
       currentList: null,
       createList: false,
-    }
+    };
   }
 
   componentDidMount() {
@@ -151,7 +151,7 @@ class Lists extends React.Component {
       credentials: 'include',
     }).then((resp) => {
       if (resp.ok) {
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           lists: prevState.lists.filter(list => list.id.toString() !== id),
         }));
       }

@@ -3,8 +3,8 @@ import React from 'react';
 const handleToggle = (target, toggleCallback) => {
   const toggledTodo = {
     name: target.name,
-    done: target.checked
-  }
+    done: target.checked,
+  };
 
   toggleCallback(toggledTodo);
 }
@@ -20,11 +20,11 @@ function Checkbox(props) {
             type='checkbox'
             name={name}
             checked={checked}
-            onChange={(evt) => handleToggle(evt.target, toggleCallback)} />
+            onChange={evt => handleToggle(evt.target, toggleCallback)} />
           {' ' + name + ' '}
         </label>
         <button
-          className='input_remove_todo'
+          className='inputRemoveTodo'
           onClick={() => removeCallback({ name: name })}>
           X
         </button>

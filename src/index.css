@@ -8,15 +8,15 @@ h1 {
   text-align: center;
 }
 
-#input_add_name {
+.inputAddName {
   width: 87%;
 }
 
-#input_add_submit {
+.inputAddSubmit {
   float: right;
 }
 
-.input_remove_todo {
+.inputRemoveTodo {
   float: right;
 }
 
@@ -27,7 +27,7 @@ h1 {
 }
 
 @media screen and (max-width: 610px) {
-  #input_add_name {
+  .inputAddName {
     width: 82%;
   }
 }
