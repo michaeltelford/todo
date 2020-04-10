@@ -5,6 +5,7 @@ import CreateList from './CreateList';
 
 /*
  * Lists component is used for performing CRUD operations on a user's lists.
+ * Child components are passed callbacks to update state accordingly.
  *
  * You can create new (empty) list, delete or edit an existing list. The edit
  * applies only to the list name, not its TODO items (the List component is
@@ -27,6 +28,8 @@ class Lists extends React.Component {
   componentDidMount() {
     this.apiGetLists();
   }
+
+  /* State Modifiers */
 
   handleNew = (emptyList) => {
     this.setState({
@@ -78,6 +81,8 @@ class Lists extends React.Component {
       this.apiEditList(currentList, index);
     }
   }
+
+  /* API Helpers */
 
   handleApiError = (error) => {
     if (error.status === 401) {

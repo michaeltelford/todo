@@ -42,22 +42,31 @@ const handleLogin = async (code, state, apiAuthUrl) => {
   });
 }
 
+const handleLogout = (api) => {
+  fetch(api('/session'), {
+    method: 'DELETE',
+    credentials: 'include',
+  }).then(() => window.location.replace(window.location.origin + '/auth'));
+}
+
 /* The Auth component does two things:
  * 1) Redirects to the 3rd party auth service.
  * 2) Provides a callback for the auth service to call (upon user login).
  *    This callback verifies the login against our API server.
  */
 function Auth(props) {
+  const { api } = props;
+
   useEffect(() => {
     const url   = new URL(window.location);
     const code  = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    if (code && state) handleLogin(code, state, props.api('/session'));
+    if (code && state) handleLogin(code, state, api('/session'));
     else window.location.replace(buildAuthUrl());
   });
 
   return null;
 }
 
-export default Auth;
+export { Auth, handleLogout };
