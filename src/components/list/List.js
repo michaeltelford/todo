@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import Add from './Add';
+import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 
 /*
@@ -140,7 +140,7 @@ class List extends React.Component {
 
     return (
       <>
-        <Add callback={this.addTodo} />
+        <AddTodo callback={this.addTodo} />
         <hr />
         <CheckboxGroup
           todos={this.filterTodos(false)}

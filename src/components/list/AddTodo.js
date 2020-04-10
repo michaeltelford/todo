@@ -14,7 +14,7 @@ const handleSubmit = (evt, textInput, callback) => {
   nameInput.value = '';
 }
 
-function Add(props) {
+function AddTodo(props) {
   const { callback } = props;
   const textInput = useRef(null);
 
@@ -26,8 +26,8 @@ function Add(props) {
   );
 }
 
-Add.propTypes = {
+AddTodo.propTypes = {
   callback: PropTypes.func.isRequired,
 };
 
-export default Add;
+export default AddTodo;
