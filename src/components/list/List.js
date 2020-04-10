@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import Add from './Add';
 import CheckboxGroup from './CheckboxGroup';
@@ -16,6 +17,11 @@ import CheckboxGroup from './CheckboxGroup';
  * fired. This of course causes a re-render of List and the UI gets updated.
  */
 class List extends React.Component {
+  static propTypes = {
+    api: PropTypes.func.isRequired,
+    handleApiError: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 

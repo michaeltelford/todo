@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes, { shape, string, bool } from 'prop-types';
 import Checkbox from './Checkbox';
 
 function CheckboxGroup(props) {
@@ -17,5 +18,14 @@ function CheckboxGroup(props) {
     })
   );
 }
+
+CheckboxGroup.propTypes = {
+  todos: PropTypes.arrayOf(shape({
+    name: string,
+    done: bool,
+  })).isRequired,
+  toggleCallback: PropTypes.func.isRequired,
+  removeCallback: PropTypes.func.isRequired,
+};
 
 export default CheckboxGroup;

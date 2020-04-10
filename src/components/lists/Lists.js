@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListSummary from './ListSummary';
 import ListModal from './ListModal';
 import CreateList from './CreateList';
@@ -12,6 +13,11 @@ import CreateList from './CreateList';
  * used for this instead).
  */
 class Lists extends React.Component {
+  static propTypes = {
+    api: PropTypes.func.isRequired,
+    handleApiError: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 

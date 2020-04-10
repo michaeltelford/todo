@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes, { number, string } from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function ListSummary(props) {
@@ -28,5 +29,14 @@ function ListSummary(props) {
     </div>
   );
 }
+
+ListSummary.propTypes = {
+  list: PropTypes.shape({
+    id: number,
+    name: string,
+  }).isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+};
 
 export default ListSummary;

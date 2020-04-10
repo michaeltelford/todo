@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes, { object } from 'prop-types';
 
 const MAX_LISTS = 5;
 
@@ -28,5 +29,10 @@ function CreateList(props) {
     </div>
   );
 }
+
+CreateList.propTypes = {
+  lists: PropTypes.arrayOf(object).isRequired,
+  handleNew: PropTypes.func.isRequired,
+};
 
 export default CreateList;

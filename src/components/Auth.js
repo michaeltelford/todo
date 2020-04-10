@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 // TODO: Move clientId into config.
 const clientId       = 'KzfccwIo2mpN9Z0BCHiqEk6fc6SbD94A';
@@ -63,5 +64,9 @@ function Auth(props) {
 
   return null;
 }
+
+Auth.propTypes = {
+  api: PropTypes.func.isRequired,
+};
 
 export { Auth, handleLogout };

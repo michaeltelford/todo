@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes, { string } from 'prop-types';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -51,5 +52,22 @@ function ListModal(props) {
     </Modal>
   );
 }
+
+ListModal.propTypes = {
+  isOpen: PropTypes.bool,
+  createList: PropTypes.bool,
+  currentList: PropTypes.shape({
+    name: string,
+  }),
+  setCurrentList: PropTypes.func.isRequired,
+  submitModal: PropTypes.func.isRequired,
+  cancelModal: PropTypes.func.isRequired,
+};
+
+ListModal.defaultProps = {
+  isOpen: false,
+  createList: true,
+  currentList: null,
+};
 
 export default ListModal;

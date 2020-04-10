@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { handleLogout } from './Auth';
 
@@ -18,5 +19,9 @@ function Wrapper(props) {
     </>
   );
 }
+
+Wrapper.propTypes = {
+  api: PropTypes.func.isRequired,
+};
 
 export default Wrapper;

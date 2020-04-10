@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 const handleSubmit = (evt, textInput, callback) => {
   evt.preventDefault();
@@ -24,5 +25,9 @@ function Add(props) {
     </form>
   );
 }
+
+Add.propTypes = {
+  callback: PropTypes.func.isRequired,
+};
 
 export default Add;

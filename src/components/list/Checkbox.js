@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const handleToggle = (target, toggleCallback) => {
   const toggledTodo = {
@@ -33,5 +34,16 @@ function Checkbox(props) {
     </>
   );
 }
+
+Checkbox.propTypes = {
+  name: PropTypes.string.isRequired,
+  checked: PropTypes.bool,
+  toggleCallback: PropTypes.func.isRequired,
+  removeCallback: PropTypes.func.isRequired,
+};
+
+Checkbox.defaultProps = {
+  checked: false,
+};
 
 export default Checkbox;
