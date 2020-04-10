@@ -1,8 +1,7 @@
 import React from 'react';
 import ListSummary from './ListSummary';
 import ListModal from './ListModal';
-
-const MAX_LISTS = 5;
+import CreateList from './CreateList';
 
 /*
  * Lists component is used for performing CRUD operations on a user's lists.
@@ -29,19 +28,9 @@ class Lists extends React.Component {
     this.apiGetLists();
   }
 
-  buildEmptyList = () => ({
-    name: '',
-    todos: [{
-      name: 'Add some TODOs',
-      done: false,
-    }],
-  });
-
-  handleNew = (evt) => {
-    evt.preventDefault();
-
+  handleNew = (emptyList) => {
     this.setState({
-      currentList: this.buildEmptyList(),
+      currentList: emptyList,
       createList: true,
       showModal: true,
     });
@@ -192,12 +181,9 @@ class Lists extends React.Component {
 
     return (
       <>
-        <div>
-          <p>You're using {lists.length} of {MAX_LISTS} lists.</p>
-          {lists.length < MAX_LISTS && (
-            <p><a href='#' onClick={this.handleNew}>Create</a> a new list.</p>
-          )}
-        </div>
+        <CreateList
+          lists={lists}
+          handleNew={this.handleNew} />
         <hr />
 
         {lists.map(list => (

@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 function Wrapper(props) {
   return (
     <>
-      <h1><Link to='/lists'>TODO Checklist</Link></h1>
+      <h1>
+        <Link to='/lists'>TODO Checklist</Link>
+      </h1>
       { props.children }
     </>
   );
