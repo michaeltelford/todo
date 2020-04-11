@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
 import ListModal from './ListModal';
 import CreateList from './CreateList';
@@ -13,8 +14,9 @@ import CreateList from './CreateList';
  * used for this instead).
  */
 class Lists extends React.Component {
+  static contextType = AppContext;
+
   static propTypes = {
-    api: PropTypes.func.isRequired,
     handleApiError: PropTypes.func.isRequired,
   };
 
@@ -91,7 +93,8 @@ class Lists extends React.Component {
   /* API Helpers */
 
   apiGetLists = () => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
 
     fetch(api(`/lists`), {
       credentials: 'include',
@@ -109,7 +112,8 @@ class Lists extends React.Component {
   }
 
   apiCreateList = (list) => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
 
     fetch(api(`/list`), {
       method: 'POST',
@@ -126,7 +130,8 @@ class Lists extends React.Component {
   }
 
   apiEditList = (updatedList, index) => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
     const { id } = updatedList;
 
     fetch(api(`/list/${id}`), {
@@ -150,7 +155,8 @@ class Lists extends React.Component {
   }
 
   apiDeleteList = (id) => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
 
     fetch(api(`/list/${id}`), {
       method: 'DELETE',

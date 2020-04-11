@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Auth } from './Auth';
+import { AppContext } from '../context';
+import Auth from './Auth';
 import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
@@ -12,16 +13,16 @@ const API_URL = 'http://127.0.0.1:8080';
 const api = endpoint => API_URL + endpoint;
 
 // Error handler for components with a 'loading' & 'errored' state.
-const handleApiError = (error, container) => {
+const handleApiError = (error, component) => {
   if (error.status === 401) {
     window.location.replace(window.location.origin + '/auth');
   }
+
+  const { loading, errored } = component.state;
   console.error(error);
 
-  const { loading, errored } = container.state;
-
   if (loading || !errored) {
-    container.setState({
+    component.setState({
       loading: false,
       errored: true,
     });
@@ -31,31 +32,33 @@ const handleApiError = (error, container) => {
 // Router provides URL path/routes. Place the most specific at the top.
 function Router() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path='/list/:id'>
-          <Wrapper api={api}>
-            <List api={api} handleApiError={handleApiError} />
-          </Wrapper>
-        </Route>
-        <Route exact path='/lists'>
-          <Wrapper api={api}>
-            <Lists api={api} handleApiError={handleApiError} />
-          </Wrapper>
-        </Route>
-        <Route exact path='/auth'>
-          <Auth api={api} />
-        </Route>
-        <Route exact path='/'>
-          <Redirect to='/lists' />
-        </Route>
-        <Route path='*'>
-          <Wrapper api={api}>
-            <p>Page not found. Click <a href='/'>here</a> to return to the home page.</p>
-          </Wrapper>
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <AppContext.Provider value={{ api }}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/list/:id'>
+            <Wrapper>
+              <List handleApiError={handleApiError} />
+            </Wrapper>
+          </Route>
+          <Route exact path='/lists'>
+            <Wrapper>
+              <Lists handleApiError={handleApiError} />
+            </Wrapper>
+          </Route>
+          <Route exact path='/auth'>
+            <Auth />
+          </Route>
+          <Route exact path='/'>
+            <Redirect to='/lists' />
+          </Route>
+          <Route path='*'>
+            <Wrapper>
+              <p>Page not found. Click <a href='/'>here</a> to return to the home page.</p>
+            </Wrapper>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 

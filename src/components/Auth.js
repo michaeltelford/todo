@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useContext } from 'react';
+import { AppContext } from '../context';
 
 // TODO: Move clientId into config.
 const clientId       = 'KzfccwIo2mpN9Z0BCHiqEk6fc6SbD94A';
@@ -18,7 +18,7 @@ const buildAuthUrl = () => {
     .replace('STATE', authState);
 }
 
-const handleLogin = async (code, state, apiAuthUrl) => {
+const handleLogin = async (apiAuthUrl, code, state) => {
   const origin = window.location.origin;
 
   if (authState !== state) {
@@ -34,12 +34,12 @@ const handleLogin = async (code, state, apiAuthUrl) => {
     body: JSON.stringify({ authorizationCode: code }),
   }).then( // Login complete, redirect to index.
     () => window.location.replace(origin),
-    (error) => console.error(error)
+    error => console.error(error)
   ).catch(error => console.error(error));
 }
 
-const handleLogout = (api) => {
-  fetch(api('/session'), {
+const handleLogout = (apiAuthUrl) => {
+  fetch(apiAuthUrl, {
     method: 'DELETE',
     credentials: 'include',
   }).then(() => window.location.replace(window.location.origin + '/auth'));
@@ -50,23 +50,20 @@ const handleLogout = (api) => {
  * 2) Provides a callback for the auth service to call (upon user login).
  *    This callback verifies the login against our API server.
  */
-function Auth(props) {
-  const { api } = props;
+function Auth() {
+  const { api } = useContext(AppContext);
 
   useEffect(() => {
     const url   = new URL(window.location);
     const code  = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    if (code && state) handleLogin(code, state, api('/session'));
+    if (code && state) handleLogin(api('/session'), code, state);
     else window.location.replace(buildAuthUrl());
   });
 
   return null;
 }
 
-Auth.propTypes = {
-  api: PropTypes.func.isRequired,
-};
-
-export { Auth, handleLogout };
+export { handleLogout };
+export default Auth;

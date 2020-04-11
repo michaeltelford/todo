@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context';
 import { handleLogout } from './Auth';
 
 function Wrapper(props) {
-  const { api } = props;
+  const { api } = useContext(AppContext);
 
   return (
     <>
@@ -14,14 +14,10 @@ function Wrapper(props) {
       { props.children }
       <a href="#" onClick={(evt) => {
         evt.preventDefault();
-        handleLogout(api);
+        handleLogout(api('/session'));
       }}>Logout</a>
     </>
   );
 }
-
-Wrapper.propTypes = {
-  api: PropTypes.func.isRequired,
-};
 
 export default Wrapper;

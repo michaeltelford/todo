@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 
@@ -17,8 +18,9 @@ import CheckboxGroup from './CheckboxGroup';
  * fired. This of course causes a re-render of List and the UI gets updated.
  */
 class List extends React.Component {
+  static contextType = AppContext;
+
   static propTypes = {
-    api: PropTypes.func.isRequired,
     handleApiError: PropTypes.func.isRequired,
   };
 
@@ -95,7 +97,8 @@ class List extends React.Component {
   /* API Helpers */
 
   apiGetTodos = () => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
 
     fetch(api(`/list/${this.id}`), {
       credentials: 'include',
@@ -113,7 +116,8 @@ class List extends React.Component {
   }
 
   apiSyncTodos = () => {
-    const { api, handleApiError } = this.props;
+    const { handleApiError } = this.props;
+    const { api } = this.context;
     const data = {
       list: {
         name: this.name,
