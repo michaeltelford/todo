@@ -151,6 +151,7 @@ class List extends React.Component {
           todos={this.filterTodos(true)}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
+        <hr />
       </>
     );
   }

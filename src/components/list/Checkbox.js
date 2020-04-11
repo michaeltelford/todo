@@ -10,7 +10,11 @@ const handleToggle = (target, toggleCallback) => {
   toggleCallback(toggledTodo);
 }
 
-function Checkbox(props) {
+/* Each checkbox will only re-render if its props change. This effectively
+ * caches each checkbox in the List component. Given the potentially large
+ * amount of checkboxes per list, this increases the performance quite a bit.
+ */
+const Checkbox = React.memo(function Checkbox(props) {
   const { name, checked, toggleCallback, removeCallback } = props;
 
   return (
@@ -33,7 +37,7 @@ function Checkbox(props) {
       <br />
     </>
   );
-}
+});
 
 Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
