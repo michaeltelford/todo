@@ -1,12 +1,19 @@
 # TODO
 
-A React JS front end application allowing users to create TODO checklist's.
-
-## Usage
+A React JS front end application allowing users to create TODO checklist's. It's a standalone UI app that interacts with an API to persist data to a database.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-In the project directory, you can run:
+## Usage
+
+First in a file called `.env.development.local`, set the following ENV vars:
+
+```sh
+REACT_APP_API_URL
+REACT_APP_AUTH0_CLIENT_ID
+```
+
+Then, in the project root directory, you can run:
 
 ### `npm start`
 

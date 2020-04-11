@@ -6,11 +6,8 @@ import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
 
-// TODO: Move API_URL into config.
-const API_URL = 'http://127.0.0.1:8080';
-
 // Builds an API URL given an endpoint/path.
-const api = endpoint => API_URL + endpoint;
+const api = endpoint => process.env.REACT_APP_API_URL + endpoint;
 
 // Error handler for components with a 'loading' & 'errored' state.
 const handleApiError = (error, component) => {

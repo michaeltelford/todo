@@ -1,8 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { AppContext } from '../context';
 
-// TODO: Move clientId into config.
-const clientId       = 'KzfccwIo2mpN9Z0BCHiqEk6fc6SbD94A';
+const clientId       = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const authState      = 'spagolemongrass231';
 const callbackUrl    = window.location.href; // This page/component.
 const unbuiltAuthUrl =
