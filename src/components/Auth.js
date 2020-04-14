@@ -1,11 +1,13 @@
 import { useEffect, useContext } from 'react';
 import { AppContext } from '../context';
 
+const appName        = process.env.REACT_APP_AUTH0_APP_NAME;
 const clientId       = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const authState      = 'spagolemongrass231';
+const logoutUrl      = `https://${appName}.auth0.com/v2/logout`;
 const callbackUrl    = window.location.href; // This page/component.
 const unbuiltAuthUrl =
-  'https://todo-checklist.auth0.com/authorize' +
+  `https://${appName}.auth0.com/authorize` +
   '?response_type=code&client_id=CLIENT_ID' +
   '&redirect_uri=YOUR_CALLBACK_URL&scope=SCOPE&state=STATE';
 
@@ -37,11 +39,21 @@ const handleLogin = async (apiAuthUrl, code, state) => {
   ).catch(error => console.error(error));
 }
 
+// Logout of both auth0 and our API.
 const handleLogout = (apiAuthUrl) => {
-  fetch(apiAuthUrl, {
+  // We catch the auth0 fetch because it rejects the promise despite a 200 OK.
+  const auth0 = fetch(logoutUrl, {
+    credentials: 'include',
+  }).catch(() => null);
+  const api = fetch(apiAuthUrl, {
     method: 'DELETE',
     credentials: 'include',
-  }).then(() => window.location.replace(window.location.origin + '/auth'));
+  });
+
+  Promise.all([auth0, api]).then(
+    () => window.location.replace(window.location.origin + '/auth'),
+    error => console.error(error)
+  ).catch(error => console.error(error));
 }
 
 /* The Auth component does two things:

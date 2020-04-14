@@ -10,6 +10,7 @@ First in a file called `.env.development.local`, set the following ENV vars:
 
 ```sh
 REACT_APP_API_URL
+REACT_APP_AUTH0_APP_NAME
 REACT_APP_AUTH0_CLIENT_ID
 ```
 
