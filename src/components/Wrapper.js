@@ -12,10 +12,9 @@ function Wrapper(props) {
         <Link to='/lists'>TODO Checklist</Link>
       </h1>
       { props.children }
-      <a href="#" onClick={(evt) => {
-        evt.preventDefault();
-        handleLogout(api('/session'));
-      }}>Logout</a>
+      <button onClick={() => handleLogout(api('/session'))}>
+        Logout
+      </button>
     </>
   );
 }

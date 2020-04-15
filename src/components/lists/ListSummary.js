@@ -14,17 +14,15 @@ function ListSummary(props) {
           <strong>{list.name}</strong>
         </Link>
         {' '}
-        <a href='#' onClick={(evt) => {
-          evt.preventDefault();
+        <button onClick={(evt) => {
           const { id } = evt.target.parentElement.parentElement;
           handleEdit(id);
-        }}>Edit</a>
+        }}>Edit</button>
         {' '}
-        <a href='#' onClick={(evt) => {
-          evt.preventDefault();
+        <button onClick={(evt) => {
           const { id } = evt.target.parentElement.parentElement;
           handleDelete(id);
-        }}>Delete</a>
+        }}>Delete</button>
       </span>
       <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
       <hr />

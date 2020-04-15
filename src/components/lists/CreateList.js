@@ -16,10 +16,9 @@ function CreateList(props) {
 
   let createNewLink = null;
   if (lists.length < MAX_LISTS) createNewLink = (
-    <p><a href='#' onClick={(evt) => {
-      evt.preventDefault();
-      handleNew(buildEmptyList());
-    }}>Create</a> a new list.</p>
+    <p>
+      <button onClick={() => handleNew(buildEmptyList())}>Create</button> a new list.
+    </p>
   );
 
   return (
