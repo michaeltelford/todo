@@ -1,59 +1,55 @@
 import { useEffect, useContext } from 'react';
 import { AppContext } from '../context';
 
-const appName        = process.env.REACT_APP_AUTH0_APP_NAME;
-const clientId       = process.env.REACT_APP_AUTH0_CLIENT_ID;
-const authState      = 'spagolemongrass231';
-const logoutUrl      = `https://${appName}.auth0.com/v2/logout`;
-const callbackUrl    = window.location.href; // This page/component.
-const unbuiltAuthUrl =
+const appName         = process.env.REACT_APP_AUTH0_APP_NAME;
+const clientId        = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const authState       = 'spagolemongrass231';
+
+const callbackUrl     = window.location.href; // This page/component.
+const apiAuthEndpoint = '/session';
+const auth0LogoutUrl  = `https://${appName}.auth0.com/v2/logout`;
+const auth0LoginUrl   =
   `https://${appName}.auth0.com/authorize` +
   '?response_type=code&client_id=CLIENT_ID' +
   '&redirect_uri=YOUR_CALLBACK_URL&scope=SCOPE&state=STATE';
 
 const buildAuthUrl = () => {
-  return unbuiltAuthUrl
+  return auth0LoginUrl
     .replace('CLIENT_ID', clientId)
     .replace('YOUR_CALLBACK_URL', callbackUrl)
     .replace('SCOPE', 'openid profile email')
     .replace('STATE', authState);
 }
 
-const handleLogin = async (apiAuthUrl, code, state) => {
+const handleLogin = (api, code, state) => {
   const origin = window.location.origin;
 
   if (authState !== state) {
-    window.location.replace(origin);
+    console.error('The auth state did not match');
+    window.location.replace(origin + '/auth');
     return;
   }
 
-  // Auth against the API, verifying the auth code & start a session.
-  await fetch(apiAuthUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    credentials: 'include',
-    body: JSON.stringify({ authorizationCode: code }),
-  }).then( // Login complete, redirect to index.
-    () => window.location.replace(origin),
-    error => console.error(error)
-  ).catch(error => console.error(error));
+  // Auth against the API, verifying the auth code & retrieve a JWT token.
+  api.fetch(this, apiAuthEndpoint, {
+      method: 'POST',
+      body: { authorizationCode: code },
+    },
+    (resp) => {
+      // TODO: Store the JWT token.
+      resp.json().then(data => console.log(data));
+      window.location.replace(origin + '/lists');
+    },
+    error => console.error(error),
+  );
 }
 
-// Logout of both auth0 and our API.
-const handleLogout = (apiAuthUrl) => {
-  // We catch the auth0 fetch because it rejects the promise despite a 200 OK.
-  const auth0 = fetch(logoutUrl, {
-    credentials: 'include',
-  }).catch(() => null);
-  const api = fetch(apiAuthUrl, {
-    method: 'DELETE',
-    credentials: 'include',
-  });
+// Logout of auth0 and destroy the current JWT token.
+const handleLogout = () => {
+  fetch(auth0LogoutUrl, { credentials: 'include' });
 
-  Promise.all([auth0, api]).then(
-    () => window.location.replace(window.location.origin + '/auth'),
-    error => console.error(error)
-  ).catch(error => console.error(error));
+  // TODO: Destroy the JWT token.
+  window.location.replace(window.location.origin + '/auth');
 }
 
 /* The Auth component does two things:
@@ -69,7 +65,7 @@ function Auth() {
     const code  = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    if (code && state) handleLogin(api('/session'), code, state);
+    if (code && state) handleLogin(api, code, state);
     else window.location.replace(buildAuthUrl());
   });
 

@@ -1,30 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { AppContext } from '../context';
+import API from '../api';
 import Auth from './Auth';
 import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
 
-// Builds an API URL given an endpoint/path.
-const api = endpoint => process.env.REACT_APP_API_URL + endpoint;
-
-// Error handler for components with a 'loading' & 'errored' state.
-const handleApiError = (error, component) => {
-  if (error.status === 401) {
-    window.location.replace(window.location.origin + '/auth');
-  }
-
-  const { loading, errored } = component.state;
-  console.error(error);
-
-  if (loading || !errored) {
-    component.setState({
-      loading: false,
-      errored: true,
-    });
-  }
-}
+const api = new API(process.env.REACT_APP_API_URL);
 
 // Router provides URL path/routes. Place the most specific at the top.
 function Router() {
@@ -34,12 +17,12 @@ function Router() {
         <Switch>
           <Route exact path='/list/:id'>
             <Wrapper>
-              <List handleApiError={handleApiError} />
+              <List />
             </Wrapper>
           </Route>
           <Route exact path='/lists'>
             <Wrapper>
-              <Lists handleApiError={handleApiError} />
+              <Lists />
             </Wrapper>
           </Route>
           <Route exact path='/auth'>

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
 import ListModal from './ListModal';
@@ -15,10 +14,6 @@ import CreateList from './CreateList';
  */
 class Lists extends React.Component {
   static contextType = AppContext;
-
-  static propTypes = {
-    handleApiError: PropTypes.func.isRequired,
-  };
 
   constructor(props) {
     super(props);
@@ -93,83 +88,58 @@ class Lists extends React.Component {
   /* API Helpers */
 
   apiGetLists = () => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
 
-    fetch(api(`/lists`), {
-      credentials: 'include',
-    }).then((resp) => {
-      if (resp.ok) resp.json().then((data) => {
+    api.fetch(this, '/lists', {}, (resp) => {
+      resp.json().then((data) => {
         this.setState({
           loading: false,
           lists: data.lists,
           showModal: false,
         });
       });
-      else handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+    });
   }
 
   apiCreateList = (list) => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
 
-    fetch(api(`/list`), {
+    api.fetch(this, '/lists', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      credentials: 'include',
-      body: JSON.stringify({ list }),
-    }).then((resp) => {
+      body: { list },
+    }, () => {
       // Normally if resp.ok, we add list to state but a bug in the API tech stack
       // means we don't receive the created list ID; so we call apiGetLists instead.
-      if (resp.ok) this.apiGetLists();
-      else handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+      this.apiGetLists();
+    });
   }
 
   apiEditList = (updatedList, index) => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
     const { id } = updatedList;
 
-    fetch(api(`/list/${id}`), {
+    api.fetch(this, `/list/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      credentials: 'include',
-      body: JSON.stringify({ list: updatedList }),
-    }).then((resp) => {
-      if (resp.ok) {
-        this.setState((prevState) => {
-          prevState.lists.splice(index, 1, updatedList);
-          return {
-            lists: prevState.lists,
-            showModal: false,
-          }
-        });
-      }
-      else handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+      body: { list: updatedList },
+    }, () => {
+      this.setState((prevState) => {
+        prevState.lists.splice(index, 1, updatedList);
+        return {
+          lists: prevState.lists,
+          showModal: false,
+        }
+      });
+    });
   }
 
   apiDeleteList = (id) => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
 
-    fetch(api(`/list/${id}`), {
-      method: 'DELETE',
-      credentials: 'include',
-    }).then((resp) => {
-      if (resp.ok) {
-        this.setState(prevState => ({
-          lists: prevState.lists.filter(list => list.id.toString() !== id),
-        }));
-      }
-      else handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+    api.fetch(this, `/list/${id}`, { method: 'DELETE' }, () => {
+      this.setState(prevState => ({
+        lists: prevState.lists.filter(list => list.id.toString() !== id),
+      }));
+    });
   }
 
   render() {

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
@@ -19,10 +18,6 @@ import CheckboxGroup from './CheckboxGroup';
  */
 class List extends React.Component {
   static contextType = AppContext;
-
-  static propTypes = {
-    handleApiError: PropTypes.func.isRequired,
-  };
 
   constructor(props) {
     super(props);
@@ -97,43 +92,33 @@ class List extends React.Component {
   /* API Helpers */
 
   apiGetTodos = () => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
 
-    fetch(api(`/list/${this.id}`), {
-      credentials: 'include',
-    }).then((resp) => {
-      if (resp.ok) resp.json().then((data) => {
-        this.name = data.list.name;
+    api.fetch(this, `/list/${this.id}`, {}, (resp) => {
+      resp.json().then((data) => {
+        const { list } = data;
+        this.name = list.name;
         this.setState(() => ({
           loading: false,
-          todos: data.list.todos,
+          todos: list.todos,
         }));
       });
-      else handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+    });
   }
 
   apiSyncTodos = () => {
-    const { handleApiError } = this.props;
     const { api } = this.context;
-    const data = {
-      list: {
-        name: this.name,
-        todos: this.state.todos,
-      },
-    };
-
-    fetch(api(`/list/${this.id}`), {
+    const request = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      credentials: 'include',
-      body: JSON.stringify(data),
-    }).then((resp) => {
-      if (!resp.ok) handleApiError(resp, this);
-    }, (error) => handleApiError(error, this))
-    .catch((error) => handleApiError(error, this));
+      body: {
+        list: {
+          name: this.name,
+          todos: this.state.todos,
+        },
+      },
+    }
+
+    api.fetch(this, `/list/${this.id}`, request);
   }
 
   render() {
