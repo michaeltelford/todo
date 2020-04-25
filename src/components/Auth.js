@@ -44,8 +44,9 @@ const handleLogin = (api, code, state) => {
 }
 
 // Logout of auth0 and destroy the current JWT token.
-const handleLogout = () => {
-  fetch(auth0LogoutUrl, { credentials: 'include' });
+const handleLogout = async () => {
+  // We catch a rogue network error despite a 200 OK from auth0.
+  await fetch(auth0LogoutUrl, { credentials: 'include' }).catch(() => null);
 
   localStorage.clear();
   window.location.replace(window.location.origin + '/auth');
