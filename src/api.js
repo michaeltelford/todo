@@ -48,6 +48,7 @@ class API {
 const handleError = (component, error) => {
   if (error?.status === 401) {
     window.location.replace(window.location.origin + '/auth');
+    return;
   }
   console.error(error);
 
