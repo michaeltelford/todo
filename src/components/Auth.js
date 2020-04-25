@@ -35,12 +35,11 @@ const handleLogin = (api, code, state) => {
       method: 'POST',
       body: { authorizationCode: code },
     },
-    (resp) => {
-      // TODO: Store the JWT token.
-      resp.json().then(data => console.log(data));
+    resp => resp.json().then((data) => {
+      const token = `Bearer ${data.session?.token}`;
+      localStorage.setItem('token', token);
       window.location.replace(origin + '/lists');
-    },
-    error => console.error(error),
+    }),
   );
 }
 
@@ -48,7 +47,7 @@ const handleLogin = (api, code, state) => {
 const handleLogout = () => {
   fetch(auth0LogoutUrl, { credentials: 'include' });
 
-  // TODO: Destroy the JWT token.
+  localStorage.clear();
   window.location.replace(window.location.origin + '/auth');
 }
 

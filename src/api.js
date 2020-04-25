@@ -21,7 +21,7 @@ class API {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        // TODO: Set the Authorization header with the JWT token.
+        'Authorization': localStorage.getItem('token'),
       },
       ...fetchOpts,
     }

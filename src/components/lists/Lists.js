@@ -104,7 +104,7 @@ class Lists extends React.Component {
   apiCreateList = (list) => {
     const { api } = this.context;
 
-    api.fetch(this, '/lists', {
+    api.fetch(this, '/list', {
       method: 'POST',
       body: { list },
     }, () => {
@@ -159,6 +159,7 @@ class Lists extends React.Component {
 
         {lists.map(list => (
           <ListSummary
+            key={list.id}
             list={list}
             handleEdit={this.handleEdit}
             handleDelete={this.handleDelete} />
