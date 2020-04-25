@@ -127,20 +127,23 @@ class List extends React.Component {
     if (loading) return <p>Loading data...</p>;
     if (errored) return <p>An error occurred, please try again later.</p>;
 
+    const todosNotDone = this.filterTodos(false);
+    const todosDone    = this.filterTodos(true);
+
     return (
       <>
         <AddTodo callback={this.addTodo} />
         <hr />
         <CheckboxGroup
-          todos={this.filterTodos(false)}
+          todos={todosNotDone}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        <hr />
+        {todosNotDone.length > 0 && <hr />}
         <CheckboxGroup
-          todos={this.filterTodos(true)}
+          todos={todosDone}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        <hr />
+        {todosDone.length > 0 && <hr />}
       </>
     );
   }

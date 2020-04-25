@@ -8,8 +8,8 @@ function Wrapper(props) {
       <h1>
         <Link to='/lists'>TODO Checklist</Link>
       </h1>
-      { props.children }
-      { localStorage.getItem('token') && (
+      {props.children}
+      {localStorage.getItem('token') && (
         <button onClick={handleLogout}>
           Logout
         </button>
