@@ -122,7 +122,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, errored } = this.state;
+    const { loading, errored, todos } = this.state;
 
     if (loading) return <p>Loading data...</p>;
     if (errored) return <p>An error occurred, please try again later.</p>;
@@ -133,6 +133,7 @@ class List extends React.Component {
     return (
       <>
         <AddTodo callback={this.addTodo} />
+        <p>You've completed {todosDone.length} out of {todos.length} items.</p>
         <hr />
         <CheckboxGroup
           todos={todosNotDone}
