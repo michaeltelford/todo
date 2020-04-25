@@ -9,9 +9,11 @@ function Wrapper(props) {
         <Link to='/lists'>TODO Checklist</Link>
       </h1>
       { props.children }
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      { localStorage.getItem('token') && (
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+      )}
     </>
   );
 }
