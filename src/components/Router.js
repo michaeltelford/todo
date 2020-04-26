@@ -7,6 +7,8 @@ import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
 
+localStorage.setItem('token', 'To be removed');
+
 const api = new API(process.env.REACT_APP_API_URL);
 
 // Router provides URL path/routes. Place the most specific at the top.

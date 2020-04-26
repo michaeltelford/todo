@@ -19,9 +19,13 @@ class Lists extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       errored: false,
-      lists: [],
+      lists: [{
+        id: 1, name: 'Development', todos: [1,2,3],
+      }, {
+        id: 2, name: 'Daily Tasks', todos: [1,2,3,4,5],
+      }],
       showModal: false,
       currentList: null,
       createList: false,
@@ -29,7 +33,7 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-    this.apiGetLists();
+    // this.apiGetLists();
   }
 
   /* State Modifiers */
