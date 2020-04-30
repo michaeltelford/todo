@@ -17,7 +17,7 @@ function CreateList(props) {
   let createNewLink = null;
   if (lists.length < MAX_LISTS) createNewLink = (
     <p>
-      <button onClick={() => handleNew(buildEmptyList())}>Create</button> a new list.
+      <button onClick={() => handleNew(buildEmptyList())} className='py-1 text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list.
     </p>
   );
 

@@ -4,17 +4,19 @@ import { handleLogout } from './Auth';
 
 function Wrapper(props) {
   return (
-    <>
-      <h1>
-        <Link to='/lists'>TODO Checklist</Link>
+    <div className='p-3 text-lg'>
+      <h1 className='py-2 text-3xl font-light'>
+        <Link to='/lists'>
+          TODO Checklist
+        </Link>
       </h1>
       {props.children}
       {localStorage.getItem('token') && (
-        <button onClick={handleLogout}>
+        <button onClick={handleLogout} className='py-1 text-gray-800 text-lg font-medium tracking-wide underline'>
           Logout
         </button>
       )}
-    </>
+    </div>
   );
 }
 
