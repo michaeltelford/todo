@@ -4,7 +4,7 @@ import { handleLogout } from './Auth';
 
 function Wrapper(props) {
   return (
-    <div className='p-3 text-lg'>
+    <div className='p-3'>
       <h1 className='py-2 text-3xl font-light'>
         <Link to='/lists'>
           TODO Checklist
@@ -12,7 +12,7 @@ function Wrapper(props) {
       </h1>
       {props.children}
       {localStorage.getItem('token') && (
-        <button onClick={handleLogout} className='py-1 text-gray-800 text-lg font-medium tracking-wide underline'>
+        <button onClick={handleLogout} className='text-gray-800 text-lg font-medium tracking-wide underline'>
           Logout
         </button>
       )}

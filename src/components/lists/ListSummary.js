@@ -9,23 +9,24 @@ function ListSummary(props) {
 
   return (
     <div id={list.id} key={list.id}>
-      <span>
+      <span className='float-left'>
         <Link to={`/list/${list.id}`}>
           <strong>{list.name}</strong>
         </Link>
-        {' '}
+      </span>
+      <span className='float-right'>
         <button onClick={(evt) => {
           const { id } = evt.target.parentElement.parentElement;
           handleEdit(id);
-        }}>Edit</button>
-        {' '}
+        }} className='text-gray-800 text-lg font-medium tracking-wide underline'>Edit</button>
         <button onClick={(evt) => {
           const { id } = evt.target.parentElement.parentElement;
           handleDelete(id);
-        }}>Delete</button>
+        }} className='text-gray-800 text-lg font-medium tracking-wide underline ml-2'>Delete</button>
       </span>
-      <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-      <hr />
+      <br />
+      <p className='mt-3'>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
+      <hr className='my-4' />
     </div>
   );
 }

@@ -17,13 +17,13 @@ function CreateList(props) {
   let createNewLink = null;
   if (lists.length < MAX_LISTS) createNewLink = (
     <p>
-      <button onClick={() => handleNew(buildEmptyList())} className='py-1 text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list.
+      <button onClick={() => handleNew(buildEmptyList())} className='mt-3 text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list
     </p>
   );
 
   return (
     <div>
-      <p>You've created {lists.length} out of {MAX_LISTS} lists.</p>
+      <p>You've created {lists.length} out of {MAX_LISTS} lists</p>
       {createNewLink}
     </div>
   );

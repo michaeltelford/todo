@@ -159,7 +159,7 @@ class Lists extends React.Component {
         <CreateList
           lists={lists}
           handleNew={this.handleNew} />
-        <hr />
+        <hr className='my-4' />
 
         {lists.map(list => (
           <ListSummary
