@@ -11,7 +11,9 @@ function ListSummary(props) {
     <div id={list.id} key={list.id}>
       <div className='mb-3 flex'>
         <span className='mr-3 w-full'>
-          <Link to={`/list/${list.id}`} className='text-xl underline hover:text-indigo-900'>{list.name}</Link>
+          <Link to={`/list/${list.id}`} className='text-xl underline hover:text-indigo-900'>
+            {list.name}
+          </Link>
         </span>
         <span className='w-auto text-right flex-none'>
           <button onClick={(evt) => {
