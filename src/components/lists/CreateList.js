@@ -19,7 +19,7 @@ function CreateList(props) {
       <p className='mb-3'>You've created {lists.length} out of {MAX_LISTS} lists</p>
       {lists.length < MAX_LISTS && (
         <p>
-          <button onClick={() => handleNew(buildEmptyList())} className='text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list
+          <button onClick={() => handleNew(buildEmptyList())} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-900'>Create</button> a new list
         </p>
       )}
     </div>
