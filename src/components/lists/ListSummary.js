@@ -9,24 +9,27 @@ function ListSummary(props) {
 
   return (
     <div id={list.id} key={list.id}>
-      <span className='float-left'>
-        <Link to={`/list/${list.id}`}>
-          <strong>{list.name}</strong>
-        </Link>
-      </span>
-      <span className='float-right'>
-        <button onClick={(evt) => {
-          const { id } = evt.target.parentElement.parentElement;
-          handleEdit(id);
-        }} className='text-gray-800 text-lg font-medium tracking-wide underline'>Edit</button>
-        <button onClick={(evt) => {
-          const { id } = evt.target.parentElement.parentElement;
-          handleDelete(id);
-        }} className='text-gray-800 text-lg font-medium tracking-wide underline ml-2'>Delete</button>
-      </span>
-      <br />
-      <p className='mt-3'>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-      <hr className='my-4' />
+      <div className='flex'>
+        <span className='w-1/2'>
+          <Link to={`/list/${list.id}`}>
+            <strong>{list.name}</strong>
+          </Link>
+        </span>
+        <span className='w-1/2 text-right'>
+          <button onClick={(evt) => {
+            const { id } = evt.target.parentElement.parentElement;
+            handleEdit(id);
+          }} className='text-gray-800 text-lg font-medium tracking-wide underline'>Edit</button>
+          <button onClick={(evt) => {
+            const { id } = evt.target.parentElement.parentElement;
+            handleDelete(id);
+          }} className='text-gray-800 text-lg font-medium tracking-wide underline ml-2'>Delete</button>
+        </span>
+      </div>
+      <div>
+        <p className='mt-3'>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
+        <hr className='my-4' />
+      </div>
     </div>
   );
 }

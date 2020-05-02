@@ -22,7 +22,7 @@ class Lists extends React.Component {
       loading: false,
       errored: false,
       lists: [{
-        id: 1, name: 'Development', todos: [1,2,3],
+        id: 1, name: 'Development Days to Delay until Destruction', todos: [1,2,3],
       }, {
         id: 2, name: 'Daily Tasks', todos: [1,2,3,4,5],
       }],
