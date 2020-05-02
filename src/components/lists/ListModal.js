@@ -25,8 +25,8 @@ function ListModal(props) {
   } = props;
 
   return (
-    <Modal isOpen={isOpen} style={modalStyles}>
-      <h2>{`${createList ? 'Create' : 'Edit'} List`}</h2>
+    <Modal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
+      {createList ? (<h2>Create List</h2>) : (<h2>Edit List</h2>)}
       <form>
         <input
           type='text'

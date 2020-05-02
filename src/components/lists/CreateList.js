@@ -14,17 +14,14 @@ const buildEmptyList = () => ({
 function CreateList(props) {
   const { lists, handleNew } = props;
 
-  let createNewLink = null;
-  if (lists.length < MAX_LISTS) createNewLink = (
-    <p>
-      <button onClick={() => handleNew(buildEmptyList())} className='text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list
-    </p>
-  );
-
   return (
     <div>
       <p className='mb-3'>You've created {lists.length} out of {MAX_LISTS} lists</p>
-      {createNewLink}
+      {lists.length < MAX_LISTS && (
+        <p>
+          <button onClick={() => handleNew(buildEmptyList())} className='text-gray-800 text-lg font-medium tracking-wide underline'>Create</button> a new list
+        </p>
+      )}
     </div>
   );
 }
