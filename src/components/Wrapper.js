@@ -12,7 +12,7 @@ function Wrapper(props) {
       </h1>
       {props.children}
       {localStorage.getItem('token') && (
-        <button onClick={handleLogout} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-900'>
+        <button onClick={handleLogout} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-800'>
           Logout
         </button>
       )}

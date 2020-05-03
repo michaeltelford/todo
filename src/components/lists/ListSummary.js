@@ -11,7 +11,7 @@ function ListSummary(props) {
     <div id={list.id} key={list.id}>
       <div className='mb-3 flex'>
         <span className='mr-3 w-full'>
-          <Link to={`/list/${list.id}`} className='text-xl underline hover:text-indigo-900'>
+          <Link to={`/list/${list.id}`} className='text-xl underline hover:text-indigo-800'>
             {list.name}
           </Link>
         </span>
@@ -19,11 +19,11 @@ function ListSummary(props) {
           <button onClick={(evt) => {
             const { id } = evt.target.parentElement.parentElement;
             handleEdit(id);
-          }} className='mr-3 text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-900'>Edit</button>
+          }} className='mr-3 text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-800'>Edit</button>
           <button onClick={(evt) => {
             const { id } = evt.target.parentElement.parentElement;
             handleDelete(id);
-          }} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-900'>Delete</button>
+          }} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-800'>Delete</button>
         </span>
       </div>
       <div>
