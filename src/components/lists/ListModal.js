@@ -23,10 +23,11 @@ function ListModal(props) {
   const {
     isOpen, createList, currentList, setCurrentList, submitModal, cancelModal,
   } = props;
+  const action = createList ? 'Create' : 'Edit';
 
   return (
     <Modal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
-      {createList ? (<h2>Create List</h2>) : (<h2>Edit List</h2>)}
+      <h2 className='mb-4 font-semibold'>{action} List</h2>
       <form>
         <input
           type='text'
@@ -34,18 +35,19 @@ function ListModal(props) {
           onChange={(evt) => {
             currentList.name = evt.target.value;
             setCurrentList(currentList);
-          }}
+          }} className='mb-4 border-2 border-gray-400 rounded-md'
         />
+        <br />
         <button onClick={(evt) => {
           evt.preventDefault();
           submitModal();
-        }}>
+        }} className='mr-1 px-5 py-1 bg-blue-500 text-gray-100 uppercase tracking-wider rounded-md shadow-xl hover:shadow-outline'>
           Save
         </button>
         <button onClick={(evt) => {
           evt.preventDefault();
           cancelModal();
-        }}>
+        }} className='px-5 py-1 text-gray-700 text-lg font-medium tracking-wide underline hover:text-indigo-800'>
           Cancel
         </button>
       </form>
