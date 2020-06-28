@@ -1,10 +1,18 @@
 # TODO Checklist
 
-A React JS front end application allowing users to create TODO checklist's. It's a standalone UI app that interacts with an API to persist data to a database.
+A React JS front end application allowing users to create TODO checklist's. This repo is a standalone UI app that interacts with an [API](https://github.com/michaeltelford/todo_api) to persist data to a database.
+
+The actual application can be used by visiting:
+
+https://todo-checklist.surge.sh
+
+Auth is handled by Auth0. You can login using your Github or Google account. Or you can sign up for an Auth0 account. You are limited to 5 lists (with unlimited TODO's) per account.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Usage
+
+### ENV
 
 First in a file called `.env.development.local`, set the following ENV vars:
 
@@ -14,16 +22,22 @@ REACT_APP_AUTH0_APP_NAME
 REACT_APP_AUTH0_CLIENT_ID
 ```
 
-Then, in the project root directory, you can run:
+### `npm install`
+
+Install the dependencies with:
+
+    $ npm i
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in the browser.<br />
+Run the app in development mode with:
+
+    $ npm start
+
+This will open a browser on [http://127.0.0.1:3000](http://127.0.0.1:3000).<br />
 **Note**: Using `localhost` will not allow `auth0` to work with the API, so always use `127.0.0.1`.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The page will reload automatically on save of any code changes. You will also see any lint errors in the console.
 
 ### `npm test`
 
