@@ -54,8 +54,5 @@ npm i -g surge
 To deploy to surge.sh, run the following at the root of the repo:
 
 ```sh
-npm run build
-cd build
-ln -s index.html 200.html
-surge # requires login credentials
+./deploy.sh
 ```
