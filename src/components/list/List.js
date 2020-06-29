@@ -141,7 +141,7 @@ class List extends React.Component {
     return (
       <>
         <AddTodo callback={this.addTodo} />
-        <p>You've completed {todosDone.length} out of {todos.length} items.</p>
+        <p>You've completed {todosDone.length} out of {todos.length} items</p>
         <hr className='my-4' />
         <CheckboxGroup
           todos={todosNotDone}

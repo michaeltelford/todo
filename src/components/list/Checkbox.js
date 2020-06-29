@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const checkboxClassNames = (checked) => {
+  let classes = 'mx-3 font-bold tracking-wide leading-6';
+  classes = checked ? classes + ' line-through' : classes;
+  return classes;
+}
+
 const handleToggle = (target, toggleCallback) => {
   const toggledTodo = {
     name: target.name,
@@ -18,23 +24,22 @@ const Checkbox = React.memo(function Checkbox(props) {
   const { name, checked, toggleCallback, removeCallback } = props;
 
   return (
-    <>
-      <div>
-        <label>
-          <input
-            type='checkbox'
-            name={name}
-            checked={checked}
-            onChange={evt => handleToggle(evt.target, toggleCallback)} />
-          {' ' + name + ' '}
-        </label>
-        <button
-          className='inputRemoveTodo'
-          onClick={() => removeCallback({ name: name })}>
-          X
-        </button>
-      </div>
-    </>
+    <div className='my-4'>
+      <label>
+        <input
+          type='checkbox'
+          name={name}
+          checked={checked}
+          onChange={evt => handleToggle(evt.target, toggleCallback)}
+          className='TODO' />
+        <span className={checkboxClassNames(checked)}>{name}</span>
+      </label>
+      <button
+        className='float-right px-4 py-0 bg-red-600 text-white rounded-full shadow-xl hover:bg-red-700'
+        onClick={() => removeCallback({ name })}>
+        X
+      </button>
+    </div>
   );
 });
 

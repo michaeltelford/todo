@@ -11,7 +11,7 @@ function ListSummary(props) {
     <div id={list.id} key={list.id}>
       <div className='mb-3 flex'>
         <span className='mr-3 w-full'>
-          <Link to={`/list/${list.id}`} className='text-xl underline hover:text-indigo-800'>
+          <Link to={`/list/${list.id}`} className='text-xl font-semibold underline tracking-wide hover:text-indigo-800'>
             {list.name}
           </Link>
         </span>
