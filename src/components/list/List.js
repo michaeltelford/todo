@@ -142,17 +142,17 @@ class List extends React.Component {
       <>
         <AddTodo callback={this.addTodo} />
         <p>You've completed {todosDone.length} out of {todos.length} items.</p>
-        <hr />
+        <hr className='my-4' />
         <CheckboxGroup
           todos={todosNotDone}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        {todosNotDone.length > 0 && <hr />}
+        {todosNotDone.length > 0 && <hr className='my-4' />}
         <CheckboxGroup
           todos={todosDone}
           toggleCallback={this.updateTodo}
           removeCallback={this.removeTodo} />
-        {todosDone.length > 0 && <hr />}
+        {todosDone.length > 0 && <hr className='my-4' />}
       </>
     );
   }

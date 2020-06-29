@@ -34,7 +34,6 @@ const Checkbox = React.memo(function Checkbox(props) {
           X
         </button>
       </div>
-      <br />
     </>
   );
 });
