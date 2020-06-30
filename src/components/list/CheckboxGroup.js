@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes, { shape, string, bool } from 'prop-types';
-import Checkbox from './Checkbox';
+import Checkbox from './checkbox/Checkbox';
 
 function CheckboxGroup(props) {
   const { todos, toggleCallback, removeCallback } = props;
