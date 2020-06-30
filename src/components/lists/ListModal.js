@@ -41,7 +41,7 @@ function ListModal(props) {
         <button onClick={(evt) => {
           evt.preventDefault();
           submitModal();
-        }} className='mr-1 px-5 py-1 bg-blue-500 text-gray-100 uppercase tracking-wider rounded-md shadow-xl hover:bg-blue-700'>
+        }} className='mr-1 px-5 py-1 bg-blue-500 text-white uppercase tracking-wider rounded-md shadow-xl hover:bg-blue-700'>
           Save
         </button>
         <button onClick={(evt) => {

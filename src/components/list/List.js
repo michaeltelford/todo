@@ -35,6 +35,8 @@ class List extends React.Component {
         name: 'Get Groceries', done: true,
       }, {
         name: 'Watch Bikes', done: false,
+      }, {
+        name: 'A long item that takes a while', done: false,
       }],
     };
   }
