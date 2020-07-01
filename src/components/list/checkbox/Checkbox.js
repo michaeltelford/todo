@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import './Checkbox.css';
 
 const checkboxClassNames = (checked) => {
-  let classes = 'mx-3 text-xl font-bold tracking-wide leading-6';
+  let classes = 'mx-3 text-xl font-bold tracking-wide leading-6 cursor-pointer';
   classes = checked ? classes + ' line-through' : classes;
   return classes;
 }
@@ -23,7 +23,13 @@ const handleToggle = (target, toggleCallback) => {
  */
 const Checkbox = React.memo(function Checkbox(props) {
   const { name, checked, toggleCallback, removeCallback } = props;
+  const label = useRef();
 
+  /* We use a custom label with a sexy checkbox image using a hard-coded height,
+   * requiring the <p> to be outside the label (so it's natural height applies).
+   * We make the <p> click perform a label.click() which toggles the checkbox.
+   * It's a hack, but it's necessary to properly style the checkbox.
+   */
   return (
     <div className='flex my-4'>
       <input
@@ -33,13 +39,18 @@ const Checkbox = React.memo(function Checkbox(props) {
         checked={checked}
         onChange={evt => handleToggle(evt.target, toggleCallback)}
         className='css-checkbox' />
-      <label for={name} className='flex-grow css-label'>
-        <p className={checkboxClassNames(checked)}>
-          {name}
-        </p>
-      </label>
+      <label
+        for={name}
+        ref={label}
+        className='css-label' />
+      <p
+        className={checkboxClassNames(checked)}
+        onClick={() => label.current.click()}>
+        {name}
+      </p>
       <button
-        className='flex-none px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl'
+        className='px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl'
+        style={{height: 27}}
         onClick={() => removeCallback({ name })}>
         X
       </button>
