@@ -9,21 +9,21 @@ function ListSummary(props) {
 
   return (
     <div id={list.id} key={list.id}>
-      <div className='mb-3 flex'>
-        <span className='mr-3 w-full'>
+      <div className='flex mb-3'>
+        <span className='flex-grow mr-3'>
           <Link to={`/list/${list.id}`} className='text-xl font-semibold underline tracking-wide hover:text-indigo-800'>
             {list.name}
           </Link>
         </span>
-        <span className='w-auto text-right flex-none'>
+        <span className='flex-none'>
           <button onClick={(evt) => {
             const { id } = evt.target.parentElement.parentElement;
             handleEdit(id);
-          }} className='mr-3 text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-800'>Edit</button>
+          }} className='mr-3 text-gray-800 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>Edit</button>
           <button onClick={(evt) => {
             const { id } = evt.target.parentElement.parentElement;
             handleDelete(id);
-          }} className='text-gray-800 text-lg font-medium tracking-wide underline hover:text-indigo-800'>Delete</button>
+          }} className='text-gray-800 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>Delete</button>
         </span>
       </div>
       <div>

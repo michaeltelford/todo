@@ -41,13 +41,13 @@ function ListModal(props) {
         <button onClick={(evt) => {
           evt.preventDefault();
           submitModal();
-        }} className='mr-1 px-5 py-1 bg-blue-500 text-white uppercase tracking-wider rounded-md shadow-xl hover:bg-blue-700'>
+        }} className='mr-1 px-5 py-1 bg-blue-500 hover:bg-blue-700 text-white uppercase tracking-wider rounded-md shadow-xl'>
           Save
         </button>
         <button onClick={(evt) => {
           evt.preventDefault();
           cancelModal();
-        }} className='px-5 py-1 text-gray-700 text-lg font-medium tracking-wide underline hover:text-indigo-800'>
+        }} className='px-5 py-1 text-gray-700 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>
           Cancel
         </button>
       </form>
