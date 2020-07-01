@@ -36,7 +36,7 @@ class List extends React.Component {
       }, {
         name: 'Watch Bikes', done: false,
       }, {
-        name: 'A long item that takes a while', done: false,
+        name: 'A long item that takes a while so it does... oh aye it does alright', done: false,
       }],
     };
   }

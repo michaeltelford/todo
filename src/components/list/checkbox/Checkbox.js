@@ -25,21 +25,21 @@ const Checkbox = React.memo(function Checkbox(props) {
   const { name, checked, toggleCallback, removeCallback } = props;
 
   return (
-    <div className='my-4'>
+    <div className='flex my-4'>
       <input
         type='checkbox'
         id={name}
         name={name}
         checked={checked}
         onChange={evt => handleToggle(evt.target, toggleCallback)}
-        className='css-checkbox' />
-      <label for={name} className='css-label'>
-        <span className={checkboxClassNames(checked)}>
+        className='flex-none css-checkbox' />
+      <label for={name} className='flex-grow css-label'>
+        <div className={checkboxClassNames(checked)}>
           {name}
-        </span>
+        </div>
       </label>
       <button
-        className='float-right px-4 py-0 bg-red-600 text-white rounded-full shadow-xl hover:bg-red-700'
+        className='flex-none float-right px-4 py-0 bg-red-600 text-white rounded-full shadow-xl hover:bg-red-700'
         onClick={() => removeCallback({ name })}>
         X
       </button>
