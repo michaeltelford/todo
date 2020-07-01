@@ -4,7 +4,7 @@ import { handleLogout } from './Auth';
 
 function Wrapper(props) {
   return (
-    <div className='p-3'>
+    <div className='p-3' style={{'min-width': '230px'}}>
       <h1 className='my-4 text-center text-3xl font-light tracking-widest'>
         <Link to='/lists'>
           TODO Checklist
