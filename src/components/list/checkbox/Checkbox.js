@@ -49,7 +49,7 @@ const Checkbox = React.memo(function Checkbox(props) {
         {name}
       </p>
       <button
-        className='px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl'
+        className='px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl ml-auto'
         style={{height: 27}}
         onClick={() => removeCallback({ name })}>
         X
