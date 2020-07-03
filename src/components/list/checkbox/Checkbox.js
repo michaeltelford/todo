@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import './Checkbox.css';
 
 const checkboxClassNames = (checked) => {
@@ -15,6 +17,10 @@ const handleToggle = (target, toggleCallback) => {
   };
 
   toggleCallback(toggledTodo);
+}
+
+const handleEdit = () => {
+  console.log('TODO: Edit TODO item');
 }
 
 /* Each checkbox will only re-render if its props change. This effectively
@@ -40,7 +46,7 @@ const Checkbox = React.memo(function Checkbox(props) {
         onChange={evt => handleToggle(evt.target, toggleCallback)}
         className='css-checkbox' />
       <label
-        for={name}
+        htmlFor={name}
         ref={label}
         className='css-label' />
       <p
@@ -48,6 +54,8 @@ const Checkbox = React.memo(function Checkbox(props) {
         onClick={() => label.current.click()}>
         {name}
       </p>
+      <FontAwesomeIcon icon={faEdit} onClick={handleEdit}
+        className='cursor-pointer mr-4 mt-1 text-blue-600 hover:text-blue-700' />
       <button
         className='px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl ml-auto'
         style={{height: 27}}
