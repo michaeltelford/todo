@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes, { number, string } from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 function ListSummary(props) {
   const { list, handleEdit, handleDelete } = props;
@@ -16,14 +18,10 @@ function ListSummary(props) {
           </Link>
         </span>
         <span className='flex-none'>
-          <button onClick={(evt) => {
-            const { id } = evt.target.parentElement.parentElement;
-            handleEdit(id);
-          }} className='mr-3 text-gray-800 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>Edit</button>
-          <button onClick={(evt) => {
-            const { id } = evt.target.parentElement.parentElement;
-            handleDelete(id);
-          }} className='text-gray-800 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>Delete</button>
+          <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(list.id)}
+            className='cursor-pointer mr-4 text-blue-600 hover:text-blue-700' />
+          <FontAwesomeIcon icon={faTrashAlt} onClick={() => handleDelete(list.id)}
+            className='cursor-pointer mr-3 text-red-600 hover:text-red-700' />
         </span>
       </div>
       <div>
