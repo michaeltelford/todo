@@ -48,7 +48,7 @@ class Lists extends React.Component {
 
   handleEdit = (id) => {
     const { lists } = this.state;
-    const list = lists.find(list => list.id.toString() === id);
+    const list = lists.find(list => list.id === id);
 
     this.setState({
       // Copy list by value, not reference - so it can be updated safely.
@@ -60,7 +60,7 @@ class Lists extends React.Component {
 
   handleDelete = (id) => {
     const { lists } = this.state;
-    const list = lists.find(list => list.id.toString() === id);
+    const list = lists.find(list => list.id === id);
     const msg = 'All todo items will be deleted forever, are you sure?';
 
     if (list.todos.length > 0 && !window.confirm(msg)) return;
@@ -141,7 +141,7 @@ class Lists extends React.Component {
 
     api.fetch(this, `/list/${id}`, { method: 'DELETE' }, () => {
       this.setState(prevState => ({
-        lists: prevState.lists.filter(list => list.id.toString() !== id),
+        lists: prevState.lists.filter(list => list.id !== id),
       }));
     });
   }
@@ -165,15 +165,15 @@ class Lists extends React.Component {
           <ListSummary
             key={list.id}
             list={list}
-            handleEdit={this.handleEdit}
-            handleDelete={this.handleDelete} />
+            handleEdit={() => this.handleEdit(list.id)}
+            handleDelete={() => this.handleDelete(list.id)} />
         ))}
 
         <ListModal
           isOpen={showModal}
           createList={createList}
           currentList={currentList}
-          setCurrentList={(list) => this.setState({ currentList: list })}
+          setCurrentList={list => this.setState({ currentList: list })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
       </>
