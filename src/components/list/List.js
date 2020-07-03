@@ -25,28 +25,18 @@ class List extends React.Component {
     this.id = props.match.params.id;
 
     this.state = {
-      loading: false,
+      loading: true,
       errored: false,
-      todos: [{
-        name: 'Wash car', done: true,
-      }, {
-        name: 'Buy Records', done: false,
-      }, {
-        name: 'Get Groceries', done: true,
-      }, {
-        name: 'Watch Bikes', done: false,
-      }, {
-        name: 'A long item that takes a while so it does... oh aye it does alright', done: false,
-      }],
+      todos: [],
     };
   }
 
   componentDidMount() {
-    // this.apiGetTodos();
+    this.apiGetTodos();
   }
 
   componentDidUpdate() {
-    // this.apiSyncTodos();
+    this.apiSyncTodos();
   }
 
   /* State Modifiers */

@@ -19,13 +19,9 @@ class Lists extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       errored: false,
-      lists: [{
-        id: 1, name: 'Development Days to Delay until Destruction', todos: [1,2,3],
-      }, {
-        id: 2, name: 'Daily Tasks', todos: [1,2,3,4,5],
-      }],
+      lists: [],
       showModal: false,
       currentList: null,
       createList: false,
@@ -33,7 +29,7 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-    // this.apiGetLists();
+    this.apiGetLists();
   }
 
   /* State Modifiers */
