@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import './Checkbox.css';
 
 const checkboxClassNames = (checked) => {
-  let classes = 'mx-3 text-xl font-bold tracking-wide leading-6 cursor-pointer';
+  let classes = 'flex-grow mx-3 text-xl font-bold tracking-wide leading-6 cursor-pointer';
   classes = checked ? classes + ' line-through' : classes;
   return classes;
 }
@@ -55,13 +55,9 @@ const Checkbox = React.memo(function Checkbox(props) {
         {name}
       </p>
       <FontAwesomeIcon icon={faEdit} onClick={handleEdit}
-        className='cursor-pointer mr-4 mt-1 text-blue-600 hover:text-blue-700' />
-      <button
-        className='px-4 py-0 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-xl ml-auto'
-        style={{height: 27}}
-        onClick={() => removeCallback({ name })}>
-        X
-      </button>
+        className='cursor-pointer mr-4 text-blue-600 hover:text-blue-700' />
+      <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeCallback({ name })}
+        className='cursor-pointer mr-3 text-red-600 hover:text-red-700' />
     </div>
   );
 });

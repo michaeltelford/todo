@@ -72,7 +72,9 @@ class Lists extends React.Component {
       return;
     }
 
-    if (lists.find(list => list.name.toLowerCase() === currentList.name.toLowerCase())) {
+    if (lists.find(
+        list => list.name.toLowerCase() === currentList.name.toLowerCase()
+    )) {
       alert('List name already taken');
       return;
     }
