@@ -21,9 +21,8 @@ const modalStyles = {
  */
 function ListModal(props) {
   const {
-    isOpen, createList, currentList, setCurrentList, submitModal, cancelModal,
+    isOpen, action, entity, setEntity, submitModal, cancelModal,
   } = props;
-  const action = createList ? 'Create' : 'Edit';
 
   return (
     <Modal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
@@ -31,10 +30,10 @@ function ListModal(props) {
       <form>
         <input
           type='text'
-          value={currentList?.name || ''}
+          value={entity?.name || ''}
           onChange={(evt) => {
-            currentList.name = evt.target.value;
-            setCurrentList(currentList);
+            entity.name = evt.target.value;
+            setEntity(entity);
           }} className='mb-4 border-2 border-gray-400 rounded-md'
         />
         <br />
@@ -57,19 +56,19 @@ function ListModal(props) {
 
 ListModal.propTypes = {
   isOpen: PropTypes.bool,
-  createList: PropTypes.bool,
-  currentList: PropTypes.shape({
+  action: PropTypes.oneOf(['Create', 'Edit']),
+  entity: PropTypes.shape({
     name: string,
   }),
-  setCurrentList: PropTypes.func.isRequired,
+  setEntity: PropTypes.func.isRequired,
   submitModal: PropTypes.func.isRequired,
   cancelModal: PropTypes.func.isRequired,
 };
 
 ListModal.defaultProps = {
   isOpen: false,
-  createList: true,
-  currentList: null,
+  action: 'Create',
+  entity: null,
 };
 
 export default ListModal;

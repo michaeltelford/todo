@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
-import ListModal from './ListModal';
+import ListModal from '../ListModal';
 import CreateList from './CreateList';
 
 /*
@@ -24,7 +24,7 @@ class Lists extends React.Component {
       lists: [],
       showModal: false,
       currentList: null,
-      createList: false,
+      modalAction: 'Edit',
     };
   }
 
@@ -37,7 +37,7 @@ class Lists extends React.Component {
   handleNew = (emptyList) => {
     this.setState({
       currentList: emptyList,
-      createList: true,
+      modalAction: 'Create',
       showModal: true,
     });
   }
@@ -49,7 +49,7 @@ class Lists extends React.Component {
     this.setState({
       // Copy list by value, not reference - so it can be updated safely.
       currentList: { ...list },
-      createList: false,
+      modalAction: 'Edit',
       showModal: true,
     });
   }
@@ -65,7 +65,7 @@ class Lists extends React.Component {
   }
 
   handleModalSubmit = () => {
-    const { lists, currentList, createList } = this.state;
+    const { lists, currentList, modalAction } = this.state;
 
     if (currentList.name === '') {
       alert('You must enter a list name');
@@ -73,13 +73,13 @@ class Lists extends React.Component {
     }
 
     if (lists.find(
-        list => list.name.toLowerCase() === currentList.name.toLowerCase()
+      list => list.name.toLowerCase() === currentList.name.toLowerCase()
     )) {
       alert('List name already taken');
       return;
     }
 
-    if (createList) {
+    if (modalAction === 'Create') {
       this.apiCreateList(currentList);
     } else {
       const index = lists.findIndex(list => list.id === currentList.id);
@@ -146,7 +146,7 @@ class Lists extends React.Component {
 
   render() {
     const {
-      loading, errored, lists, currentList, showModal, createList,
+      loading, errored, lists, currentList, showModal, modalAction,
     } = this.state;
 
     if (loading) return <p>Loading data...</p>;
@@ -169,9 +169,9 @@ class Lists extends React.Component {
 
         <ListModal
           isOpen={showModal}
-          createList={createList}
-          currentList={currentList}
-          setCurrentList={list => this.setState({ currentList: list })}
+          action={modalAction}
+          entity={currentList}
+          setEntity={list => this.setState({ currentList: list })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
       </>
