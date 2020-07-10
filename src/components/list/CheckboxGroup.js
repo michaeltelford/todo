@@ -3,7 +3,7 @@ import PropTypes, { shape, string, bool } from 'prop-types';
 import Checkbox from './checkbox/Checkbox';
 
 function CheckboxGroup(props) {
-  const { todos, toggleCallback, removeCallback } = props;
+  const { todos, toggleCallback, removeCallback, handleEdit } = props;
 
   return (
     todos.map((todo, i) => {
@@ -13,7 +13,8 @@ function CheckboxGroup(props) {
           name={todo.name}
           checked={todo.done}
           toggleCallback={toggleCallback}
-          removeCallback={removeCallback} />
+          removeCallback={removeCallback}
+          handleEdit={handleEdit} />
       );
     })
   );
@@ -26,6 +27,7 @@ CheckboxGroup.propTypes = {
   })).isRequired,
   toggleCallback: PropTypes.func.isRequired,
   removeCallback: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default CheckboxGroup;

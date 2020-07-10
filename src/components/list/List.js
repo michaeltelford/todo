@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
+import ListModal from '../ListModal';
 
 /*
  * List is the main container component for interacting with a list's TODO
@@ -28,6 +29,8 @@ class List extends React.Component {
       loading: true,
       errored: false,
       todos: [],
+      showModal: false,
+      currentTodo: null,
     };
   }
 
@@ -89,6 +92,43 @@ class List extends React.Component {
     return todos.find(el => el.name.toLowerCase() === todo.name.toLowerCase());
   }
 
+  handleEdit = (name) => {
+    this.editTodoName = name;
+    const todo = this.getTodo({ name });
+
+    this.setState({
+      // Copy todo by value, not reference - so it can be updated safely.
+      currentTodo: { ...todo },
+      showModal: true,
+    });
+  }
+
+  handleModalSubmit = () => {
+    const { todos, currentTodo } = this.state;
+    const newName = currentTodo.name;
+    const index = todos.findIndex(todo => todo.name === this.editTodoName);
+
+    if (newName === '') {
+      alert('You must enter a TODO item name');
+      return;
+    }
+
+    if (todos.find(
+      todo => todo.name.toLowerCase() === newName.toLowerCase()
+    )) {
+      alert('TODO item name already taken');
+      return;
+    }
+
+    this.setState((prevState) => {
+      prevState.todos.splice(index, 1, currentTodo);
+      return {
+        todos: prevState.todos,
+        showModal: false,
+      }
+    });
+  }
+
   /* API Helpers */
 
   apiGetTodos = () => {
@@ -122,7 +162,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, errored, todos } = this.state;
+    const { loading, errored, todos, showModal, currentTodo } = this.state;
 
     if (loading) return <p>Loading data...</p>;
     if (errored) return <p>An error occurred, please try again later.</p>;
@@ -138,13 +178,23 @@ class List extends React.Component {
         <CheckboxGroup
           todos={todosNotDone}
           toggleCallback={this.updateTodo}
-          removeCallback={this.removeTodo} />
+          removeCallback={this.removeTodo}
+          handleEdit={this.handleEdit} />
         {todosNotDone.length > 0 && <hr className='my-4' />}
         <CheckboxGroup
           todos={todosDone}
           toggleCallback={this.updateTodo}
-          removeCallback={this.removeTodo} />
+          removeCallback={this.removeTodo}
+          handleEdit={this.handleEdit} />
         {todosDone.length > 0 && <hr className='my-4' />}
+
+        <ListModal
+          isOpen={showModal}
+          action={'Edit'}
+          entity={currentTodo}
+          setEntity={todo => this.setState({ currentTodo: todo })}
+          submitModal={this.handleModalSubmit}
+          cancelModal={() => this.setState({ showModal: false })} />
       </>
     );
   }
