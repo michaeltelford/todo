@@ -38,10 +38,6 @@ class List extends React.Component {
     this.apiGetTodos();
   }
 
-  componentDidUpdate() {
-    this.apiSyncTodos();
-  }
-
   /* State Modifiers */
 
   addTodo = (newTodo) => {
@@ -58,7 +54,7 @@ class List extends React.Component {
     this.setState((prevState) => {
       prevState.todos.push(newTodo);
       return prevState;
-    });
+    }, this.apiSyncTodos);
   }
 
   removeTodo = (obsoleteTodo) => {
@@ -68,7 +64,7 @@ class List extends React.Component {
       });
 
       return { todos: filteredTodos }
-    });
+    }, this.apiSyncTodos);
   }
 
   updateTodo = (updatedTodo) => {
@@ -79,7 +75,7 @@ class List extends React.Component {
 
       prevState.todos.splice(index, 1, updatedTodo);
       return prevState;
-    });
+    }, this.apiSyncTodos);
   }
 
   filterTodos = (done) => {
@@ -126,7 +122,7 @@ class List extends React.Component {
         todos: prevState.todos,
         showModal: false,
       }
-    });
+    }, this.apiSyncTodos);
   }
 
   /* API Helpers */
