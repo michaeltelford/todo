@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
@@ -169,7 +170,14 @@ class List extends React.Component {
     return (
       <>
         <AddTodo callback={this.addTodo} />
-        <p>You've completed {todosDone.length} out of {todos.length} items</p>
+        <div className='flex'>
+          <small className='hover:text-indigo-800 text-md font-medium tracking-wide underline'>
+            <Link to='/lists'>{'<< Lists'}</Link>
+          </small>
+          <small className='ml-auto text-md font-medium tracking-wide'>
+            {todosDone.length} / {todos.length} Done
+          </small>
+        </div>
         <hr className='my-4' />
         <CheckboxGroup
           todos={todosNotDone}
