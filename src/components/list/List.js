@@ -1,10 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 import ListModal from '../ListModal';
+import Logout from '../Logout';
+import Summary from './Summary';
 
 /*
  * List is the main container component for interacting with a list's TODO
@@ -161,36 +162,34 @@ class List extends React.Component {
   render() {
     const { loading, errored, todos, showModal, currentTodo } = this.state;
 
-    if (loading) return <p>Loading data...</p>;
-    if (errored) return <p>An error occurred, please try again later.</p>;
+    if (loading) return <p className='text-center'>Loading data...</p>;
+    if (errored) return <p className='text-center'>An error occurred, please try again later.</p>;
 
     const todosNotDone = this.filterTodos(false);
     const todosDone    = this.filterTodos(true);
 
     return (
-      <>
+      <div className='max-w-screen-sm mx-auto'>
         <AddTodo callback={this.addTodo} />
-        <div className='flex'>
-          <small className='hover:text-indigo-800 text-md font-medium tracking-wide underline'>
-            <Link to='/lists'>{'<< Lists'}</Link>
-          </small>
-          <small className='ml-auto text-md font-medium tracking-wide'>
-            {todosDone.length} / {todos.length} Done
-          </small>
-        </div>
+        <Summary
+          numTodos={todos.length}
+          numTodosDone={todosDone.length} />
         <hr className='my-4' />
-        <CheckboxGroup
-          todos={todosNotDone}
-          toggleCallback={this.updateTodo}
-          removeCallback={this.removeTodo}
-          handleEdit={this.handleEdit} />
-        {todosNotDone.length > 0 && <hr className='my-4' />}
-        <CheckboxGroup
-          todos={todosDone}
-          toggleCallback={this.updateTodo}
-          removeCallback={this.removeTodo}
-          handleEdit={this.handleEdit} />
-        {todosDone.length > 0 && <hr className='my-4' />}
+        <div className='xl:flex'>
+          <CheckboxGroup
+            todos={todosNotDone}
+            toggleCallback={this.updateTodo}
+            removeCallback={this.removeTodo}
+            handleEdit={this.handleEdit} />
+          {todosNotDone.length > 0 && <hr className='my-4' />}
+          <CheckboxGroup
+            todos={todosDone}
+            toggleCallback={this.updateTodo}
+            removeCallback={this.removeTodo}
+            handleEdit={this.handleEdit} />
+          {todosDone.length > 0 && <hr className='my-4' />}
+        </div>
+        <Logout />
 
         <ListModal
           isOpen={showModal}
@@ -199,7 +198,7 @@ class List extends React.Component {
           setEntity={todo => this.setState({ currentTodo: todo })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
-      </>
+      </div>
     );
   }
 }

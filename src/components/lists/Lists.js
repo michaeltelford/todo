@@ -3,6 +3,7 @@ import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
 import ListModal from '../ListModal';
 import CreateList from './CreateList';
+import Logout from '../Logout';
 
 /*
  * Lists component is used for performing CRUD operations on a user's lists.
@@ -149,16 +150,15 @@ class Lists extends React.Component {
       loading, errored, lists, currentList, showModal, modalAction,
     } = this.state;
 
-    if (loading) return <p>Loading data...</p>;
-    if (errored) return <p>An error occurred, please try again later.</p>;
+    if (loading) return <p className='text-center'>Loading data...</p>;
+    if (errored) return <p className='text-center'>An error occurred, please try again later.</p>;
 
     return (
-      <>
+      <div className='max-w-screen-sm mx-auto'>
         <CreateList
           lists={lists}
           handleNew={this.handleNew} />
         <hr className='my-4' />
-
         {lists.map(list => (
           <ListSummary
             key={list.id}
@@ -166,6 +166,7 @@ class Lists extends React.Component {
             handleEdit={() => this.handleEdit(list.id)}
             handleDelete={() => this.handleDelete(list.id)} />
         ))}
+        <Logout />
 
         <ListModal
           isOpen={showModal}
@@ -174,7 +175,7 @@ class Lists extends React.Component {
           setEntity={list => this.setState({ currentList: list })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
-      </>
+      </div>
     );
   }
 }

@@ -6,17 +6,19 @@ function CheckboxGroup(props) {
   const { todos, toggleCallback, removeCallback, handleEdit } = props;
 
   return (
-    todos.map((todo, i) => {
-      return (
-        <Checkbox
-          key={i}
-          name={todo.name}
-          checked={todo.done}
-          toggleCallback={toggleCallback}
-          removeCallback={removeCallback}
-          handleEdit={handleEdit} />
-      );
-    })
+    <div>
+      {todos.map((todo, i) => {
+        return (
+          <Checkbox
+            key={i}
+            name={todo.name}
+            checked={todo.done}
+            toggleCallback={toggleCallback}
+            removeCallback={removeCallback}
+            handleEdit={handleEdit} />
+        );
+      })}
+    </div>
   );
 }
 
