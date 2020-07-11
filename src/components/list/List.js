@@ -162,8 +162,10 @@ class List extends React.Component {
   render() {
     const { loading, errored, todos, showModal, currentTodo } = this.state;
 
-    if (loading) return <p className='text-center'>Loading data...</p>;
-    if (errored) return <p className='text-center'>An error occurred, please try again later.</p>;
+    if (loading) return null;
+    if (errored) return (
+      <p className='text-center'>An error occurred, please try again later.</p>
+    );
 
     const todosNotDone = this.filterTodos(false);
     const todosDone    = this.filterTodos(true);
@@ -175,7 +177,7 @@ class List extends React.Component {
           numTodos={todos.length}
           numTodosDone={todosDone.length} />
         <hr className='my-4' />
-        <div className='xl:flex'>
+        <div>
           <CheckboxGroup
             todos={todosNotDone}
             toggleCallback={this.updateTodo}

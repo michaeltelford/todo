@@ -150,8 +150,10 @@ class Lists extends React.Component {
       loading, errored, lists, currentList, showModal, modalAction,
     } = this.state;
 
-    if (loading) return <p className='text-center'>Loading data...</p>;
-    if (errored) return <p className='text-center'>An error occurred, please try again later.</p>;
+    if (loading) return null;
+    if (errored) return (
+      <p className='text-center'>An error occurred, please try again later.</p>
+    );
 
     return (
       <div className='max-w-screen-sm mx-auto'>
