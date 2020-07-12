@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Summary(props) {
+function ListSummary(props) {
   const { numTodos, numTodosDone } = props;
 
   return (
@@ -17,9 +17,9 @@ function Summary(props) {
   );
 }
 
-Summary.propTypes = {
+ListSummary.propTypes = {
   numTodos: PropTypes.number.isRequired,
   numTodosDone: PropTypes.number.isRequired,
 };
 
-export default Summary;
+export default ListSummary;

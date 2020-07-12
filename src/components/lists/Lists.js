@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
-import ListModal from '../Modal';
+import Modal from '../Modal';
 import CreateList from './CreateList';
 import Logout from '../Logout';
 
@@ -172,7 +172,7 @@ class Lists extends React.Component {
           <Logout />
         </div>
 
-        <ListModal
+        <Modal
           isOpen={showModal}
           action={modalAction}
           entity={currentList}

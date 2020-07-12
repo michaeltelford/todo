@@ -3,9 +3,9 @@ import { withRouter } from 'react-router';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
-import ListModal from '../Modal';
+import Modal from '../Modal';
 import Logout from '../Logout';
-import Summary from './Summary';
+import ListSummary from './ListSummary';
 
 /*
  * List is the main container component for interacting with a list's TODO
@@ -174,7 +174,7 @@ class List extends React.Component {
       <>
         <div className='max-w-screen-sm mx-auto'>
           <AddTodo callback={this.addTodo} />
-          <Summary
+          <ListSummary
             numTodos={todos.length}
             numTodosDone={todosDone.length} />
         </div>
@@ -199,7 +199,7 @@ class List extends React.Component {
           <Logout />
         </div>
 
-        <ListModal
+        <Modal
           isOpen={showModal}
           action={'Edit'}
           entity={currentTodo}
