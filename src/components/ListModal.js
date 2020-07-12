@@ -21,12 +21,12 @@ const modalStyles = {
  */
 function ListModal(props) {
   const {
-    isOpen, action, entity, setEntity, submitModal, cancelModal,
+    isOpen, action, entity, entityType, setEntity, submitModal, cancelModal,
   } = props;
 
   return (
     <Modal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
-      <h2 className='mb-4 font-semibold'>{action} List</h2>
+      <h2 className='mb-4 font-semibold'>{action} {entityType}</h2>
       <form>
         <input
           type='text'
@@ -60,6 +60,7 @@ ListModal.propTypes = {
   entity: PropTypes.shape({
     name: string,
   }),
+  entityType: PropTypes.string,
   setEntity: PropTypes.func.isRequired,
   submitModal: PropTypes.func.isRequired,
   cancelModal: PropTypes.func.isRequired,
@@ -69,6 +70,7 @@ ListModal.defaultProps = {
   isOpen: false,
   action: 'Create',
   entity: null,
+  entityType: 'List',
 };
 
 export default ListModal;

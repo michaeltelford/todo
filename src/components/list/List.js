@@ -203,6 +203,7 @@ class List extends React.Component {
           isOpen={showModal}
           action={'Edit'}
           entity={currentTodo}
+          entityType='Item'
           setEntity={todo => this.setState({ currentTodo: todo })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />

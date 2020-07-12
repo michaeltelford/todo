@@ -176,6 +176,7 @@ class Lists extends React.Component {
           isOpen={showModal}
           action={modalAction}
           entity={currentList}
+          entityType='List'
           setEntity={list => this.setState({ currentList: list })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
