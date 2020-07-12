@@ -168,7 +168,9 @@ class Lists extends React.Component {
             handleEdit={() => this.handleEdit(list.id)}
             handleDelete={() => this.handleDelete(list.id)} />
         ))}
-        <Logout />
+        <div className='max-w-screen-sm mx-auto'>
+          <Logout />
+        </div>
 
         <ListModal
           isOpen={showModal}

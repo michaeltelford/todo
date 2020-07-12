@@ -195,7 +195,9 @@ class List extends React.Component {
           {todosDone.length > 0 && <hr className='border-l border-grey my-4' />}
         </div>
         <hr className='border-l border-grey w-4/5 mx-auto my-4 hidden xl:block' />
-        <Logout />
+        <div className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5'>
+          <Logout />
+        </div>
 
         <ListModal
           isOpen={showModal}
