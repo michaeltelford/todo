@@ -186,7 +186,9 @@ class List extends React.Component {
             removeCallback={this.removeTodo}
             handleEdit={this.handleEdit} />
           {todosNotDone.length > 0 && <hr className='my-4' />}
-          <span className='hidden xl:inline mr-16' />
+          <span
+            style={{ borderLeft: '1px solid', borderColor: '#e2e8f0' }}
+            className='hidden ml-2 mr-5 xl:inline' />
           <CheckboxGroup
             todos={todosDone}
             toggleCallback={this.updateTodo}
