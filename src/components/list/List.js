@@ -171,19 +171,22 @@ class List extends React.Component {
     const todosDone    = this.filterTodos(true);
 
     return (
-      <div className='max-w-screen-sm mx-auto'>
-        <AddTodo callback={this.addTodo} />
-        <Summary
-          numTodos={todos.length}
-          numTodosDone={todosDone.length} />
-        <hr className='my-4' />
-        <div>
+      <>
+        <div className='max-w-screen-sm mx-auto'>
+          <AddTodo callback={this.addTodo} />
+          <Summary
+            numTodos={todos.length}
+            numTodosDone={todosDone.length} />
+        </div>
+        <hr className='max-w-screen-sm mx-auto my-4 xl:max-w-full xl:w-4/5' />
+        <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
             todos={todosNotDone}
             toggleCallback={this.updateTodo}
             removeCallback={this.removeTodo}
             handleEdit={this.handleEdit} />
           {todosNotDone.length > 0 && <hr className='my-4' />}
+          <span className='hidden xl:inline mr-16' />
           <CheckboxGroup
             todos={todosDone}
             toggleCallback={this.updateTodo}
@@ -191,6 +194,7 @@ class List extends React.Component {
             handleEdit={this.handleEdit} />
           {todosDone.length > 0 && <hr className='my-4' />}
         </div>
+        <hr className='hidden w-4/5 mx-auto my-4 xl:block' />
         <Logout />
 
         <ListModal
@@ -200,7 +204,7 @@ class List extends React.Component {
           setEntity={todo => this.setState({ currentTodo: todo })}
           submitModal={this.handleModalSubmit}
           cancelModal={() => this.setState({ showModal: false })} />
-      </div>
+      </>
     );
   }
 }

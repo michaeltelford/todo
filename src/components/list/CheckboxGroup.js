@@ -6,7 +6,7 @@ function CheckboxGroup(props) {
   const { todos, toggleCallback, removeCallback, handleEdit } = props;
 
   return (
-    <div>
+    <div className='xl:w-1/2'>
       {todos.map((todo, i) => {
         return (
           <Checkbox
