@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes, { string } from 'prop-types';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 
-Modal.setAppElement('#root');
+ReactModal.setAppElement('#root');
 
 const modalStyles = {
   content: {
@@ -16,16 +16,16 @@ const modalStyles = {
 };
 
 /*
- * ListModal is a modal that can be used to create a new (empty) list, or edit
- * the name of an existing list.
+ * Modal can be used to create a new (empty) list, or edit the name of an
+ * existing list or todo item.
  */
-function ListModal(props) {
+function Modal(props) {
   const {
     isOpen, action, entity, entityType, setEntity, submitModal, cancelModal,
   } = props;
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
+    <ReactModal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
       <h2 className='mb-4 font-semibold'>{action} {entityType}</h2>
       <form>
         <input
@@ -50,11 +50,11 @@ function ListModal(props) {
           Cancel
         </button>
       </form>
-    </Modal>
+    </ReactModal>
   );
 }
 
-ListModal.propTypes = {
+Modal.propTypes = {
   isOpen: PropTypes.bool,
   action: PropTypes.oneOf(['Create', 'Edit']),
   entity: PropTypes.shape({
@@ -66,11 +66,11 @@ ListModal.propTypes = {
   cancelModal: PropTypes.func.isRequired,
 };
 
-ListModal.defaultProps = {
+Modal.defaultProps = {
   isOpen: false,
   action: 'Create',
   entity: null,
   entityType: 'List',
 };
 
-export default ListModal;
+export default Modal;

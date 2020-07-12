@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
-import ListModal from '../ListModal';
+import ListModal from '../Modal';
 import Logout from '../Logout';
 import Summary from './Summary';
 

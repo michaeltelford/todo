@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
-import ListModal from '../ListModal';
+import ListModal from '../Modal';
 import CreateList from './CreateList';
 import Logout from '../Logout';
 
