@@ -26,7 +26,7 @@ function ListSummary(props) {
       </div>
       <div>
         <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-        <hr className='my-4' />
+        <hr className='border-l border-grey my-4' />
       </div>
     </div>
   );

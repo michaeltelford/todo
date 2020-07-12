@@ -178,25 +178,23 @@ class List extends React.Component {
             numTodos={todos.length}
             numTodosDone={todosDone.length} />
         </div>
-        <hr className='max-w-screen-sm mx-auto my-4 xl:max-w-full xl:w-4/5' />
+        <hr className='border-l border-grey max-w-screen-sm mx-auto my-4 xl:max-w-full xl:w-4/5' />
         <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
             todos={todosNotDone}
             toggleCallback={this.updateTodo}
             removeCallback={this.removeTodo}
             handleEdit={this.handleEdit} />
-          {todosNotDone.length > 0 && <hr className='my-4' />}
-          <span
-            style={{ borderLeft: '1px solid', borderColor: '#e2e8f0' }}
-            className='hidden ml-2 mr-5 xl:inline' />
+          {todosNotDone.length > 0 && <hr className='border-l border-grey my-4' />}
+          <span className='border-l border-grey ml-2 mr-5 hidden xl:inline' />
           <CheckboxGroup
             todos={todosDone}
             toggleCallback={this.updateTodo}
             removeCallback={this.removeTodo}
             handleEdit={this.handleEdit} />
-          {todosDone.length > 0 && <hr className='my-4' />}
+          {todosDone.length > 0 && <hr className='border-l border-grey my-4' />}
         </div>
-        <hr className='hidden w-4/5 mx-auto my-4 xl:block' />
+        <hr className='border-l border-grey w-4/5 mx-auto my-4 hidden xl:block' />
         <Logout />
 
         <ListModal
