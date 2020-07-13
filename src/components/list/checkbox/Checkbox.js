@@ -10,13 +10,13 @@ const checkboxClassNames = (checked) => {
   return classes;
 }
 
-const handleToggle = (target, toggleCallback) => {
+const handleCheckToggle = (target, handleToggle) => {
   const toggledTodo = {
     name: target.name,
     done: target.checked,
   };
 
-  toggleCallback(toggledTodo);
+  handleToggle(toggledTodo);
 }
 
 /* Each checkbox will only re-render if its props change. This effectively
@@ -24,7 +24,7 @@ const handleToggle = (target, toggleCallback) => {
  * amount of checkboxes per list, this should increase performance quite a bit.
  */
 const Checkbox = React.memo(function Checkbox(props) {
-  const { name, checked, toggleCallback, removeCallback, handleEdit } = props;
+  const { name, checked, handleToggle, handleDelete, handleEdit } = props;
   const label = useRef();
 
   /* We use a custom label with a sexy checkbox image using a hard-coded height,
@@ -39,7 +39,7 @@ const Checkbox = React.memo(function Checkbox(props) {
         id={name}
         name={name}
         checked={checked}
-        onChange={evt => handleToggle(evt.target, toggleCallback)}
+        onChange={evt => handleCheckToggle(evt.target, handleToggle)}
         className='css-checkbox' />
       <label
         htmlFor={name}
@@ -52,7 +52,7 @@ const Checkbox = React.memo(function Checkbox(props) {
       </p>
       <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(name)}
         className='cursor-pointer mr-4 text-blue-600 hover:text-blue-700' />
-      <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeCallback({ name })}
+      <FontAwesomeIcon icon={faTrashAlt} onClick={() => handleDelete({ name })}
         className='cursor-pointer mr-3 text-red-600 hover:text-red-700' />
     </div>
   );
@@ -61,8 +61,8 @@ const Checkbox = React.memo(function Checkbox(props) {
 Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool,
-  toggleCallback: PropTypes.func.isRequired,
-  removeCallback: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
 };
 

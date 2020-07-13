@@ -21,31 +21,29 @@ const modalStyles = {
  */
 function Modal(props) {
   const {
-    isOpen, action, entity, entityType, setEntity, submitModal, cancelModal,
+    isOpen, action, entity, entityType, handleInputChange, handleSubmit, handleCancel,
   } = props;
 
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={cancelModal} style={modalStyles}>
+    <ReactModal isOpen={isOpen} onRequestClose={handleCancel} style={modalStyles}>
       <h2 className='mb-4 font-semibold'>{action} {entityType}</h2>
       <form>
         <input
           type='text'
           value={entity?.name || ''}
-          onChange={(evt) => {
-            entity.name = evt.target.value;
-            setEntity(entity);
-          }} className='mb-4 border-2 border-gray-400 rounded-md'
+          onChange={handleInputChange}
+          className='mb-4 border-2 border-gray-400 rounded-md'
         />
         <br />
         <button onClick={(evt) => {
           evt.preventDefault();
-          submitModal();
+          handleSubmit();
         }} className='mr-1 px-5 py-1 bg-blue-500 hover:bg-blue-700 text-white uppercase tracking-wider rounded-md shadow-xl'>
           Save
         </button>
         <button onClick={(evt) => {
           evt.preventDefault();
-          cancelModal();
+          handleCancel();
         }} className='px-5 py-1 text-gray-700 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>
           Cancel
         </button>
@@ -61,9 +59,9 @@ Modal.propTypes = {
     name: string,
   }),
   entityType: PropTypes.string,
-  setEntity: PropTypes.func.isRequired,
-  submitModal: PropTypes.func.isRequired,
-  cancelModal: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
 };
 
 Modal.defaultProps = {

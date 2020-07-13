@@ -16,7 +16,7 @@ import ListSummary from './ListSummary';
  * after each event update e.g. adding a new todo item to the list.
  *
  * All todo list state is stored in List, not in its child components. Child
- * components are passed callback functions which manipulate the state when
+ * components are passed handler functions which manipulate the state when
  * fired. This of course causes a re-render of List and the UI gets updated.
  */
 class List extends React.Component {
@@ -42,7 +42,7 @@ class List extends React.Component {
 
   /* State Modifiers */
 
-  addTodo = (newTodo) => {
+  handleAddTodo = (newTodo) => {
     if (newTodo.name === '') {
       alert('TODO item must have a name');
       return;
@@ -59,7 +59,7 @@ class List extends React.Component {
     }, this.apiSyncTodos);
   }
 
-  removeTodo = (obsoleteTodo) => {
+  handleRemoveTodo = (obsoleteTodo) => {
     this.setState((prevState) => {
       const filteredTodos = prevState.todos.filter((todo) => {
         return todo.name !== obsoleteTodo.name;
@@ -69,7 +69,7 @@ class List extends React.Component {
     }, this.apiSyncTodos);
   }
 
-  updateTodo = (updatedTodo) => {
+  handleUpdateTodo = (updatedTodo) => {
     this.setState((prevState) => {
       const index = prevState.todos.findIndex((todo) => {
         return todo.name === updatedTodo.name;
@@ -78,16 +78,6 @@ class List extends React.Component {
       prevState.todos.splice(index, 1, updatedTodo);
       return prevState;
     }, this.apiSyncTodos);
-  }
-
-  filterTodos = (done) => {
-    const { todos } = this.state;
-    return todos.filter(todo => done ? todo.done : !todo.done);
-  }
-
-  getTodo = (todo) => {
-    const { todos } = this.state;
-    return todos.find(el => el.name.toLowerCase() === todo.name.toLowerCase());
   }
 
   handleEdit = (name) => {
@@ -125,6 +115,20 @@ class List extends React.Component {
         showModal: false,
       }
     }, this.apiSyncTodos);
+  }
+
+  /* Generic Helper */
+
+  // Filter todos by their `done` status.
+  filterTodos = (done) => {
+    const { todos } = this.state;
+    return todos.filter(todo => done ? todo.done : !todo.done);
+  }
+
+  // Get the todo item with the matching `name`.
+  getTodo = (todo) => {
+    const { todos } = this.state;
+    return todos.find(el => el.name.toLowerCase() === todo.name.toLowerCase());
   }
 
   /* API Helpers */
@@ -173,7 +177,7 @@ class List extends React.Component {
     return (
       <>
         <div className='max-w-screen-sm mx-auto'>
-          <AddTodo callback={this.addTodo} />
+          <AddTodo handleAdd={this.handleAddTodo} />
           <ListSummary
             numTodos={todos.length}
             numTodosDone={todosDone.length} />
@@ -182,15 +186,15 @@ class List extends React.Component {
         <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
             todos={todosNotDone}
-            toggleCallback={this.updateTodo}
-            removeCallback={this.removeTodo}
+            handleToggle={this.handleUpdateTodo}
+            handleDelete={this.handleRemoveTodo}
             handleEdit={this.handleEdit} />
           {todosNotDone.length > 0 && <hr className='border-l border-grey my-4' />}
           <span className='border-l border-grey ml-2 mr-5 hidden xl:inline' />
           <CheckboxGroup
             todos={todosDone}
-            toggleCallback={this.updateTodo}
-            removeCallback={this.removeTodo}
+            handleToggle={this.handleUpdateTodo}
+            handleDelete={this.handleRemoveTodo}
             handleEdit={this.handleEdit} />
           {todosDone.length > 0 && <hr className='border-l border-grey my-4' />}
         </div>
@@ -204,9 +208,12 @@ class List extends React.Component {
           action={'Edit'}
           entity={currentTodo}
           entityType='Item'
-          setEntity={todo => this.setState({ currentTodo: todo })}
-          submitModal={this.handleModalSubmit}
-          cancelModal={() => this.setState({ showModal: false })} />
+          handleInputChange={(evt) => {
+            currentTodo.name = evt.target.value;
+            this.setState({ currentTodo });
+          }}
+          handleSubmit={this.handleModalSubmit}
+          handleCancel={() => this.setState({ showModal: false })} />
       </>
     );
   }

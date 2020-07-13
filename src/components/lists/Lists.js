@@ -177,9 +177,12 @@ class Lists extends React.Component {
           action={modalAction}
           entity={currentList}
           entityType='List'
-          setEntity={list => this.setState({ currentList: list })}
-          submitModal={this.handleModalSubmit}
-          cancelModal={() => this.setState({ showModal: false })} />
+          handleInputChange={(evt) => {
+            currentList.name = evt.target.value;
+            this.setState({ currentList });
+          }}
+          handleSubmit={this.handleModalSubmit}
+          handleCancel={() => this.setState({ showModal: false })} />
       </div>
     );
   }
