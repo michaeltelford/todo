@@ -28,8 +28,8 @@
     "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
     "prebuild": "npm run build:tailwind",
     "build": "react-scripts build",
-    "cypress": "$(npm bin)/cypress open",
-    "test": "react-scripts test",
+    "cypress": "cypress open",
+    "test": "cypress run --browser chrome --headless",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
