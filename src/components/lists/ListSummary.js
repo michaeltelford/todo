@@ -10,7 +10,7 @@ function ListSummary(props) {
   const numItemsTodo = list.todos.filter(todo => !todo.done).length;
 
   return (
-    <div id={list.id} key={list.id}>
+    <div data-cy={list.name} id={list.id} key={list.id}>
       <div className='flex mb-3'>
         <span className='flex-grow mr-3'>
           <Link to={`/list/${list.id}`} className='text-xl font-semibold underline tracking-wide hover:text-indigo-800'>
@@ -18,9 +18,9 @@ function ListSummary(props) {
           </Link>
         </span>
         <span className='flex-none'>
-          <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(list.id)}
+          <FontAwesomeIcon data-cy='edit' icon={faEdit} onClick={() => handleEdit(list.id)}
             className='cursor-pointer mr-4 text-blue-600 hover:text-blue-700' />
-          <FontAwesomeIcon icon={faTrashAlt} onClick={() => handleDelete(list.id)}
+          <FontAwesomeIcon data-cy='delete' icon={faTrashAlt} onClick={() => handleDelete(list.id)}
             className='cursor-pointer mr-3 text-red-600 hover:text-red-700' />
         </span>
       </div>

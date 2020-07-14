@@ -185,6 +185,7 @@ class List extends React.Component {
         <hr className='border-l border-grey max-w-screen-sm mx-auto my-4 xl:max-w-full xl:w-4/5' />
         <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
+            type='todos-not-done'
             todos={todosNotDone}
             handleToggle={this.handleUpdateTodo}
             handleDelete={this.handleRemoveTodo}
@@ -192,6 +193,7 @@ class List extends React.Component {
           {todosNotDone.length > 0 && <hr className='border-l border-grey my-4' />}
           <span className='border-l border-grey ml-2 mr-5 hidden xl:inline' />
           <CheckboxGroup
+            type='todos-done'
             todos={todosDone}
             handleToggle={this.handleUpdateTodo}
             handleDelete={this.handleRemoveTodo}

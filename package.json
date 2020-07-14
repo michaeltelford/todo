@@ -28,7 +28,8 @@
     "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
     "prebuild": "npm run build:tailwind",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "cypress": "cypress open",
+    "test": "cypress run --browser chrome --headless",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -45,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^4.10.0"
   }
 }

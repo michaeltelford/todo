@@ -29,6 +29,7 @@ function Modal(props) {
       <h2 className='mb-4 font-semibold'>{action} {entityType}</h2>
       <form>
         <input
+          data-cy='modal-input'
           type='text'
           value={entity?.name || ''}
           onChange={handleInputChange}

@@ -3,10 +3,10 @@ import PropTypes, { shape, string, bool } from 'prop-types';
 import Checkbox from './checkbox/Checkbox';
 
 function CheckboxGroup(props) {
-  const { todos, handleToggle, handleDelete, handleEdit } = props;
+  const { type, todos, handleToggle, handleDelete, handleEdit } = props;
 
   return (
-    <div className='xl:w-1/2'>
+    <div data-cy={type} className='xl:w-1/2'>
       {todos.map((todo, i) => {
         return (
           <Checkbox
@@ -23,6 +23,7 @@ function CheckboxGroup(props) {
 }
 
 CheckboxGroup.propTypes = {
+  type: PropTypes.oneOf(['todos-done', 'todos-not-done']),
   todos: PropTypes.arrayOf(shape({
     name: string,
     done: bool,
@@ -30,6 +31,10 @@ CheckboxGroup.propTypes = {
   handleToggle: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
+};
+
+CheckboxGroup.defaultProps = {
+  type: 'todos-not-done',
 };
 
 export default CheckboxGroup;

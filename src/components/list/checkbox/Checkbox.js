@@ -33,7 +33,7 @@ const Checkbox = React.memo(function Checkbox(props) {
    * It's a hack, but it's necessary to properly style the checkbox.
    */
   return (
-    <div className='flex my-4'>
+    <div data-cy={name} className='flex my-4'>
       <input
         type='checkbox'
         id={name}
@@ -50,9 +50,9 @@ const Checkbox = React.memo(function Checkbox(props) {
         onClick={() => label.current.click()}>
         {name}
       </p>
-      <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(name)}
+      <FontAwesomeIcon data-cy='edit' icon={faEdit} onClick={() => handleEdit(name)}
         className='cursor-pointer mr-4 text-blue-600 hover:text-blue-700' />
-      <FontAwesomeIcon icon={faTrashAlt} onClick={() => handleDelete({ name })}
+      <FontAwesomeIcon data-cy='delete' icon={faTrashAlt} onClick={() => handleDelete({ name })}
         className='cursor-pointer mr-3 text-red-600 hover:text-red-700' />
     </div>
   );

@@ -6,11 +6,11 @@ The actual application can be used by visiting:
 
 https://todo-checklist.surge.sh
 
-Auth is handled by Auth0. You can login using your Github or Google account. Or you can sign up for an Auth0 account. You are limited to 5 lists (with unlimited TODO's) per account.
+![iPhone 5 SE](https://github.com/michaeltelford/todo/raw/assets/assets/TODO.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app is accessible on any device/viewport. Auth is handled by Auth0. You can login using your Github or Google account. Or you can sign up for an Auth0 account. You are limited to 5 lists (with unlimited TODO's) per account. Enjoy :-)
 
-## Usage
+## Local Usage
 
 ### ENV
 
@@ -41,7 +41,27 @@ The page will reload automatically on save of any code changes. You will also se
 
 ### `npm test`
 
-**TODO**: Run the system tests.
+The tests are system wide and written using [Cypress](https://cypress.io).
+
+First, you'll need to set the `CYPRESS_JWT_TOKEN` ENV var in your shell (to bypass auth). **Or** you can create a `cypress.env.json` file at the root of the repo and set token value in there:
+
+```json
+{
+  "JWT_TOKEN": "Bearer xyz"
+}
+```
+
+You can grab a new token by visiting the app, logging into Auth0 and then copying the contents of your auth `token` from the browser's `localStorage`. Each token is valid for 60 minutes.
+
+Run the tests with:
+
+    $ npm test
+
+During development of tests, open the Cypress test runner with:
+
+    $ npm run cypress
+
+By default, the tests will run against `127.0.0.1`. Set the `CYPRESS_BASE_URL` ENV var to override this.
 
 ## Deployment
 
@@ -56,3 +76,7 @@ To deploy to surge.sh, run the following at the root of the repo:
 ```sh
 ./deploy.sh
 ```
+
+## Credits
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
