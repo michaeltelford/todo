@@ -6,11 +6,11 @@ The actual application can be used by visiting:
 
 https://todo-checklist.surge.sh
 
+TODO: Add screenshot.
+
 Auth is handled by Auth0. You can login using your Github or Google account. Or you can sign up for an Auth0 account. You are limited to 5 lists (with unlimited TODO's) per account.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Usage
+## Local Usage
 
 ### ENV
 
@@ -41,7 +41,15 @@ The page will reload automatically on save of any code changes. You will also se
 
 ### `npm test`
 
-**TODO**: Run the system tests.
+The system is tested using Cypress. Run the e2e tests with:
+
+    $ npm test
+
+During development of tests, open Cypress with:
+
+    $ npm run cypress
+
+These will run the tests against localhost. Set the `CYPRESS_BASE_URL` ENV var to override this.
 
 ## Deployment
 
@@ -56,3 +64,7 @@ To deploy to surge.sh, run the following at the root of the repo:
 ```sh
 ./deploy.sh
 ```
+
+## Credits
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
