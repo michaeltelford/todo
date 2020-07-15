@@ -166,7 +166,9 @@ class List extends React.Component {
   render() {
     const { loading, errored, todos, showModal, currentTodo } = this.state;
 
-    if (loading) return null;
+    if (loading) return (
+      <p className='text-center'>Loading...</p>
+    )
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
     );
@@ -207,7 +209,7 @@ class List extends React.Component {
 
         <Modal
           isOpen={showModal}
-          action={'Edit'}
+          action='Edit'
           entity={currentTodo}
           entityType='Item'
           handleInputChange={(evt) => {

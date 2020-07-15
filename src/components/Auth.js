@@ -52,10 +52,15 @@ const handleLogout = async () => {
   window.location.replace(window.location.origin + '/auth');
 }
 
+const hasToken = () => {
+  const token = localStorage.getItem('token');
+  return (token !== null);
+}
+
 /* The Auth component does two things:
  * 1) Redirects to the 3rd party auth service.
- * 2) Provides a callback for the auth service to call (upon user login).
- *    This callback verifies the login against our API server.
+ * 2) Provides a callback for the auth service to call (upon successful user login).
+ *    This callback then verifies the login against our API server.
  */
 function Auth() {
   const { api } = useContext(AppContext);
@@ -72,5 +77,5 @@ function Auth() {
   return null;
 }
 
-export { handleLogout };
+export { handleLogout, hasToken };
 export default Auth;
