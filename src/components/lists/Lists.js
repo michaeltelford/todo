@@ -21,6 +21,7 @@ class Lists extends React.Component {
 
     this.state = {
       loading: true,
+      loadingText: '',
       errored: false,
       lists: [],
       showModal: false,
@@ -97,6 +98,7 @@ class Lists extends React.Component {
       resp.json().then((data) => {
         this.setState({
           loading: false,
+          loadingText: '',
           lists: data.lists,
           showModal: false,
         });
@@ -128,6 +130,7 @@ class Lists extends React.Component {
       this.setState((prevState) => {
         prevState.lists.splice(index, 1, updatedList);
         return {
+          loadingText: '',
           lists: prevState.lists,
           showModal: false,
         }
@@ -140,6 +143,7 @@ class Lists extends React.Component {
 
     api.fetch(this, `/list/${id}`, { method: 'DELETE' }, () => {
       this.setState(prevState => ({
+        loadingText: '',
         lists: prevState.lists.filter(list => list.id !== id),
       }));
     });
@@ -147,10 +151,12 @@ class Lists extends React.Component {
 
   render() {
     const {
-      loading, errored, lists, currentList, showModal, modalAction,
+      loading, loadingText, errored, lists, currentList, showModal, modalAction,
     } = this.state;
 
-    if (loading) return null;
+    if (loading) return (
+      <p className='text-center'>{loadingText || ''}</p>
+    )
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
     );

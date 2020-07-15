@@ -29,6 +29,7 @@ class List extends React.Component {
 
     this.state = {
       loading: true,
+      loadingText: '',
       errored: false,
       todos: [],
       showModal: false,
@@ -142,6 +143,7 @@ class List extends React.Component {
         this.name = list.name;
         this.setState(() => ({
           loading: false,
+          loadingText: '',
           todos: list.todos,
         }));
       });
@@ -154,6 +156,7 @@ class List extends React.Component {
       method: 'PUT',
       body: {
         list: {
+          loadingText: '',
           name: this.name,
           todos: this.state.todos,
         },
@@ -164,10 +167,12 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, errored, todos, showModal, currentTodo } = this.state;
+    const {
+      loading, loadingText, errored, todos, showModal, currentTodo
+    } = this.state;
 
     if (loading) return (
-      <p className='text-center'>Loading...</p>
+      <p className='text-center'>{loadingText || ''}</p>
     )
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>

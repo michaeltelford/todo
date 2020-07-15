@@ -1,4 +1,6 @@
 class API {
+  tolerableDelay = 500;
+
   constructor(origin) {
     if (origin.endsWith('/')) {
       origin = origin.slice(0, -1);
@@ -29,6 +31,13 @@ class API {
     // HEAD/GET requests can't contain a request body.
     if (request.method !== 'HEAD' && request.method !== 'GET' && fetchOpts.body) {
       request.body = JSON.stringify(fetchOpts.body);
+    }
+
+    // Set loadingText for long lived API responses.
+    if (component?.state?.loadingText !== undefined) {
+      setTimeout(() => {
+        component.setState({ loadingText: 'Loading...' });
+      }, this.tolerableDelay);
     }
 
     fetch(url, request)
