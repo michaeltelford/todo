@@ -28,3 +28,6 @@ yarn-error.log*
 
 # cypress
 cypress/videos/*
+
+# production builds
+src/tailwind.generated.css
