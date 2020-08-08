@@ -4,6 +4,7 @@ import ListSummary from './ListSummary';
 import Modal from '../Modal';
 import CreateList from './CreateList';
 import Logout from '../Logout';
+import Hr from '../Hr';
 
 /*
  * Lists component is used for performing CRUD operations on a user's lists.
@@ -166,7 +167,7 @@ class Lists extends React.Component {
         <CreateList
           lists={lists}
           handleNew={this.handleNew} />
-        <hr className='border-l border-grey my-4' />
+        <Hr />
         {lists.map(list => (
           <ListSummary
             key={list.id}

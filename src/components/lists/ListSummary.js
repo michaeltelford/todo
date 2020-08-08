@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes, { number, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import Hr from '../Hr';
 
 function ListSummary(props) {
   const { list, handleEdit, handleDelete } = props;
@@ -26,7 +27,7 @@ function ListSummary(props) {
       </div>
       <div>
         <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-        <hr className='border-l border-grey my-4' />
+        <Hr />
       </div>
     </div>
   );
@@ -34,8 +35,8 @@ function ListSummary(props) {
 
 ListSummary.propTypes = {
   list: PropTypes.shape({
-    id: number,
-    name: string,
+    id: PropTypes.number,
+    name: PropTypes.string,
   }).isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,

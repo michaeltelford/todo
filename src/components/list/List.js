@@ -6,6 +6,7 @@ import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
 import Logout from '../Logout';
 import ListSummary from './ListSummary';
+import Hr from '../Hr';
 
 /*
  * List is the main container component for interacting with a list's TODO
@@ -189,7 +190,7 @@ class List extends React.Component {
             numTodos={todos.length}
             numTodosDone={todosDone.length} />
         </div>
-        <hr className='border-l border-grey max-w-screen-sm mx-auto my-4 xl:max-w-full xl:w-4/5' />
+        <Hr classNames='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5' />
         <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
             type='todos-not-done'
@@ -197,7 +198,7 @@ class List extends React.Component {
             handleToggle={this.handleUpdateTodo}
             handleDelete={this.handleRemoveTodo}
             handleEdit={this.handleEdit} />
-          {todosNotDone.length > 0 && <hr className='border-l border-grey my-4' />}
+          {todosNotDone.length > 0 && <Hr />}
           <span className='border-l border-grey ml-2 mr-5 hidden xl:inline' />
           <CheckboxGroup
             type='todos-done'
@@ -205,9 +206,9 @@ class List extends React.Component {
             handleToggle={this.handleUpdateTodo}
             handleDelete={this.handleRemoveTodo}
             handleEdit={this.handleEdit} />
-          {todosDone.length > 0 && <hr className='border-l border-grey my-4' />}
+          {todosDone.length > 0 && <Hr />}
         </div>
-        <hr className='border-l border-grey w-4/5 mx-auto my-4 hidden xl:block' />
+        <Hr classNames='w-4/5 mx-auto hidden xl:block' />
         <div className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5'>
           <Logout />
         </div>
