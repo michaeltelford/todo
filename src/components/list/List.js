@@ -190,7 +190,7 @@ class List extends React.Component {
             numTodos={todos.length}
             numTodosDone={todosDone.length} />
         </div>
-        <Hr classNames='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5' />
+        <Hr className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5' />
         <div className='max-w-screen-sm mx-auto xl:flex xl:max-w-full xl:w-4/5'>
           <CheckboxGroup
             type='todos-not-done'
@@ -208,7 +208,7 @@ class List extends React.Component {
             handleEdit={this.handleEdit} />
           {todosDone.length > 0 && <Hr />}
         </div>
-        <Hr classNames='w-4/5 mx-auto hidden xl:block' />
+        <Hr className='w-4/5 mx-auto hidden xl:block' />
         <div className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5'>
           <Logout />
         </div>
