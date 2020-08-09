@@ -208,7 +208,7 @@ class List extends React.Component {
             handleEdit={this.handleEdit} />
           {todosDone.length > 0 && <Hr />}
         </div>
-        <Hr className='w-4/5 mx-auto hidden xl:block' />
+        {todos.length > 0 && <Hr className='w-4/5 mx-auto hidden xl:block' />}
         <div className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5'>
           <Logout />
         </div>
