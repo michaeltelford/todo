@@ -7,7 +7,11 @@ import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
 
-const api = new API(process.env.REACT_APP_API_URL);
+const apiUrl = process.env.REACT_APP_API_URL;
+if (!apiUrl) {
+  console.error('Environment variables are missing');
+}
+const api = new API(apiUrl);
 
 // Router provides URL path/routes. Place the most specific at the top.
 function Router() {

@@ -65,7 +65,9 @@ By default, the tests will run against `127.0.0.1`. Set the `CYPRESS_BASE_URL` E
 
 ## Deployment
 
-First install the `surge` CLI tool with:
+Ensure you have a `.env.production.local` file at the root of the repository with the correct ENV vars set.
+
+Install the `surge` CLI tool with:
 
 ```sh
 npm i -g surge
