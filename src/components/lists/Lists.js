@@ -122,11 +122,11 @@ class Lists extends React.Component {
 
   apiEditList = (updatedList, index) => {
     const { api } = this.context;
-    const { id } = updatedList;
+    const { id, name, todos } = updatedList;
 
     api.fetch(this, `/list/${id}`, {
       method: 'PUT',
-      body: { list: updatedList },
+      body: { list: { name, todos } }, // Omit the timestamps etc.
     }, () => {
       this.setState((prevState) => {
         prevState.lists.splice(index, 1, updatedList);

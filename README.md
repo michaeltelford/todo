@@ -12,21 +12,25 @@ The app is accessible on any device/viewport. Auth is handled by Auth0. You can 
 
 ## Local Usage
 
-### ENV
+### Node
 
-First in a file called `.env.development.local`, set the following ENV vars:
-
-```sh
-REACT_APP_API_URL
-REACT_APP_AUTH0_APP_NAME
-REACT_APP_AUTH0_CLIENT_ID
-```
+The currently supported version of node is `v14.5`.
 
 ### `npm install`
 
 Install the dependencies with:
 
     $ npm i
+
+### ENV
+
+In a file called `.env.development.local`, set the following ENV vars:
+
+```sh
+REACT_APP_API_URL
+REACT_APP_AUTH0_APP_NAME
+REACT_APP_AUTH0_CLIENT_ID
+```
 
 ### `npm start`
 
@@ -51,9 +55,13 @@ First, you'll need to set the `CYPRESS_JWT_TOKEN` ENV var in your shell (to bypa
 }
 ```
 
-You can grab a new token by visiting the app, logging into Auth0 and then copying the contents of your auth `token` from the browser's `localStorage`. Each token is valid for 60 minutes.
+You can grab a new token by visiting the app, logging into Auth0 as todo.checklist@yahoo.com and then copying the contents of your auth `token` from the browser's `localStorage`. Each token is valid for **60 minutes**.
 
-Run the tests with:
+First start the web app with:
+
+    $ npm start
+
+Then run the tests with:
 
     $ npm test
 
@@ -61,7 +69,7 @@ During development of tests, open the Cypress test runner with:
 
     $ npm run cypress
 
-By default, the tests will run against `127.0.0.1`. Set the `CYPRESS_BASE_URL` ENV var to override this.
+By default, the tests will run against `127.0.0.1:3000`. Set the `CYPRESS_BASE_URL` ENV var to override this.
 
 ## Deployment
 

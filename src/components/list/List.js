@@ -157,7 +157,6 @@ class List extends React.Component {
       method: 'PUT',
       body: {
         list: {
-          loadingText: '',
           name: this.name,
           todos: this.state.todos,
         },
