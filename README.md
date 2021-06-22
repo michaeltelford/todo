@@ -38,7 +38,7 @@ Run the app in development mode with:
 
     $ npm start
 
-This will open a browser on [http://127.0.0.1:3000](http://127.0.0.1:3000).<br />
+Now browse to [http://127.0.0.1:3000](http://127.0.0.1:3000) in a web browser.<br />
 **Note**: Using `localhost` will not allow `auth0` to work with the API, so always use `127.0.0.1`.
 
 The page will reload automatically on save of any code changes. You will also see any lint errors in the console.

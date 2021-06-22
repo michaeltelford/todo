@@ -4,7 +4,7 @@ import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
-import Logout from '../Logout';
+import Footer from '../Footer';
 import ListSummary from './ListSummary';
 import Hr from '../Hr';
 
@@ -209,7 +209,7 @@ class List extends React.Component {
         </div>
         {todos.length > 0 && <Hr className='w-4/5 mx-auto hidden xl:block' />}
         <div className='max-w-screen-sm mx-auto xl:max-w-full xl:w-4/5'>
-          <Logout />
+          <Footer />
         </div>
 
         <Modal

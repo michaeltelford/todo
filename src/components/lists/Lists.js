@@ -3,7 +3,7 @@ import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
 import Modal from '../Modal';
 import CreateList from './CreateList';
-import Logout from '../Logout';
+import Footer from '../Footer';
 import Hr from '../Hr';
 
 /*
@@ -176,7 +176,7 @@ class Lists extends React.Component {
             handleDelete={() => this.handleDelete(list.id)} />
         ))}
         <div className='max-w-screen-sm mx-auto'>
-          <Logout />
+          <Footer />
         </div>
 
         <Modal
