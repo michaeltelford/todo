@@ -5,12 +5,14 @@ class API {
     if (origin.endsWith('/')) {
       origin = origin.slice(0, -1);
     }
+
     this.origin = origin;
   }
 
   // Builds an API URL given an endpoint/path.
   url = (endpoint) => {
-    const separator = endpoint.startsWith('/') ? '' : '/'
+    const separator = endpoint.startsWith('/') ? '' : '/';
+
     return this.origin + separator + endpoint;
   }
 
