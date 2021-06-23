@@ -1,22 +1,16 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { AppContext } from '../context';
-import API from '../api';
+import { Provider } from "redux-zero/react";
+import store from '../store/store';
 import Auth from './Auth';
 import Wrapper from './Wrapper';
 import Lists from './lists/Lists';
 import List from './list/List';
 
-const apiUrl = process.env.REACT_APP_API_URL;
-if (!apiUrl) {
-  console.error('Environment variables are missing');
-}
-const api = new API(apiUrl);
-
 // Router provides URL path/routes. Place the most specific at the top.
 function Router() {
   return (
-    <AppContext.Provider value={{ api }}>
+    <Provider store={store}>
       <BrowserRouter>
         <Switch>
           <Route exact path='/list/:id'>
@@ -42,7 +36,7 @@ function Router() {
           </Route>
         </Switch>
       </BrowserRouter>
-    </AppContext.Provider>
+    </Provider>
   );
 }
 

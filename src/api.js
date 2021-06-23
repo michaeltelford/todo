@@ -1,6 +1,21 @@
-class API {
-  tolerableDelay = 500;
+// Empty (default) callback function.
+const empty = () => {};
 
+// Default error handler which handles 401's and logs the error.
+const handleError = (error, callback = empty) => {
+  if (error?.status === 401) {
+    window.location.replace(window.location.origin + '/auth');
+    return;
+  }
+
+  // Log the error for devs, as only a generic error message is displayed on the UI.
+  console.error(error);
+
+  return callback();
+}
+
+// Class for interacting with the API via HTTP calls.
+class API {
   constructor(origin) {
     if (origin.endsWith('/')) {
       origin = origin.slice(0, -1);
@@ -10,68 +25,55 @@ class API {
   }
 
   // Builds an API URL given an endpoint/path.
-  url = (endpoint) => {
+  url = endpoint => {
     const separator = endpoint.startsWith('/') ? '' : '/';
 
     return this.origin + separator + endpoint;
   }
 
   // Fetch from the API.
-  fetch = (
-    component, endpoint, fetchOpts={}, success=() => {}, error=handleError,
-  ) => {
+  fetch = (endpoint, fetchOpts, success = empty, error = empty) => {
     const url = this.url(endpoint);
     const request = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
         'Authorization': localStorage.getItem('token'),
       },
       ...fetchOpts,
     }
+    const isGetOrHeadRequest = ['GET', 'HEAD'].find(m => m === request.method);
 
     // HEAD/GET requests can't contain a request body.
-    if (request.method !== 'HEAD' && request.method !== 'GET' && fetchOpts.body) {
+    if (!isGetOrHeadRequest && typeof fetchOpts?.body === 'object') {
       request.body = JSON.stringify(fetchOpts.body);
     }
 
-    // Set loadingText for long lived API responses.
-    if (component?.state?.loadingText !== undefined) {
-      setTimeout(() => {
-        component.setState({ loadingText: 'Loading...' });
-      }, this.tolerableDelay);
-    }
-
-    fetch(url, request)
-    .then(
-      (resp) => {
-        if (resp.ok) success(resp);
-        else error(component, resp);
-      },
-      err => error(component, err),
-    )
-    .catch(err => error(component, err));
+    // The return value from the success/error callback is returned here also.
+    return fetch(url, request)
+      .then(
+        resp => (
+          resp.ok
+            ? resp.json()
+                .then(json => success(json, resp))
+                .catch(_err => success({}, resp))
+            : handleError(resp, error)
+        ),
+        err => handleError(err, error),
+      )
+      .catch(err => handleError(err, error));
   }
 }
 
-// Default error handler which handles 401's and logs the error. If the
-// component has a 'loading' & 'errored' state, it will be set appropiately.
-const handleError = (component, error) => {
-  if (error?.status === 401) {
-    window.location.replace(window.location.origin + '/auth');
-    return;
-  }
-  console.error(error);
+const initApi = () => {
+  const { REACT_APP_API_URL } = process.env;
 
-  const { loading, errored } = component.state;
-  if (loading === undefined || errored === undefined) return;
-
-  if (loading || !errored) {
-    component.setState({
-      loading: false,
-      errored: true,
-    });
+  if (!REACT_APP_API_URL) {
+    throw new Error('Environment variable REACT_APP_API_URL is missing');
   }
+
+  return new API(REACT_APP_API_URL);
 }
 
-export default API;
+export default initApi();

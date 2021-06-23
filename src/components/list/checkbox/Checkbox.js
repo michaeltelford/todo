@@ -23,7 +23,7 @@ const handleCheckToggle = (target, handleToggle) => {
  * caches each checkbox in the List component. Given the potentially large
  * amount of checkboxes per list, this should increase performance quite a bit.
  */
-const Checkbox = React.memo(function Checkbox(props) {
+const Checkbox = React.memo(props => {
   const { name, checked, handleToggle, handleDelete, handleEdit } = props;
   const label = useRef();
 

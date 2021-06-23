@@ -36,13 +36,13 @@ function Modal(props) {
           className='mb-4 border-2 border-gray-400 rounded-md'
         />
         <br />
-        <button onClick={(evt) => {
+        <button onClick={evt => {
           evt.preventDefault();
           handleSubmit();
         }} className='mr-1 px-5 py-1 bg-blue-500 hover:bg-blue-700 text-white uppercase tracking-wider rounded-md shadow-xl'>
           Save
         </button>
-        <button onClick={(evt) => {
+        <button onClick={evt => {
           evt.preventDefault();
           handleCancel();
         }} className='px-5 py-1 text-gray-700 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>

@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'redux-zero/react';
+import actions from '../../store/actions';
 import { withRouter } from 'react-router';
-import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
@@ -10,41 +12,43 @@ import Hr from '../Hr';
 
 /*
  * List is the main container component for interacting with a list's TODO
- * items. It represents a single list belonging to the user.
+ * items. It represents a single list belonging to the user. On mount, the
+ * lists's todos are fetched from the API and displayed.
  *
- * On mount, the todos are fetched from the API. The user interacts with them,
- * updating the component state. Each state change is persisted to the API
- * after each event update e.g. adding a new todo item to the list.
- *
- * All todo list state is stored in List, not in its child components. Child
+ * All todo list logic is stored in List, not in its child components. Child
  * components are passed handler functions which manipulate the state when
  * fired. This of course causes a re-render of List and the UI gets updated.
  */
 class List extends React.Component {
-  static contextType = AppContext;
-
   constructor(props) {
     super(props);
 
-    this.id = props.match.params.id;
-
     this.state = {
-      loading: true,
-      loadingText: '',
-      errored: false,
-      todos: [],
       showModal: false,
       currentTodo: null,
     };
   }
 
   componentDidMount() {
-    this.apiGetTodos();
+    const { getLists } = this.props;
+
+    getLists();
   }
 
-  /* State Modifiers */
+  // Select todos by their `done` status.
+  filterTodos = (todos, done) => todos.filter(t => done ? t.done : !t.done);
 
-  handleAddTodo = (newTodo) => {
+  // Get the todo item with the matching `name`.
+  getTodo = todo => {
+    const { list: { todos } } = this.props;
+
+    return todos.find(t => t.name.toLowerCase() === todo.name.toLowerCase());
+  }
+
+  handleAddTodo = newTodo => {
+    const { editList, list } = this.props;
+    const { todos } = list;
+
     if (newTodo.name === '') {
       alert('TODO item must have a name');
       return;
@@ -55,37 +59,40 @@ class List extends React.Component {
       return;
     }
 
-    this.setState((prevState) => {
-      prevState.todos.push(newTodo);
-      return prevState;
-    }, this.apiSyncTodos);
+    todos.push(newTodo);
+    editList({
+      ...list,
+      todos,
+    });
   }
 
-  handleRemoveTodo = (obsoleteTodo) => {
-    this.setState((prevState) => {
-      const filteredTodos = prevState.todos.filter((todo) => {
-        return todo.name !== obsoleteTodo.name;
-      });
+  handleRemoveTodo = obsoleteTodo => {
+    const { editList, list } = this.props;
+    const { todos } = list;
+    const filteredTodos = todos.filter(t => t.name !== obsoleteTodo.name);
 
-      return { todos: filteredTodos }
-    }, this.apiSyncTodos);
+    editList({
+      ...list,
+      todos: filteredTodos,
+    });
   }
 
-  handleUpdateTodo = (updatedTodo) => {
-    this.setState((prevState) => {
-      const index = prevState.todos.findIndex((todo) => {
-        return todo.name === updatedTodo.name;
-      });
+  handleUpdateTodo = updatedTodo => {
+    const { editList, list } = this.props;
+    const { todos } = list;
+    const index = todos.findIndex(t => t.name === updatedTodo.name);
 
-      prevState.todos.splice(index, 1, updatedTodo);
-      return prevState;
-    }, this.apiSyncTodos);
+    todos.splice(index, 1, updatedTodo);
+    editList({
+      ...list,
+      todos,
+    });
   }
 
-  handleEdit = (name) => {
-    this.editTodoName = name;
+  handleEdit = name => {
     const todo = this.getTodo({ name });
 
+    this.editTodoName = name;
     this.setState({
       // Copy todo by value, not reference - so it can be updated safely.
       currentTodo: { ...todo },
@@ -94,92 +101,46 @@ class List extends React.Component {
   }
 
   handleModalSubmit = () => {
-    const { todos, currentTodo } = this.state;
-    const newName = currentTodo.name;
-    const index = todos.findIndex(todo => todo.name === this.editTodoName);
+    const { editList, list } = this.props;
+    const { todos } = list;
+    const { currentTodo } = this.state;
+    const { name: newName } = currentTodo;
+    const index = todos.findIndex(t => t.name === this.editTodoName);
 
     if (newName === '') {
       alert('You must enter a TODO item name');
       return;
     }
 
-    if (todos.find(
-      todo => todo.name.toLowerCase() === newName.toLowerCase()
-    )) {
+    if (todos.find(t => t.name.toLowerCase() === newName.toLowerCase())) {
       alert('TODO item name already taken');
       return;
     }
 
-    this.setState((prevState) => {
-      prevState.todos.splice(index, 1, currentTodo);
-      return {
-        todos: prevState.todos,
-        showModal: false,
-      }
-    }, this.apiSyncTodos);
-  }
-
-  /* Generic Helper */
-
-  // Filter todos by their `done` status.
-  filterTodos = (done) => {
-    const { todos } = this.state;
-    return todos.filter(todo => done ? todo.done : !todo.done);
-  }
-
-  // Get the todo item with the matching `name`.
-  getTodo = (todo) => {
-    const { todos } = this.state;
-    return todos.find(el => el.name.toLowerCase() === todo.name.toLowerCase());
-  }
-
-  /* API Helpers */
-
-  apiGetTodos = () => {
-    const { api } = this.context;
-
-    api.fetch(this, `/list/${this.id}`, {}, (resp) => {
-      resp.json().then((data) => {
-        const { list } = data;
-        this.name = list.name;
-        this.setState(() => ({
-          loading: false,
-          loadingText: '',
-          todos: list.todos,
-        }));
-      });
+    todos.splice(index, 1, currentTodo);
+    editList({
+      ...list,
+      todos,
     });
-  }
 
-  apiSyncTodos = () => {
-    const { api } = this.context;
-    const request = {
-      method: 'PUT',
-      body: {
-        list: {
-          name: this.name,
-          todos: this.state.todos,
-        },
-      },
-    }
-
-    api.fetch(this, `/list/${this.id}`, request);
+    this.setState({ showModal: false });
   }
 
   render() {
-    const {
-      loading, loadingText, errored, todos, showModal, currentTodo
-    } = this.state;
+    const { loading, loadingText, errored, list } = this.props;
+    const { showModal, currentTodo } = this.state;
 
-    if (loading) return (
+    if (loading || !list) return (
       <p className='text-center'>{loadingText || ''}</p>
     )
+
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
     );
 
-    const todosNotDone = this.filterTodos(false);
-    const todosDone    = this.filterTodos(true);
+    const { todos } = list;
+    const todosNotDone = this.filterTodos(todos, false);
+    const todosDone = this.filterTodos(todos, true);
 
     return (
       <>
@@ -217,7 +178,7 @@ class List extends React.Component {
           action='Edit'
           entity={currentTodo}
           entityType='Item'
-          handleInputChange={(evt) => {
+          handleInputChange={evt => {
             currentTodo.name = evt.target.value;
             this.setState({ currentTodo });
           }}
@@ -228,4 +189,26 @@ class List extends React.Component {
   }
 }
 
-export default withRouter(List);
+List.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  loadingText: PropTypes.string,
+  errored: PropTypes.bool.isRequired,
+  list: PropTypes.object,
+  getLists: PropTypes.func.isRequired,
+  editList: PropTypes.func.isRequired,
+};
+
+const mapToProps = (state, ownProps) => {
+  const { loading, loadingText, errored, lists } = state;
+  const { id: urlId } = ownProps.match.params; // from withRouter()
+  let list;
+
+  // Find the list being displayed by this component.
+  if (lists && urlId) {
+    list = lists.find(l => l.id.toString() === urlId);
+  }
+
+  return { loading, loadingText, errored, list };
+}
+
+export default withRouter(connect(mapToProps, actions)(List));

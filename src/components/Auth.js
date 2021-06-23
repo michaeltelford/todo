@@ -1,5 +1,5 @@
-import { useEffect, useContext } from 'react';
-import { AppContext } from '../context';
+import { useEffect } from 'react';
+import api from '../api';
 
 const appName         = process.env.REACT_APP_AUTH0_APP_NAME;
 const clientId        = process.env.REACT_APP_AUTH0_CLIENT_ID;
@@ -21,7 +21,7 @@ const buildAuthUrl = () => {
     .replace('STATE', authState);
 }
 
-const handleLogin = (api, code, state) => {
+const handleLogin = (code, state) => {
   const origin = window.location.origin;
 
   if (authState !== state) {
@@ -31,15 +31,15 @@ const handleLogin = (api, code, state) => {
   }
 
   // Auth against the API, verifying the auth code & retrieve a JWT token.
-  api.fetch(this, apiAuthEndpoint, {
+  api.fetch(apiAuthEndpoint, {
       method: 'POST',
       body: { authorizationCode: code },
     },
-    resp => resp.json().then((data) => {
-      const token = `Bearer ${data.session?.token}`;
+    json => {
+      const token = `Bearer ${json.session?.token}`;
       localStorage.setItem('token', token);
       window.location.replace(origin + '/lists');
-    }),
+    },
   );
 }
 
@@ -52,10 +52,7 @@ const handleLogout = async () => {
   window.location.replace(window.location.origin + '/auth');
 }
 
-const hasToken = () => {
-  const token = localStorage.getItem('token');
-  return (token !== null);
-}
+const hasToken = () => (localStorage.getItem('token') !== null);
 
 /* The Auth component does two things:
  * 1) Redirects to the 3rd party auth service.
@@ -63,14 +60,12 @@ const hasToken = () => {
  *    This callback then verifies the login against our API server.
  */
 function Auth() {
-  const { api } = useContext(AppContext);
-
   useEffect(() => {
     const url   = new URL(window.location);
     const code  = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    if (code && state) handleLogin(api, code, state);
+    if (code && state) handleLogin(code, state);
     else window.location.replace(buildAuthUrl());
   });
 
