@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function ListSummary(props) {
-  const { numTodos, numTodosDone } = props;
-
+function ListSummary({ numTodos, numTodosDone }) {
   return (
     <div className='flex'>
       <small className='hover:text-indigo-800 text-md font-medium tracking-wide underline'>

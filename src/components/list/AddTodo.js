@@ -14,8 +14,7 @@ const handleSubmit = (evt, textInput, handleAdd) => {
   nameInput.value = '';
 }
 
-function AddTodo(props) {
-  const { handleAdd } = props;
+function AddTodo({ handleAdd }) {
   const textInput = useRef(null);
 
   return (

@@ -11,9 +11,7 @@ const buildEmptyList = () => ({
   }],
 });
 
-function CreateList(props) {
-  const { lists, handleNew } = props;
-
+function CreateList({ lists, handleNew }) {
   return (
     <div>
       <p className='mb-3'>You've created {lists.length} out of {MAX_LISTS} lists</p>

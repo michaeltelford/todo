@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import Hr from '../Hr';
 
-function ListSummary(props) {
-  const { list, handleEdit, handleDelete } = props;
+function ListSummary({ list, handleEdit, handleDelete }) {
   const numItems     = list.todos.length;
   const numItemsTodo = list.todos.filter(todo => !todo.done).length;
 

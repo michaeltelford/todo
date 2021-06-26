@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Hr(props) {
+function Hr({ className }) {
   let classNameString = 'border-l my-5 sm:my-6';
-  const { className } = props;
 
   if (className && className.length > 0) {
     classNameString += (' ' + className);
