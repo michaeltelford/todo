@@ -8,7 +8,11 @@ const getLists = state => {
   return api.fetch(
     '/lists',
     undefined,
-    ({ lists }) => successState(state, { lists }),
+    ({ lists }) => {
+      if (!lists) throw new Error('Empty response body from API');
+
+      return successState(state, { lists });
+    },
     () => errorState(state),
   );
 }
@@ -23,7 +27,7 @@ const createList = (state, list) => {
       body: { list },
     },
     // Normally if resp.ok, we push the new list into state but a bug in the API tech stack
-    // means we don't receive the created list ID; so we call getLists again instead.
+    // means we don't receive the created list ID; so we call getLists() again instead.
     () => getLists(state),
     () => errorState(state),
   );
