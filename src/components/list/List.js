@@ -198,7 +198,7 @@ List.propTypes = {
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
   list: PropTypes.object,
-  listId: PropTypes.number,
+  listId: PropTypes.string,
   getLists: PropTypes.func.isRequired,
   editList: PropTypes.func.isRequired,
 };

@@ -12,6 +12,7 @@
  * Promise's 'then()' block. You can call 'store.setState()' to set a loading state etc.
  */
 
+import { TOLERABLE_DELAY } from '../../constants';
 import { getState, setState } from '../store';
 import {
   getLists,
@@ -19,8 +20,6 @@ import {
   editList,
   deleteList,
 } from './actions';
-
-const TOLERABLE_DELAY = 500;
 
 const setLoadingState = (state) => {
   // Set loadingText for long lived API responses.

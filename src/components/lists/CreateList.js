@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes, { object } from 'prop-types';
+import { MAX_LISTS } from '../../constants';
 
-const MAX_LISTS = 20;
 
 const buildEmptyList = () => ({
   name: '',
