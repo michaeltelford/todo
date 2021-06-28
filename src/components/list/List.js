@@ -127,15 +127,19 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, loadingText, errored, list } = this.props;
+    const { loading, loadingText, errored, list, listId } = this.props;
     const { showModal, currentTodo } = this.state;
 
-    if (loading || !list) return (
+    if (loading) return (
       <p className='text-center'>{loadingText || ''}</p>
-    )
+    );
 
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
+    );
+
+    if (!list) return (
+      <p className='text-center'>{`Cannot find the list with ID: ${listId}`}</p>
     );
 
     const { todos } = list;
@@ -194,21 +198,28 @@ List.propTypes = {
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
   list: PropTypes.object,
+  listId: PropTypes.number,
   getLists: PropTypes.func.isRequired,
   editList: PropTypes.func.isRequired,
 };
 
 const mapToProps = (state, ownProps) => {
   const { loading, loadingText, errored, lists } = state;
-  const { id: urlId } = ownProps.match.params; // from withRouter()
+  const { id: listId } = ownProps.match.params; // from withRouter()
   let list;
 
   // Find the list being displayed by this component.
-  if (lists && urlId) {
-    list = lists.find(l => l.id.toString() === urlId);
+  if (lists && listId) {
+    list = lists.find(l => l.id.toString() === listId);
   }
 
-  return { loading, loadingText, errored, list };
+  return {
+    loading,
+    loadingText,
+    errored,
+    list,
+    listId,
+  };
 }
 
 export default withRouter(connect(mapToProps, actions)(List));

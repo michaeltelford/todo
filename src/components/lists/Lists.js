@@ -89,7 +89,7 @@ class Lists extends React.Component {
 
     if (loading) return (
       <p className='text-center'>{loadingText || ''}</p>
-    )
+    );
 
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>

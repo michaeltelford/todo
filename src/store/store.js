@@ -7,5 +7,10 @@ const { NODE_ENV } = process.env;
 const devMode = NODE_ENV === 'development';
 const middlewares = (devMode && devTools) ? applyMiddleware(devTools(initialState)) : [];
 const store = createStore(initialState, middlewares);
+const { getState, setState } = store;
 
 export default store;
+export {
+  getState,
+  setState,
+}

@@ -1,9 +1,8 @@
 import api from '../../api';
-import store from '../store';
-import { loadingState, successState, errorState } from '.';
+import { setLoadingState, successState, errorState } from '.';
 
 const getLists = state => {
-  loadingState(store, state);
+  setLoadingState(state);
 
   return api.fetch(
     '/lists',
@@ -18,7 +17,7 @@ const getLists = state => {
 }
 
 const createList = (state, list) => {
-  loadingState(store, state);
+  setLoadingState(state);
 
   return api.fetch(
     '/list',
@@ -37,7 +36,7 @@ const editList = (state, updatedList) => {
   const { lists: prevLists } = state;
   const { id, name, todos } = updatedList;
 
-  loadingState(store, state);
+  setLoadingState(state);
 
   return api.fetch(
     `/list/${id}`,
@@ -57,7 +56,7 @@ const editList = (state, updatedList) => {
 const deleteList = (state, id) => {
   const { lists: prevLists } = state;
 
-  loadingState(store, state);
+  setLoadingState(state);
 
   return api.fetch(
     `/list/${id}`,
