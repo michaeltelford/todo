@@ -84,15 +84,15 @@ class Lists extends React.Component {
   }
 
   render() {
-    const { loading, loadingText, errored, lists } = this.props;
+    const { loadingText, errored, lists } = this.props;
     const { currentList, showModal, modalAction } = this.state;
-
-    if (loading) return (
-      <p className='text-center'>{loadingText || ''}</p>
-    );
 
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
+    );
+
+    if (loadingText) return (
+      <p className='text-center'>{loadingText}</p>
     );
 
     return (
@@ -129,7 +129,6 @@ class Lists extends React.Component {
 }
 
 Lists.propTypes = {
-  loading: PropTypes.bool.isRequired,
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
   lists: PropTypes.array.isRequired,
@@ -139,8 +138,7 @@ Lists.propTypes = {
   deleteList: PropTypes.func.isRequired,
 };
 
-const mapToProps = ({ loading, loadingText, errored, lists }) => ({
-  loading,
+const mapToProps = ({ loadingText, errored, lists }) => ({
   loadingText,
   errored,
   lists,

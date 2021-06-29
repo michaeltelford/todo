@@ -37,6 +37,7 @@ const setLoadingState = (state) => {
   setState({
     ...state,
     loading: true,
+    loadingText: null,
     errored: false,
   });
 }

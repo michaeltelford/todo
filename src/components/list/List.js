@@ -127,19 +127,19 @@ class List extends React.Component {
   }
 
   render() {
-    const { loading, loadingText, errored, list, listId } = this.props;
+    const { loadingText, errored, list, listId } = this.props;
     const { showModal, currentTodo } = this.state;
-
-    if (loading) return (
-      <p className='text-center'>{loadingText || ''}</p>
-    );
 
     if (errored) return (
       <p className='text-center'>An error occurred, please try again later.</p>
     );
 
+    if (loadingText) return (
+      <p className='text-center'>{loadingText}</p>
+    );
+
     if (!list) return (
-      <p className='text-center'>{`Cannot find the list with ID: ${listId}`}</p>
+      <p className='text-center'>{`Can't find the list with ID: ${listId}`}</p>
     );
 
     const { todos } = list;
@@ -194,7 +194,6 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  loading: PropTypes.bool.isRequired,
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
   list: PropTypes.object,
@@ -204,7 +203,7 @@ List.propTypes = {
 };
 
 const mapToProps = (state, ownProps) => {
-  const { loading, loadingText, errored, lists } = state;
+  const { loadingText, errored, lists } = state;
   const { id: listId } = ownProps.match.params; // from withRouter()
   let list;
 
@@ -214,7 +213,6 @@ const mapToProps = (state, ownProps) => {
   }
 
   return {
-    loading,
     loadingText,
     errored,
     list,
