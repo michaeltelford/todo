@@ -127,7 +127,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { loadingText, errored, list, listId } = this.props;
+    const { loadingText, errored, lists, list, listId } = this.props;
     const { showModal, currentTodo } = this.state;
 
     if (errored) return (
@@ -137,6 +137,8 @@ class List extends React.Component {
     if (loadingText) return (
       <p className='text-center'>{loadingText}</p>
     );
+
+    if (lists?.length <= 0) return null;
 
     if (!list) return (
       <p className='text-center'>{`Can't find the list with ID: ${listId}`}</p>
@@ -196,6 +198,7 @@ class List extends React.Component {
 List.propTypes = {
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
+  lists: PropTypes.array,
   list: PropTypes.object,
   listId: PropTypes.string,
   getLists: PropTypes.func.isRequired,
@@ -215,6 +218,7 @@ const mapToProps = (state, ownProps) => {
   return {
     loadingText,
     errored,
+    lists,
     list,
     listId,
   };

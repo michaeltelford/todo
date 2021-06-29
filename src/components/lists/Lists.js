@@ -95,6 +95,8 @@ class Lists extends React.Component {
       <p className='text-center'>{loadingText}</p>
     );
 
+    if (lists?.length <= 0) return null;
+
     return (
       <div className='max-w-screen-sm mx-auto'>
         <CreateList
