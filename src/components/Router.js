@@ -33,7 +33,7 @@ function Router() {
             </Route>
             <Route path='*'>
               <Wrapper>
-                <p>Page not found. Click <a href='/'>here</a> to return to the home page.</p>
+                <p className='text-center'>Page not found. Click <a className='underline' href='/'>here</a> to return to the home page.</p>
               </Wrapper>
             </Route>
           </Switch>
