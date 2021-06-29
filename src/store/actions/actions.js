@@ -1,25 +1,27 @@
 import api from '../../api';
-import { setLoadingState, successState, errorState } from '.';
+import { setLoadingState, setSuccessState, setErrorState } from '.';
 
-const getLists = state => {
-  setLoadingState(state);
+const getLists = _state => {
+  setLoadingState();
 
-  return api.fetch(
+  api.fetch(
     '/lists',
     undefined,
     ({ lists }) => {
-      if (!lists) throw new Error('Empty response body from API');
+      if (!lists) {
+        return setErrorState();
+      }
 
-      return successState(state, { lists });
+      setSuccessState({ lists });
     },
-    () => errorState(state),
+    () => setErrorState(),
   );
 }
 
-const createList = (state, list) => {
-  setLoadingState(state);
+const createList = (_state, list) => {
+  setLoadingState();
 
-  return api.fetch(
+  api.fetch(
     '/list',
     {
       method: 'POST',
@@ -27,45 +29,43 @@ const createList = (state, list) => {
     },
     // Normally if resp.ok, we push the new list into state but a bug in the API tech stack
     // means we don't receive the created list ID; so we call getLists() again instead.
-    () => getLists(state),
-    () => errorState(state),
+    () => getLists(),
+    () => setErrorState(),
   );
 }
 
 const editList = (state, updatedList) => {
   const { lists: prevLists } = state;
   const { id, name, todos } = updatedList;
+  const index = prevLists.findIndex(l => l.id === updatedList.id);
 
-  setLoadingState(state);
+  // For instant UI feedback, we update the state first and *then* sync the API.
+  prevLists.splice(index, 1, updatedList);
+  setSuccessState({ lists: prevLists });
 
-  return api.fetch(
+  api.fetch(
     `/list/${id}`,
     {
       method: 'PUT',
       body: { list: { name, todos } }, // Omit the timestamps etc.
     },
-    () => {
-      const index = prevLists.findIndex(l => l.id === updatedList.id);
-      prevLists.splice(index, 1, updatedList);
-      return successState(state, { lists: prevLists });
-    },
-    () => errorState(state),
+    () => null,
+    () => setErrorState(),
   );
 }
 
 const deleteList = (state, id) => {
   const { lists: prevLists } = state;
+  const lists = prevLists.filter(l => l.id !== id);
 
-  setLoadingState(state);
+  // For instant UI feedback, we update the state first and *then* sync the API.
+  setSuccessState({ lists });
 
-  return api.fetch(
+  api.fetch(
     `/list/${id}`,
     { method: 'DELETE' },
-    () => {
-      const lists = prevLists.filter(l => l.id !== id);
-      return successState(state, { lists });
-    },
-    () => errorState(state),
+    () => null,
+    () => setErrorState(),
   );
 }
 

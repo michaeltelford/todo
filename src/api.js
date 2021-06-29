@@ -1,17 +1,17 @@
 // Empty (default) callback function.
-const empty = () => {};
+const empty = () => null;
 
 // Default error handler which handles 401's and logs the error.
-const handleError = (error, callback = empty) => {
-  if (error?.status === 401) {
+const handleError = (err, callback = empty) => {
+  if (err?.status === 401) {
     window.location.replace(window.location.origin + '/auth');
     return;
   }
 
   // Log the error for devs, as only a generic error message is displayed on the UI.
-  console.error(error);
+  console.error(err);
 
-  return callback();
+  return callback(err);
 }
 
 // Class for interacting with the API via HTTP calls.

@@ -1,15 +1,20 @@
 /*
- * Write and export your actions below. Each action is a function that takes the current
- * state and returns a new state. Actions must change the state immutably to avoid bugs!
+ * Import and use your actions below. Each action is a function that takes the current
+ * state and sets/returns a new state. Actions must change the state immutably to avoid bugs!
  *
  * The first parameter will always be 'state' (passed from redux-zero), but you can add your
  * own parameters in after it and pass them when calling the action e.g.
  *
  * increment: (state, i = 1) => ({ count: state.count + i }),
- * increment(5); // Calling the action in your component...
+ * increment(5); // Calling the action from your component...
  *
- * Async actions are the same as sync one's. Just return the new state object from the
- * Promise's 'then()' block. You can call 'store.setState()' to set a loading state etc.
+ * Async actions are the same as sync one's. Just set/return the new state object from the
+ * Promise's 'then()' block. You can call 'setState()' to set a loading state etc.
+ *
+ * Think about performance, needless renders should be prevented and re-rendering should occur
+ * ASAP for UI feedback e.g. update the store (and re-render) first, *then* sync the API. You
+ * should only call the API first if you're waiting on its resp to update the store with e.g.
+ * getLists() sets the API resp directly into the store.
  */
 
 import { TOLERABLE_DELAY } from '../../constants';
@@ -21,7 +26,38 @@ import {
   deleteList,
 } from './actions';
 
-const setLoadingState = (state) => {
+const actions = _store => ({
+  getLists,
+  createList,
+  editList,
+  deleteList,
+});
+
+const loadingState = (prevState, newState) => ({
+  ...prevState,
+  loading: true,
+  loadingText: null,
+  errored: false,
+  ...newState,
+});
+
+const successState = (prevState, newState) => ({
+  ...prevState,
+  loading: false,
+  loadingText: null,
+  errored: false,
+  ...newState,
+});
+
+const errorState = (prevState, newState) => ({
+  ...prevState,
+  loading: false,
+  loadingText: null,
+  errored: true,
+  ...newState,
+});
+
+const setLoadingState = state => {
   // Set loadingText for long lived API responses.
   setTimeout(() => {
     const prevState = getState();
@@ -34,37 +70,19 @@ const setLoadingState = (state) => {
     }
   }, TOLERABLE_DELAY);
 
-  setState({
-    ...state,
-    loading: true,
-    loadingText: null,
-    errored: false,
-  });
+  setState(loadingState(getState(), state));
 }
 
-const successState = (prevState, newState) => ({
-  ...prevState,
-  loading: false,
-  loadingText: null,
-  errored: false,
-  ...newState,
-});
+const setSuccessState = state => setState(successState(getState(), state));
 
-const errorState = (prevState, newState) => successState(prevState, {
-  errored: true,
-  ...newState,
-});
-
-const actions = _store => ({
-  getLists,
-  createList,
-  editList,
-  deleteList,
-});
+const setErrorState = state => setState(errorState(getState(), state));
 
 export {
-  setLoadingState,
+  loadingState,
   successState,
   errorState,
+  setLoadingState,
+  setSuccessState,
+  setErrorState,
 }
 export default actions;

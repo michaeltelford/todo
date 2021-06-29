@@ -27,9 +27,9 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-    const { getLists } = this.props;
+    const { getLists, lists } = this.props;
 
-    getLists();
+    if (!lists || lists?.length <= 0) getLists();
   }
 
   handleNew = emptyList => {
@@ -146,7 +146,7 @@ const mapToProps = ({ loadingText, errored, lists }) => ({
   lists,
   // listNames is used to get around the shallow comparison of this object and
   // re-render if a list name changes.
-  listNames: lists?.map(l => l.name),
+  listNames: btoa(lists?.map(l => l.name)),
 });
 
 export default connect(mapToProps, actions)(Lists);

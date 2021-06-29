@@ -22,7 +22,7 @@ const buildAuthUrl = () => {
 }
 
 const handleLogin = (code, state) => {
-  const origin = window.location.origin;
+  const { origin } = window.location;
 
   if (authState !== state) {
     console.error('The auth state did not match');
@@ -36,7 +36,7 @@ const handleLogin = (code, state) => {
       body: { authorizationCode: code },
     },
     json => {
-      const token = `Bearer ${json.session?.token}`;
+      const token = `Bearer ${json?.session?.token}`;
       localStorage.setItem('token', token);
       window.location.replace(origin + '/lists');
     },

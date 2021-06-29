@@ -12,7 +12,7 @@ function Wrapper({ children, listName }) {
           { listName || 'TODO Checklist' }
         </Link>
       </h1>
-      {children}
+      { children }
     </div>
   );
 }
