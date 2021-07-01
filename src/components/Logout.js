@@ -11,6 +11,7 @@ function Logout() {
       </button>
     );
   }
+
   return null;
 }
 

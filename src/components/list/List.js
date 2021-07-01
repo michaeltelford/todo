@@ -6,6 +6,8 @@ import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
 import Header from '../Header';
 import Footer from '../Footer';
+import Loading from '../Loading';
+import Error from '../Error';
 import ListSummary from './ListSummary';
 import Hr from '../Hr';
 
@@ -171,12 +173,13 @@ class List extends React.Component {
       loading, loadingText, errored, todos, showModal, currentTodo
     } = this.state;
 
-    if (loading) return (
-      <p className='text-center'>{loadingText || ''}</p>
-    )
-    if (errored) return (
-      <p className='text-center'>An error occurred, please try again later.</p>
-    );
+    if (errored) {
+      return <Error />;
+    }
+
+    if (loading) {
+      return <Loading message={loadingText} title={this.name} />;
+    }
 
     const todosNotDone = this.filterTodos(false);
     const todosDone    = this.filterTodos(true);

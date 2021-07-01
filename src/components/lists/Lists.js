@@ -5,6 +5,8 @@ import Modal from '../Modal';
 import CreateList from './CreateList';
 import Header from '../Header';
 import Footer from '../Footer';
+import Loading from '../Loading';
+import Error from '../Error';
 import Hr from '../Hr';
 
 /*
@@ -153,15 +155,17 @@ class Lists extends React.Component {
 
   render() {
     const {
-      loading, loadingText, errored, lists, currentList, showModal, modalAction,
+      loading, loadingText, errored, lists, currentList,
+      showModal, modalAction,
     } = this.state;
 
-    if (loading) return (
-      <p className='text-center'>{loadingText || ''}</p>
-    )
-    if (errored) return (
-      <p className='text-center'>An error occurred, please try again later.</p>
-    );
+    if (errored) {
+      return <Error />;
+    }
+
+    if (loading) {
+      return <Loading message={loadingText} />;
+    }
 
     return (
       <>
