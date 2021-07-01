@@ -4,6 +4,7 @@ import { AppContext } from '../../context';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
+import Header from '../Header';
 import Footer from '../Footer';
 import ListSummary from './ListSummary';
 import Hr from '../Hr';
@@ -139,13 +140,12 @@ class List extends React.Component {
     const { api } = this.context;
 
     api.fetch(this, `/list/${this.id}`, {}, (resp) => {
-      resp.json().then((data) => {
-        const { list } = data;
-        this.name = list.name;
+      resp.json().then(({ list: { name, todos } }) => {
+        this.name = name;
         this.setState(() => ({
           loading: false,
           loadingText: '',
-          todos: list.todos,
+          todos,
         }));
       });
     });
@@ -183,6 +183,7 @@ class List extends React.Component {
 
     return (
       <>
+        <Header title={this.name} />
         <div className='max-w-screen-sm mx-auto'>
           <AddTodo handleAdd={this.handleAddTodo} />
           <ListSummary

@@ -3,6 +3,7 @@ import { AppContext } from '../../context';
 import ListSummary from './ListSummary';
 import Modal from '../Modal';
 import CreateList from './CreateList';
+import Header from '../Header';
 import Footer from '../Footer';
 import Hr from '../Hr';
 
@@ -163,34 +164,37 @@ class Lists extends React.Component {
     );
 
     return (
-      <div className='max-w-screen-sm mx-auto'>
-        <CreateList
-          lists={lists}
-          handleNew={this.handleNew} />
-        <Hr />
-        {lists.map(list => (
-          <ListSummary
-            key={list.id}
-            list={list}
-            handleEdit={() => this.handleEdit(list.id)}
-            handleDelete={() => this.handleDelete(list.id)} />
-        ))}
+      <>
+        <Header />
         <div className='max-w-screen-sm mx-auto'>
-          <Footer />
-        </div>
+          <CreateList
+            lists={lists}
+            handleNew={this.handleNew} />
+          <Hr />
+          {lists.map(list => (
+            <ListSummary
+              key={list.id}
+              list={list}
+              handleEdit={() => this.handleEdit(list.id)}
+              handleDelete={() => this.handleDelete(list.id)} />
+          ))}
+          <div className='max-w-screen-sm mx-auto'>
+            <Footer />
+          </div>
 
-        <Modal
-          isOpen={showModal}
-          action={modalAction}
-          entity={currentList}
-          entityType='List'
-          handleInputChange={(evt) => {
-            currentList.name = evt.target.value;
-            this.setState({ currentList });
-          }}
-          handleSubmit={this.handleModalSubmit}
-          handleCancel={() => this.setState({ showModal: false })} />
-      </div>
+          <Modal
+            isOpen={showModal}
+            action={modalAction}
+            entity={currentList}
+            entityType='List'
+            handleInputChange={(evt) => {
+              currentList.name = evt.target.value;
+              this.setState({ currentList });
+            }}
+            handleSubmit={this.handleModalSubmit}
+            handleCancel={() => this.setState({ showModal: false })} />
+        </div>
+      </>
     );
   }
 }

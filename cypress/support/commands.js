@@ -36,14 +36,14 @@ Cypress.Commands.add('onListsPage', () => {
   cy.contains('Logout');
 });
 
-Cypress.Commands.add('onListPage', () => {
+Cypress.Commands.add('onListPage', listName => {
   cy.url().should('include', '/list/');
-  cy.contains('TODO Checklist');
+  cy.contains(listName);
   cy.contains('<< Lists');
   cy.contains('Logout');
 });
 
-Cypress.Commands.add('addTodo', (name) => {
+Cypress.Commands.add('addTodo', name => {
   cy.get('[data-cy=add-todo] input').type(name);
   cy.get('[data-cy=add-todo] button').click();
   cy.contains(name);

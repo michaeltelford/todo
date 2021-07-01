@@ -32,7 +32,7 @@ describe('TODO Checklist', () => {
 
   it('Opens the list', () => {
     cy.contains('Animals').click();
-    cy.onListPage();
+    cy.onListPage('Animals');
     cy.contains('0 / 1 Done');
     cy.contains('Add some TODOs');
 
