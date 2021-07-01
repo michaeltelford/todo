@@ -1,6 +1,5 @@
 import React from 'react';
-
-const CONTACT_EMAIL = 'michael.telford@live.com';
+import { CONTACT_EMAIL } from '../constants';
 
 function Contact() {
   return (

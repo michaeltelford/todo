@@ -1,6 +1,6 @@
-class API {
-  tolerableDelay = 500;
+import { TOLERABLE_DELAY } from './constants';
 
+class API {
   constructor(origin) {
     if (origin.endsWith('/')) {
       origin = origin.slice(0, -1);
@@ -39,7 +39,7 @@ class API {
     if (component?.state?.loadingText !== undefined) {
       setTimeout(() => {
         component.setState({ loadingText: 'Loading...' });
-      }, this.tolerableDelay);
+      }, TOLERABLE_DELAY);
     }
 
     fetch(url, request)
