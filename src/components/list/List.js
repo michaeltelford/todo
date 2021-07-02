@@ -7,8 +7,11 @@ import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
 import Modal from '../Modal';
 import Footer from '../Footer';
+import Loading from '../Loading';
+import Error from '../Error';
 import ListSummary from './ListSummary';
 import Hr from '../Hr';
+import ListNotFound from './ListNotFound';
 
 /*
  * List is the main container component for interacting with a list's TODO
@@ -130,19 +133,23 @@ class List extends React.Component {
     const { loadingText, errored, lists, list, listId } = this.props;
     const { showModal, currentTodo } = this.state;
 
-    if (errored) return (
-      <p className='text-center'>An error occurred, please try again later.</p>
-    );
+    if (errored) {
+      return <Error />;
+    }
 
-    if (loadingText) return (
-      <p className='text-center'>{loadingText}</p>
-    );
+    if (loadingText) {
+      return <Loading message={loadingText} />;
+    }
 
-    if (lists?.length <= 0) return null;
+    // For the initialState.lists value of [].
+    if ((lists?.length || 0) <= 0) {
+      return null;
+    }
 
-    if (!list) return (
-      <p className='text-center'>{`Can't find the list with ID: ${listId}`}</p>
-    );
+    // If the URL's listId is invalid.
+    if (!list) {
+      return <ListNotFound id={listId} />;
+    }
 
     const { todos } = list;
     const todosNotDone = this.filterTodos(todos, false);

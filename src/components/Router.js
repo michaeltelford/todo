@@ -5,6 +5,7 @@ import store from '../store/store';
 import ErrorBoundary from './ErrorBoundary';
 import Auth from './Auth';
 import Wrapper from './Wrapper';
+import NotFound from './NotFound';
 import Lists from './lists/Lists';
 import List from './list/List';
 
@@ -12,8 +13,8 @@ import List from './list/List';
 function Router() {
   return (
     <Provider store={store}>
-      <ErrorBoundary>
-        <BrowserRouter>
+      <BrowserRouter>
+        <ErrorBoundary>
           <Switch>
             <Route exact path='/list/:id'>
               <Wrapper>
@@ -33,12 +34,12 @@ function Router() {
             </Route>
             <Route path='*'>
               <Wrapper>
-                <p className='text-center'>Page not found. Click <a className='underline' href='/'>here</a> to return to the home page.</p>
+                <NotFound />
               </Wrapper>
             </Route>
           </Switch>
-        </BrowserRouter>
-      </ErrorBoundary>
+        </ErrorBoundary>
+      </BrowserRouter>
     </Provider>
   );
 }

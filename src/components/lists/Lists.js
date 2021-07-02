@@ -6,6 +6,8 @@ import ListSummary from './ListSummary';
 import Modal from '../Modal';
 import CreateList from './CreateList';
 import Footer from '../Footer';
+import Loading from '../Loading';
+import Error from '../Error';
 import Hr from '../Hr';
 
 /*
@@ -87,15 +89,18 @@ class Lists extends React.Component {
     const { loadingText, errored, lists } = this.props;
     const { currentList, showModal, modalAction } = this.state;
 
-    if (errored) return (
-      <p className='text-center'>An error occurred, please try again later.</p>
-    );
+    if (errored) {
+      return <Error />;
+    }
 
-    if (loadingText) return (
-      <p className='text-center'>{loadingText}</p>
-    );
+    if (loadingText) {
+      return <Loading message={loadingText} />;
+    }
 
-    if (lists?.length <= 0) return null;
+    // For the initialState.lists value of [].
+    if (lists?.length <= 0) {
+      return null;
+    }
 
     return (
       <div className='max-w-screen-sm mx-auto'>

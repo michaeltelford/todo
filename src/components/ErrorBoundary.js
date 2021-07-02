@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from './Header';
+import Error from './Error';
 
 // Top level error boundary that catches the error and displays a generic error UI.
 class ErrorBoundary extends React.Component {
@@ -20,7 +22,12 @@ class ErrorBoundary extends React.Component {
     const { hasError } = this.state;
 
     if (hasError) {
-      return <p>An error occurred, try refreshing the page.</p>;
+      return (
+        <>
+          <Header />
+          <Error />
+        </>
+      );
     }
 
     return children;

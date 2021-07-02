@@ -1,24 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'redux-zero/react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import actions from '../store/actions';
+import Header from './Header';
 
-function Wrapper({ children, listName }) {
+function Wrapper({ children, title }) {
   return (
     <div style={{ minWidth: 230 }} className='p-3'>
-      <h1 className='max-w-screen-sm mx-auto text-center font-light tracking-widest text-3xl my-6 sm:text-4xl sm:my-8 lg:my-10'>
-        <Link to='/lists'>
-          { listName || 'TODO Checklist' }
-        </Link>
-      </h1>
+      <Header title={title} />
       { children }
     </div>
   );
 }
 
 Wrapper.propTypes = {
-  listName: PropTypes.string,
+  title: PropTypes.string,
 };
 
 const mapToProps = ({ lists }, ownProps) => {
@@ -30,7 +27,7 @@ const mapToProps = ({ lists }, ownProps) => {
     list = lists.find(l => l.id.toString() === urlId);
   }
 
-  return { listName: list?.name };
+  return { title: list?.name };
 }
 
 export default withRouter(connect(mapToProps, actions)(Wrapper));
