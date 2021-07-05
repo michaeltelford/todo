@@ -11,6 +11,7 @@
     "build": "react-scripts build",
     "cypress": "cypress open",
     "test": "cypress run --browser chrome --headless",
+    "lint": "eslint './src/*.js' --fix",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -34,7 +35,9 @@
     "tailwindcss": "^1.9.6"
   },
   "devDependencies": {
-    "cypress": "^4.10.0"
+    "cypress": "^4.10.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-react": "^7.24.0"
   },
   "eslintConfig": {
     "extends": "react-app"
