@@ -29,6 +29,15 @@ Cypress.Commands.add('auth', () => {
   localStorage.setItem('token', Cypress.env('JWT_TOKEN'));
 });
 
+Cypress.Commands.add('visitPage', endpoint => {
+  const url = `${Cypress.env('CYPRESS_BASE_URL')}${endpoint}`;
+  cy.visit(url);
+
+  if (endpoint !== '/') {
+    cy.url().should('include', endpoint);
+  }
+});
+
 Cypress.Commands.add('onListsPage', () => {
   cy.url().should('include', '/lists');
   cy.contains('TODO Checklist');

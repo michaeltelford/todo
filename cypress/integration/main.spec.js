@@ -2,7 +2,7 @@ describe('TODO Checklist', () => {
   beforeEach(() => cy.auth());
 
   it('Visits the app', () => {
-    cy.visit(Cypress.env('CYPRESS_BASE_URL'));
+    cy.visitPage('/');
     cy.onListsPage();
   });
 
