@@ -7,13 +7,11 @@ const getLists = _state => {
   api.fetch(
     '/lists',
     undefined,
-    ({ lists }) => {
-      if (!lists) {
-        return setErrorState();
-      }
-
-      setSuccessState({ lists });
-    },
+    ({ lists }) => (
+      lists
+        ? setSuccessState({ lists })
+        : setErrorState()
+    ),
     () => setErrorState(),
   );
 }

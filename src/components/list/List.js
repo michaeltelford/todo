@@ -33,9 +33,9 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    const { getLists, lists } = this.props;
+    const { getLists } = this.props;
 
-    if (!lists || lists?.length <= 0) getLists();
+    getLists();
   }
 
   // Select todos by their `done` status.

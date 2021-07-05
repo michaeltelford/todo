@@ -29,9 +29,9 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-    const { getLists, lists } = this.props;
+    const { getLists } = this.props;
 
-    if (!lists || lists?.length <= 0) getLists();
+    getLists();
   }
 
   handleNew = emptyList => {
