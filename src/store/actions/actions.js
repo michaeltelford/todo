@@ -34,7 +34,7 @@ const createList = (_state, list) => {
 
 const editList = (state, updatedList) => {
   const { lists: prevLists } = state;
-  const { id, name, todos } = updatedList;
+  const { id, name, todos, additional_users } = updatedList;
   const index = prevLists.findIndex(l => l.id === updatedList.id);
 
   // For instant UI feedback, we update the state first and *then* sync the API.
@@ -45,7 +45,13 @@ const editList = (state, updatedList) => {
     `/list/${id}`,
     {
       method: 'PUT',
-      body: { list: { name, todos } }, // Omit the timestamps etc.
+      body: {
+        list: {
+          name,
+          todos,
+          additional_users,
+        },
+      },
     },
     () => null,
     () => setErrorState(),

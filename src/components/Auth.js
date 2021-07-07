@@ -33,7 +33,7 @@ const handleLogin = (code, state) => {
   // Auth against the API, verifying the auth code & retrieve a JWT token.
   api.fetch(apiAuthEndpoint, {
       method: 'POST',
-      body: { authorizationCode: code },
+      body: { authorization_code: code },
     },
     json => {
       const token = `Bearer ${json?.session?.token}`;

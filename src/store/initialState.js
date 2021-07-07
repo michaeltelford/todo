@@ -5,7 +5,6 @@
  * the component that needs it. Abusing the store will create bugs!
  */
 
-// The shape of a list object is defined by the API.
 const initialState = {
   loading: false,
   loadingText: null,
@@ -13,4 +12,14 @@ const initialState = {
   lists: [],
 };
 
+const buildEmptyList = () => ({
+  name: '',
+  todos: [{
+    name: 'Add some TODOs',
+    done: false,
+  }],
+  additional_users: [],
+});
+
 export default initialState;
+export { buildEmptyList };

@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes, { object } from 'prop-types';
 import { MAX_LISTS } from '../../constants';
-
-
-const buildEmptyList = () => ({
-  name: '',
-  todos: [{
-    name: 'Add some TODOs',
-    done: false,
-  }],
-});
+import { buildEmptyList } from '../../store/initialState';
 
 function CreateList({ lists, handleNew }) {
   return (
