@@ -1,15 +1,15 @@
 import api from '../../api';
-import { setLoadingState, setSuccessState, setErrorState } from '.';
+import { setLoadingState, setErrorState, successState } from '.';
 
 const getLists = _state => {
   setLoadingState();
 
-  api.fetch(
+  return api.fetch(
     '/lists',
     undefined,
     ({ lists }) => (
       lists
-        ? setSuccessState({ lists })
+        ? successState({ lists })
         : setErrorState()
     ),
     () => setErrorState(),
@@ -19,7 +19,7 @@ const getLists = _state => {
 const createList = (_state, list) => {
   setLoadingState();
 
-  api.fetch(
+  return api.fetch(
     '/list',
     {
       method: 'POST',
@@ -37,10 +37,6 @@ const editList = (state, updatedList) => {
   const { id, name, todos, additional_users } = updatedList;
   const index = prevLists.findIndex(l => l.id === updatedList.id);
 
-  // For instant UI feedback, we update the state first and *then* sync the API.
-  prevLists.splice(index, 1, updatedList);
-  setSuccessState({ lists: prevLists });
-
   api.fetch(
     `/list/${id}`,
     {
@@ -56,14 +52,15 @@ const editList = (state, updatedList) => {
     () => null,
     () => setErrorState(),
   );
+
+  // For instant UI feedback, we don't wait around for the API response.
+  prevLists.splice(index, 1, updatedList);
+  return successState({ lists: prevLists });
 }
 
 const deleteList = (state, id) => {
   const { lists: prevLists } = state;
   const lists = prevLists.filter(l => l.id !== id);
-
-  // For instant UI feedback, we update the state first and *then* sync the API.
-  setSuccessState({ lists });
 
   api.fetch(
     `/list/${id}`,
@@ -71,6 +68,9 @@ const deleteList = (state, id) => {
     () => null,
     () => setErrorState(),
   );
+
+  // For instant UI feedback, we don't wait around for the API response.
+  return successState({ lists });
 }
 
 export {
