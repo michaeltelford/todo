@@ -21,7 +21,8 @@ const modalStyles = {
  */
 function Modal(props) {
   const {
-    isOpen, action, entity, entityType, handleInputChange, handleSubmit, handleCancel,
+    isOpen, action, entity, entityType,
+    handleInputChange, handleSubmit, handleCancel,
   } = props;
 
   return (
@@ -35,19 +36,20 @@ function Modal(props) {
           onChange={handleInputChange}
           className='mb-4 border-2 border-gray-400 rounded-md'
         />
-        <br />
-        <button onClick={evt => {
-          evt.preventDefault();
-          handleSubmit();
-        }} className='mr-1 px-5 py-1 bg-blue-500 hover:bg-blue-700 text-white uppercase tracking-wider rounded-md shadow-xl'>
-          Save
-        </button>
-        <button onClick={evt => {
-          evt.preventDefault();
-          handleCancel();
-        }} className='px-5 py-1 text-gray-700 hover:text-indigo-800 text-lg font-medium tracking-wide underline'>
-          Cancel
-        </button>
+        <div className='flex'>
+          <button onClick={evt => {
+            evt.preventDefault();
+            handleSubmit();
+          }} className='w-1/2 mr-1 px-5 py-1 bg-blue-500 text-white uppercase tracking-wider rounded-md shadow-s hover:bg-blue-700'>
+            Save
+          </button>
+          <button onClick={evt => {
+            evt.preventDefault();
+            handleCancel();
+          }} className='w-1/2 px-5 py-1 uppercase tracking-wider rounded-md shadow-s underline hover:bg-gray-400 hover:no-underline'>
+            Cancel
+          </button>
+        </div>
       </form>
     </ReactModal>
   );
