@@ -4,21 +4,28 @@ import api from '../api';
 const appName         = process.env.REACT_APP_AUTH0_APP_NAME;
 const clientId        = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const authState       = 'spagolemongrass231';
-
 const callbackUrl     = window.location.href; // This page/component.
 const apiAuthEndpoint = '/session';
-const auth0LogoutUrl  = `https://${appName}.auth0.com/v2/logout`;
 const auth0LoginUrl   =
-  `https://${appName}.auth0.com/authorize` +
+  'https://APP_NAME.auth0.com/authorize' +
   '?response_type=code&client_id=CLIENT_ID' +
-  '&redirect_uri=YOUR_CALLBACK_URL&scope=SCOPE&state=STATE';
+  '&redirect_uri=CALLBACK_URL&scope=SCOPE&state=STATE';
+const auth0LogoutUrl  =
+  'https://APP_NAME.auth0.com/v2/logout?client_id=CLIENT_ID';
 
-const buildAuthUrl = () => {
+const buildLoginUrl = () => {
   return auth0LoginUrl
+    .replace('APP_NAME', appName)
     .replace('CLIENT_ID', clientId)
-    .replace('YOUR_CALLBACK_URL', callbackUrl)
+    .replace('CALLBACK_URL', callbackUrl)
     .replace('SCOPE', 'openid profile email')
     .replace('STATE', authState);
+}
+
+const buildLogoutUrl = () => {
+  return auth0LogoutUrl
+    .replace('APP_NAME', appName)
+    .replace('CLIENT_ID', clientId);
 }
 
 const handleLogin = (code, state) => {
@@ -45,8 +52,8 @@ const handleLogin = (code, state) => {
 
 // Logout of auth0 and destroy the current JWT token.
 const handleLogout = async () => {
-  // We catch a rogue network error despite a 200 OK from auth0.
-  await fetch(auth0LogoutUrl, { credentials: 'include' }).catch(() => null);
+  // We catch and ignore a CORS error because Auth0 doesn't set the allow-origin response header.
+  await fetch(buildLogoutUrl()).catch(_err => null);
 
   localStorage.clear();
   window.location.replace(window.location.origin + '/auth');
@@ -66,7 +73,7 @@ function Auth() {
     const state = url.searchParams.get('state');
 
     if (code && state) handleLogin(code, state);
-    else window.location.replace(buildAuthUrl());
+    else window.location.replace(buildLoginUrl());
   });
 
   return null;
