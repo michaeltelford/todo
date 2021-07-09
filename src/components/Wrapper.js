@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'redux-zero/react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'redux-zero/react';
 import actions from '../store/actions';
 import Header from './Header';
 
-function Wrapper({ children, user, title, getUser }) {
+function Wrapper({ children, title, user, getUser }) {
+  // We grab the current user once at the top level so it's accessible everywhere.
   useEffect(() => {
     !user && getUser();
   });
@@ -20,6 +21,8 @@ function Wrapper({ children, user, title, getUser }) {
 
 Wrapper.propTypes = {
   title: PropTypes.string,
+  user: PropTypes.object,
+  getUser: PropTypes.func.isRequired,
 };
 
 const mapToProps = ({ user, lists }, ownProps) => {
@@ -32,8 +35,8 @@ const mapToProps = ({ user, lists }, ownProps) => {
   }
 
   return {
+    title: list?.name,
     user,
-    title: list?.name
   };
 }
 

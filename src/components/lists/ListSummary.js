@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'redux-zero/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import Hr from '../Hr';
 
-function ListSummary({ list, handleEdit, handleDelete }) {
-  const { id, name, todos } = list;
-  const numItems            = todos.length;
-  const numItemsTodo        = todos.filter(todo => !todo.done).length;
+function ListSummary({ user, list, handleEdit, handleDelete }) {
+  const { name: currentUser } = (user || {});
+  const { id, name, todos, user_name, created_on } = list;
+  const owner = (currentUser === user_name) ? 'you' : user_name;
+  const numItemsTodo = todos.filter(todo => !todo.done).length;
 
   return (
     <div data-cy={name} id={id} key={id}>
@@ -26,8 +28,8 @@ function ListSummary({ list, handleEdit, handleDelete }) {
         </span>
       </div>
       <div>
-        <p>{`${numItems} items (with ${numItemsTodo} still to do)`}</p>
-        <p>Created by you on 12/07/2021</p>
+        <p>{`${todos.length} items (with ${numItemsTodo} still to do)`}</p>
+        <p>{`Created by ${owner} on ${new Date(created_on).toDateString()}`}</p>
         <Hr />
       </div>
     </div>
@@ -35,6 +37,7 @@ function ListSummary({ list, handleEdit, handleDelete }) {
 }
 
 ListSummary.propTypes = {
+  user: PropTypes.object,
   list: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -44,4 +47,6 @@ ListSummary.propTypes = {
   handleDelete: PropTypes.func.isRequired,
 };
 
-export default ListSummary;
+const mapToProps = ({ user }) => ({ user });
+
+export default connect(mapToProps, null)(ListSummary);

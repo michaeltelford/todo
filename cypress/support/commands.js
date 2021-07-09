@@ -43,6 +43,7 @@ Cypress.Commands.add('onListsPage', () => {
   cy.contains('TODO Checklist');
   cy.contains('Create a new list');
   cy.contains('Logout');
+  cy.contains('Contact');
 });
 
 Cypress.Commands.add('onListPage', listName => {
@@ -50,6 +51,7 @@ Cypress.Commands.add('onListPage', listName => {
   cy.contains(listName);
   cy.contains('<< Lists');
   cy.contains('Logout');
+  cy.contains('Contact');
 });
 
 Cypress.Commands.add('addTodo', name => {

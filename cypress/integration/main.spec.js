@@ -15,6 +15,7 @@ describe('TODO Checklist', () => {
 
     cy.contains('Zoo');
     cy.contains('1 items (with 1 still to do)');
+    cy.contains(`Created by you on ${new Date().toDateString()}`);
   });
 
   it('Edits the list', () => {
@@ -27,7 +28,6 @@ describe('TODO Checklist', () => {
 
     cy.contains('Zoo').should('not.exist');
     cy.contains('Animals');
-    cy.contains('1 items (with 1 still to do)');
   });
 
   it('Opens the list', () => {
