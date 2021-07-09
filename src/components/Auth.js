@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import api from '../api';
 
-const appName         = process.env.REACT_APP_AUTH0_APP_NAME;
-const clientId        = process.env.REACT_APP_AUTH0_CLIENT_ID;
-const authState       = 'spagolemongrass231';
-const callbackUrl     = window.location.href; // This page/component.
-const apiAuthEndpoint = '/session';
-const auth0LoginUrl   =
+const { origin, href: callbackUrl } = window.location;
+const appName                       = process.env.REACT_APP_AUTH0_APP_NAME;
+const clientId                      = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const authState                     = 'spagolemongrass231';
+const apiAuthEndpoint               = '/session';
+
+const auth0LoginUrl  =
   'https://APP_NAME.auth0.com/authorize' +
   '?response_type=code&client_id=CLIENT_ID' +
   '&redirect_uri=CALLBACK_URL&scope=SCOPE&state=STATE';
-const auth0LogoutUrl  =
+const auth0LogoutUrl =
   'https://APP_NAME.auth0.com/v2/logout?client_id=CLIENT_ID';
 
 const buildLoginUrl = () => {
@@ -29,8 +30,6 @@ const buildLogoutUrl = () => {
 }
 
 const handleLogin = (code, state) => {
-  const { origin } = window.location;
-
   if (authState !== state) {
     console.error('The auth state did not match');
     window.location.replace(origin + '/auth');
@@ -53,10 +52,10 @@ const handleLogin = (code, state) => {
 // Logout of auth0 and destroy the current JWT token.
 const handleLogout = async () => {
   // We catch and ignore a CORS error because Auth0 doesn't set the allow-origin response header.
-  await fetch(buildLogoutUrl()).catch(_err => null);
+  await fetch(buildLogoutUrl()).catch(() => null);
 
   localStorage.clear();
-  window.location.replace(window.location.origin + '/auth');
+  window.location.replace(origin + '/auth');
 }
 
 const hasToken = () => (localStorage.getItem('token') !== null);
@@ -72,9 +71,10 @@ function Auth() {
     const code  = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    if (code && state) handleLogin(code, state);
-    else window.location.replace(buildLoginUrl());
-  });
+    (code && state)
+      ? handleLogin(code, state)
+      : window.location.replace(buildLoginUrl());
+  }, []);
 
   return null;
 }

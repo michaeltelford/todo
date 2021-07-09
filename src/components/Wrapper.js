@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'redux-zero/react';
 import { withRouter } from 'react-router-dom';
 import actions from '../store/actions';
 import Header from './Header';
 
-function Wrapper({ children, title }) {
+function Wrapper({ children, user, title, getUser }) {
+  useEffect(() => {
+    !user && getUser();
+  });
+
   return (
     <div style={{ minWidth: 230 }} className='p-3'>
       <Header title={title} />
@@ -18,7 +22,7 @@ Wrapper.propTypes = {
   title: PropTypes.string,
 };
 
-const mapToProps = ({ lists }, ownProps) => {
+const mapToProps = ({ user, lists }, ownProps) => {
   const { id: urlId } = ownProps.match.params; // from withRouter()
   let list;
 
@@ -27,7 +31,10 @@ const mapToProps = ({ lists }, ownProps) => {
     list = lists.find(l => l.id.toString() === urlId);
   }
 
-  return { title: list?.name };
+  return {
+    user,
+    title: list?.name
+  };
 }
 
 export default withRouter(connect(mapToProps, actions)(Wrapper));

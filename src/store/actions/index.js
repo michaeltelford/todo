@@ -1,6 +1,7 @@
 import { TOLERABLE_DELAY } from '../../constants';
 import { getState, setState } from '../store';
 import {
+  getUser,
   getLists,
   createList,
   editList,
@@ -8,6 +9,7 @@ import {
 } from './actions';
 
 const actions = _store => ({
+  getUser,
   getLists,
   createList,
   editList,

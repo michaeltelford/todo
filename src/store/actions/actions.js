@@ -1,6 +1,27 @@
 import api from '../../api';
 import { setLoadingState, setErrorState, successState } from '.';
 
+const getUser = _state => {
+  setLoadingState();
+
+  return api.fetch(
+    '/session',
+    undefined,
+    ({ session }) => (
+      session
+        ? successState({
+            user: {
+              email: session.email,
+              name: session.name,
+              picture: session.picture,
+            },
+          })
+        : setErrorState()
+    ),
+    () => setErrorState(),
+  );
+}
+
 const getLists = _state => {
   setLoadingState();
 
@@ -74,6 +95,7 @@ const deleteList = (state, id) => {
 }
 
 export {
+  getUser,
   getLists,
   createList,
   editList,

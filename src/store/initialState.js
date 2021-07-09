@@ -2,6 +2,7 @@ const initialState = {
   loading: false,
   loadingText: null,
   errored: false,
+  user: null,
   lists: [],
 };
 
