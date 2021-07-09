@@ -3,7 +3,7 @@ const initialState = {
   loadingText: null,
   errored: false,
   user: null,
-  lists: [],
+  lists: null,
 };
 
 const buildEmptyList = () => ({

@@ -97,8 +97,7 @@ class Lists extends React.Component {
       return <Loading message={loadingText} />;
     }
 
-    // For the initialState.lists value of [].
-    if (lists?.length <= 0) {
+    if (!lists) {
       return null;
     }
 
