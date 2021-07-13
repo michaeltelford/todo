@@ -16,10 +16,10 @@ const modalStyles = {
 };
 
 /*
- * Modal can be used to create a new (empty) list, or edit the name of an
+ * SaveModal can be used to create a new (empty) list, or edit the name of an
  * existing list or todo item.
  */
-function Modal(props) {
+function SaveModal(props) {
   const {
     isOpen, action, entity, entityType,
     handleInputChange, handleSubmit, handleCancel,
@@ -55,7 +55,7 @@ function Modal(props) {
   );
 }
 
-Modal.propTypes = {
+SaveModal.propTypes = {
   isOpen: PropTypes.bool,
   action: PropTypes.oneOf(['Create', 'Edit']),
   entity: PropTypes.shape({
@@ -67,11 +67,11 @@ Modal.propTypes = {
   handleCancel: PropTypes.func.isRequired,
 };
 
-Modal.defaultProps = {
+SaveModal.defaultProps = {
   isOpen: false,
   action: 'Create',
   entity: null,
   entityType: 'List',
 };
 
-export default Modal;
+export default SaveModal;

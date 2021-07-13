@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'redux-zero/react';
 import actions from '../../store/actions';
 import ListSummary from './ListSummary';
-import Modal from '../Modal';
+import SaveModal from '../modals/SaveModal';
 import CreateList from './CreateList';
 import Footer from '../Footer';
 import Loading from '../Loading';
@@ -118,7 +118,7 @@ class Lists extends React.Component {
           <Footer />
         </div>
 
-        <Modal
+        <SaveModal
           isOpen={showModal}
           action={modalAction}
           entity={currentList}

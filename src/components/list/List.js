@@ -5,7 +5,7 @@ import actions from '../../store/actions';
 import { withRouter } from 'react-router';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
-import Modal from '../Modal';
+import SaveModal from '../modals/SaveModal';
 import Footer from '../Footer';
 import Loading from '../Loading';
 import Error from '../Error';
@@ -185,7 +185,7 @@ class List extends React.Component {
           <Footer />
         </div>
 
-        <Modal
+        <SaveModal
           isOpen={showModal}
           action='Edit'
           entity={currentTodo}
