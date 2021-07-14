@@ -189,7 +189,7 @@ class List extends React.Component {
           isOpen={showModal}
           action='Edit'
           entity={currentTodo}
-          entityType='Item'
+          entityType='TODO Item'
           handleInputChange={evt => {
             currentTodo.name = evt.target.value;
             this.setState({ currentTodo });

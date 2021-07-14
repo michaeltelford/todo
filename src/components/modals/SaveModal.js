@@ -6,12 +6,11 @@ ReactModal.setAppElement('#root');
 
 const modalStyles = {
   content: {
-    top:         '30%',
     left:        '50%',
     right:       'auto',
     bottom:      'auto',
     marginRight: '-50%',
-    transform:   'translate(-50%, -50%)',
+    transform:   'translate(-50%, 30px)',
   },
 };
 
@@ -32,6 +31,7 @@ function SaveModal(props) {
         <input
           data-cy='modal-input'
           type='text'
+          placeholder={(entityType === 'List') ? 'List name' : 'Item name'}
           value={entity?.name || ''}
           onChange={handleInputChange}
           className='mb-4 border-2 border-gray-400 rounded-md'
@@ -58,10 +58,8 @@ function SaveModal(props) {
 SaveModal.propTypes = {
   isOpen: PropTypes.bool,
   action: PropTypes.oneOf(['Create', 'Edit']),
-  entity: PropTypes.shape({
-    name: string,
-  }),
-  entityType: PropTypes.string,
+  entity: PropTypes.shape({ name: string }),
+  entityType: PropTypes.oneOf(['List', 'TODO Item']),
   handleInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,

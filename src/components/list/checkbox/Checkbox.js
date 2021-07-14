@@ -7,13 +7,14 @@ import './Checkbox.css';
 const checkboxClassNames = (checked) => {
   let classes = 'flex-grow mx-3 text-xl font-bold tracking-wide leading-6 cursor-pointer';
   classes = checked ? classes + ' line-through' : classes;
+
   return classes;
 }
 
-const handleCheckToggle = (target, handleToggle) => {
+const handleCheckToggle = ({ name, checked: done }, handleToggle) => {
   const toggledTodo = {
-    name: target.name,
-    done: target.checked,
+    name,
+    done,
   };
 
   handleToggle(toggledTodo);
@@ -21,7 +22,7 @@ const handleCheckToggle = (target, handleToggle) => {
 
 /* Each checkbox will only re-render if its props change. This effectively
  * caches each checkbox in the List component. Given the potentially large
- * amount of checkboxes per list, this should increase performance quite a bit.
+ * amount of checkboxes per list, this can increase performance substantially.
  */
 const Checkbox = React.memo(props => {
   const { name, checked, handleToggle, handleDelete, handleEdit } = props;

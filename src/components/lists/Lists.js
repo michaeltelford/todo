@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'redux-zero/react';
 import actions from '../../store/actions';
+import { EMAIL_REGEX } from '../../constants';
 import ListSummary from './ListSummary';
 import SaveModal from '../modals/SaveModal';
+import UserModal from '../modals/UserModal';
 import CreateList from './CreateList';
 import Footer from '../Footer';
 import Loading from '../Loading';
@@ -22,7 +24,8 @@ class Lists extends React.Component {
     super(props);
 
     this.state = {
-      showModal: false,
+      showSaveModal: false,
+      showUserModal: false,
       modalAction: 'Edit',
       currentList: null,
     };
@@ -38,7 +41,8 @@ class Lists extends React.Component {
     this.setState({
       currentList: emptyList,
       modalAction: 'Create',
-      showModal: true,
+      showSaveModal: true,
+      showUserModal: false,
     });
   }
 
@@ -50,7 +54,8 @@ class Lists extends React.Component {
       // Copy list by value, not reference - so it can be updated safely.
       currentList: { ...list },
       modalAction: 'Edit',
-      showModal: true,
+      showSaveModal: true,
+      showUserModal: false,
     });
   }
 
@@ -82,12 +87,88 @@ class Lists extends React.Component {
       ? createList(currentList)
       : editList(currentList);
 
-    this.setState({ showModal: false });
+    this.setState({ showSaveModal: false });
+  }
+
+  closeModals = () => this.setState({
+    showSaveModal: false,
+    showUserModal: false,
+  });
+
+  handleUsers = id => {
+    const { lists } = this.props;
+    const list = lists.find(l => l.id === id);
+
+    this.setState({
+      // Copy list by value, not reference - so it can be updated safely.
+      currentList: { ...list },
+      showSaveModal: false,
+      showUserModal: true,
+    });
+  }
+
+  handleAddUser = email => {
+    const { editList, user: { email: currentUser } } = this.props;
+    const { currentList } = this.state;
+    const updatedList = {
+      ...currentList,
+      additional_users: [
+        ...currentList.additional_users,
+        email,
+      ]
+    }
+
+    if (!email || email === '') {
+      alert('You must enter an email address');
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(email.toLowerCase())) {
+      alert('Email address is invalid');
+      return;
+    }
+
+    if (currentList.additional_users.find(e => e === email)) {
+      alert("You've already added this user");
+      return;
+    }
+
+    if (email === currentUser) {
+      alert('You already have access to this list because you created it');
+      return;
+    }
+
+    // We use connect's shallow comparison here to our advantage. Connect won't re-render
+    // the component so we do it with setState, keeping the modal open for a good UX.
+    editList(updatedList);
+    this.setState({ currentList: updatedList });
+  }
+
+  handleRemoveUser = email => {
+    const { editList, user: { email: currentUser } } = this.props;
+    const { currentList } = this.state;
+    const updatedList = {
+      ...currentList,
+      additional_users: currentList.additional_users.filter(e => e !== email),
+    };
+
+    const prompt = (email === currentUser)
+      ? 'Are you sure you want to remove your own access to this list?'
+      : `Are you sure you want to remove the user ${email}?`
+
+    if (!window.confirm(prompt)) {
+      return;
+    }
+
+    // We use connect's shallow comparison here to our advantage. Connect won't re-render
+    // the component so we do it with setState, keeping the modal open for a good UX.
+    editList(updatedList);
+    this.setState({ currentList: updatedList });
   }
 
   render() {
-    const { loadingText, errored, lists } = this.props;
-    const { currentList, showModal, modalAction } = this.state;
+    const { loadingText, errored, user, lists } = this.props;
+    const { currentList, showSaveModal, showUserModal, modalAction } = this.state;
 
     if (errored) {
       return <Error />;
@@ -111,6 +192,8 @@ class Lists extends React.Component {
           <ListSummary
             key={list.id}
             list={list}
+            currentUser={user?.email}
+            handleUsers={() => this.handleUsers(list.id)}
             handleEdit={() => this.handleEdit(list.id)}
             handleDelete={() => this.handleDelete(list.id)} />
         ))}
@@ -119,7 +202,7 @@ class Lists extends React.Component {
         </div>
 
         <SaveModal
-          isOpen={showModal}
+          isOpen={showSaveModal}
           action={modalAction}
           entity={currentList}
           entityType='List'
@@ -128,7 +211,17 @@ class Lists extends React.Component {
             this.setState({ currentList });
           }}
           handleSubmit={this.handleModalSubmit}
-          handleCancel={() => this.setState({ showModal: false })} />
+          handleCancel={() => this.closeModals()} />
+        <UserModal
+          isOpen={showUserModal}
+          list={currentList}
+          handleInputChange={evt => {
+            currentList.name = evt.target.value;
+            this.setState({ currentList });
+          }}
+          handleAdd={this.handleAddUser}
+          handleRemove={this.handleRemoveUser}
+          handleClose={() => this.closeModals()} />
       </div>
     );
   }
@@ -137,17 +230,19 @@ class Lists extends React.Component {
 Lists.propTypes = {
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
-  lists: PropTypes.array.isRequired,
+  lists: PropTypes.array,
+  user: PropTypes.object,
   getLists: PropTypes.func.isRequired,
   createList: PropTypes.func.isRequired,
   editList: PropTypes.func.isRequired,
   deleteList: PropTypes.func.isRequired,
 };
 
-const mapToProps = ({ loadingText, errored, lists }) => ({
+const mapToProps = ({ loadingText, errored, lists, user }) => ({
   loadingText,
   errored,
   lists,
+  user,
   // listNames is used to get around the shallow comparison of this object and
   // re-render if a list name changes.
   listNames: btoa(lists?.map(l => l.name)),

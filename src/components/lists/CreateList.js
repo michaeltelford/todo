@@ -6,7 +6,7 @@ import { buildEmptyList } from '../../store/initialState';
 function CreateList({ lists, handleNew }) {
   return (
     <div>
-      <p className='mb-3'>You've created {lists.length} out of {MAX_LISTS} lists</p>
+      <p className='mb-3'>You have access to {lists.length} / {MAX_LISTS} lists</p>
       {lists.length < MAX_LISTS && (
         <p>
           <button
