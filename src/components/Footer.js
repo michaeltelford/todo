@@ -5,7 +5,9 @@ import Contact from './Contact';
 function Footer() {
   return (
     <div className='flex justify-between'>
-      <Logout />
+      <div className='mr-3'>
+        <Logout />
+      </div>
       <Contact />
     </div>
   );
