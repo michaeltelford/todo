@@ -21,10 +21,10 @@ const modalStyles = {
 };
 
 const buildListDisplayName = list => {
-  const maxChars = 26;
-  const suffix = '...';
-  const maxLength = maxChars + suffix.length;
   const { name } = (list || {});
+  const suffix = '...';
+  const maxChars = (name?.split(' ')?.length === 1) ? 25 : 85;
+  const maxLength = maxChars + suffix.length;
 
   if (!name) {
     return 'List';

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { appendBreakClass } from '../../../utils';
 import './Checkbox.css';
 
 const checkboxClassNames = (checked) => {
@@ -47,7 +48,7 @@ const Checkbox = React.memo(props => {
         ref={label}
         className='css-label' />
       <p
-        className={checkboxClassNames(checked)}
+        className={appendBreakClass(checkboxClassNames(checked), name)}
         onClick={() => label.current.click()}>
         {name}
       </p>

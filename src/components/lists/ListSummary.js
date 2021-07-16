@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { appendBreakClass } from '../../utils';
 import Hr from '../Hr';
 
 function ListSummary(props) {
@@ -17,7 +18,9 @@ function ListSummary(props) {
         <span className='flex-grow mr-3'>
           <Link
             to={`/list/${id}`}
-            className='text-xl font-semibold underline tracking-wide hover:text-indigo-800'>
+            className={
+              appendBreakClass('text-xl font-semibold underline tracking-wide hover:text-indigo-800', name)
+            }>
               {name}
           </Link>
         </span>
