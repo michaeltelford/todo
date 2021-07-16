@@ -11,6 +11,7 @@ const modalStyles = {
     bottom:      'auto',
     marginRight: '-50%',
     transform:   'translate(-50%, 30px)',
+    maxWidth:    '95%',
   },
 };
 

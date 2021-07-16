@@ -8,20 +8,20 @@ ReactModal.setAppElement('#root');
 
 const modalStyles = {
   content: {
-    left:         '50%',
-    right:        'auto',
-    bottom:       'auto',
-    marginRight:  '-50%',
-    transform:    'translate(-50%, 30px)',
-    minWidth:     '50%',
-    maxWidth:     '100%',
-    maxHeight:    '80%',
-    'overflow-y': 'auto',
+    left:        '50%',
+    right:       'auto',
+    bottom:      'auto',
+    marginRight: '-50%',
+    transform:   'translate(-50%, 30px)',
+    minWidth:    '50%',
+    maxWidth:    '95%',
+    maxHeight:   '80%',
+    overflowY:   'auto',
   },
 };
 
 const buildListDisplayName = list => {
-  const maxChars = 27;
+  const maxChars = 26;
   const suffix = '...';
   const maxLength = maxChars + suffix.length;
   const { name } = (list || {});
@@ -41,7 +41,7 @@ const buildUserJSX = (email, clickHandler) => (
   <div
     key={email}
     className='flex justify-between mb-2'>
-      <div className='ml-2 mr-3'>
+      <div className='ml-2 mr-3 break-all'>
         {email}
       </div>
       <FontAwesomeIcon
