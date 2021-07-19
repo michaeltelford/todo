@@ -95,7 +95,7 @@ Remember to:
 
 ## Deployment
 
-Ensure you have a `.env.production.local` file at the root of the repository with the correct ENV vars set.
+Ensure you have a `.env.production.local` file at the root of the repository with the correct [ENV](#ENV) vars set.
 
 Install the `surge` CLI tool with:
 

@@ -9,7 +9,7 @@ function Wrapper({ children, title, user, getUser }) {
   // We grab the current user once at the top level so it's accessible everywhere.
   useEffect(() => {
     !user && getUser();
-  });
+  }, [user, getUser]);
 
   return (
     <div style={{ minWidth: 230 }} className='p-3'>

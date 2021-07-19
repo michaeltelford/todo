@@ -1,5 +1,5 @@
 import api from '../../api';
-import { setLoadingState, setErrorState, successState } from '.';
+import { setLoadingState, setErrorState, successState, errorState } from '.';
 
 const getUser = _state => {
   setLoadingState();
@@ -16,9 +16,9 @@ const getUser = _state => {
               picture: session.picture,
             },
           })
-        : setErrorState()
+        : errorState()
     ),
-    () => setErrorState(),
+    () => errorState(),
   );
 }
 
@@ -31,9 +31,9 @@ const getLists = _state => {
     ({ lists }) => (
       lists
         ? successState({ lists })
-        : setErrorState()
+        : errorState()
     ),
-    () => setErrorState(),
+    () => errorState(),
   );
 }
 
@@ -49,7 +49,7 @@ const createList = (_state, list) => {
     // Normally if resp.ok, we push the new list into state but a bug in the API tech stack
     // means we don't receive the created list ID; so we call getLists() again instead.
     () => getLists(),
-    () => setErrorState(),
+    () => errorState(),
   );
 }
 
@@ -57,6 +57,8 @@ const editList = (state, updatedList) => {
   const { lists: prevLists } = state;
   const { id, name, todos, additional_users } = updatedList;
   const index = prevLists.findIndex(l => l.id === updatedList.id);
+
+  setLoadingState();
 
   api.fetch(
     `/list/${id}`,
@@ -82,6 +84,8 @@ const editList = (state, updatedList) => {
 const deleteList = (state, id) => {
   const { lists: prevLists } = state;
   const lists = prevLists.filter(l => l.id !== id);
+
+  setLoadingState();
 
   api.fetch(
     `/list/${id}`,
