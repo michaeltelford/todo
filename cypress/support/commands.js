@@ -38,18 +38,54 @@ Cypress.Commands.add('visitPage', endpoint => {
   }
 });
 
+Cypress.Commands.add('visitApp', () => {
+  cy.visitPage('/');
+  cy.onListsPage();
+});
+
+Cypress.Commands.add('visitList', name => {
+  cy.contains(name).click();
+  cy.onListPage(name);
+});
+
+Cypress.Commands.add('visitLists', () => {
+  cy.contains('<< Lists').click();
+  cy.onListsPage();
+});
+
+Cypress.Commands.add('createList', name => {
+  cy.contains('Create').click();
+  cy.contains('Create List');
+
+  cy.get('[data-cy=modal-input]').type(name);
+  cy.contains('Save').click();
+
+  cy.contains(name);
+  cy.contains('1 items (with 1 still to do)');
+  cy.contains(`Created by you on ${new Date().toDateString()}`);
+});
+
+Cypress.Commands.add('deleteList', name => {
+  cy.contains(name);
+  cy.get(`div[data-cy='${name}'] [data-cy=delete]`).click();
+  cy.contains(name).should('not.exist');
+});
+
+Cypress.Commands.add('onListPage', name => {
+  cy.url().should('include', '/list/');
+  cy.contains(name);
+  cy.contains('<< Lists');
+  cy.containsFooter();
+});
+
 Cypress.Commands.add('onListsPage', () => {
   cy.url().should('include', '/lists');
   cy.contains('TODO Checklist');
   cy.contains('Create a new list');
-  cy.contains('Logout');
-  cy.contains('Contact');
+  cy.containsFooter();
 });
 
-Cypress.Commands.add('onListPage', listName => {
-  cy.url().should('include', '/list/');
-  cy.contains(listName);
-  cy.contains('<< Lists');
+Cypress.Commands.add('containsFooter', () => {
   cy.contains('Logout');
   cy.contains('Contact');
 });

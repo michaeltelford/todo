@@ -39,6 +39,7 @@ const buildListDisplayName = list => {
 
 const buildUserJSX = (email, clickHandler) => (
   <div
+    data-cy={email}
     key={email}
     className='flex justify-between mb-2'>
       <div className='ml-2 mr-3 break-all'>
@@ -69,6 +70,7 @@ function UserModal(props) {
       <form className='flex flex-col'>
         <div className='flex mb-5'>
           <input
+            data-cy='user-email'
             type='text'
             placeholder='Email address'
             ref={textInput}

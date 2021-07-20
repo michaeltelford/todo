@@ -1,38 +1,31 @@
-describe('TODO Checklist', () => {
+describe('Main', () => {
+  const originalListName = 'Cypress Zoo';
+  const updatedListName  = 'Cypress Animals';
+
   beforeEach(() => cy.auth());
 
   it('Visits the app', () => {
-    cy.visitPage('/');
-    cy.onListsPage();
+    cy.visitApp();
   });
 
   it('Creates a list', () => {
-    cy.contains('Create').click();
-    cy.contains('Create List');
-
-    cy.get('[data-cy=modal-input]').type('Zoo');
-    cy.contains('Save').click();
-
-    cy.contains('Zoo');
-    cy.contains('1 items (with 1 still to do)');
-    cy.contains(`Created by you on ${new Date().toDateString()}`);
+    cy.createList(originalListName);
   });
 
-  it('Edits the list', () => {
-    cy.get('div[data-cy=Zoo] [data-cy=edit]').click();
+  it('Edits the list name', () => {
+    cy.get(`div[data-cy='${originalListName}'] [data-cy=edit]`).click();
     cy.contains('Edit List');
-    cy.contains('Zoo');
+    cy.contains(originalListName);
 
-    cy.get('[data-cy=modal-input]').clear().type('Animals');
+    cy.get('[data-cy=modal-input]').clear().type(updatedListName);
     cy.contains('Save').click();
 
-    cy.contains('Zoo').should('not.exist');
-    cy.contains('Animals');
+    cy.contains(originalListName).should('not.exist');
+    cy.contains(updatedListName);
   });
 
   it('Opens the list', () => {
-    cy.contains('Animals').click();
-    cy.onListPage('Animals');
+    cy.visitList(updatedListName);
     cy.contains('0 / 1 Done');
     cy.contains('Add some TODOs');
 
@@ -81,7 +74,7 @@ describe('TODO Checklist', () => {
 
   it('Edits a TODO', () => {
     cy.get('div[data-cy=Lion] [data-cy=edit]').click();
-    cy.contains('Edit Item');
+    cy.contains('Edit TODO Item');
     cy.contains('Lion');
 
     cy.get('[data-cy=modal-input]').clear().type('Cheetah');
@@ -94,14 +87,11 @@ describe('TODO Checklist', () => {
   });
 
   it('Navigates to all lists', () => {
-    cy.contains('<< Lists').click();
-    cy.onListsPage();
+    cy.visitLists();
   });
 
   it('Deletes the list', () => {
-    cy.contains('Animals');
-    cy.get('div[data-cy=Animals] [data-cy=delete]').click();
-    cy.contains('Animals').should('not.exist');
+    cy.deleteList(updatedListName);
   });
 
   it('Logs out', () => {

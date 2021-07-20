@@ -1,4 +1,4 @@
-describe('TODO Checklist', () => {
+describe('Not Found', () => {
   beforeEach(() => cy.auth());
 
   const pageNotFoundText = 'Page not found. Click here to return to the home page.';
@@ -23,10 +23,5 @@ describe('TODO Checklist', () => {
 
     cy.contains('here').click();
     cy.onListsPage();
-  });
-
-  it('Logs out', () => {
-    cy.contains('Logout').click();
-    cy.url().should('include', '/auth');
   });
 });

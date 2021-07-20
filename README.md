@@ -73,19 +73,23 @@ During development of tests, open the Cypress test runner with:
 
 By default, the tests will run against `127.0.0.1:3000`. Set the `CYPRESS_BASE_URL` ENV var to override this.
 
+The tests should be written to create their own test data and clean up after themselves. This works well when the tests are passing but if they fail, they'll likely leave their test lists lying around; so you should delete these manually before re-running them.
+
 ### Manual Testing
 
 The automated tests are great (and essential) but they can't catch everything so some manual testing is required. Manually test any features you write and then code the scenarios into the automated tests.
 
 The following are some guidelines/scenarios to manually test with in addition to writing automated tests:
 
-| State/Scenario       | How To Test                                                | Expected Result                 |
-| -------------------- | ---------------------------------------------------------- | ------------------------------- |
-| Error boundary       | `throw new Error('test error');` from a component's render | ErrorBoundary component renders |
-| Error state          | API returns a 500 response                                 | Error component renders         |
-| Loading state        | API sleeps for 2 seconds and then responds                 | Loading component renders       |
-| Page not found state | Navigate to an invalid path e.g. `/billing`                | NotFound component renders      |
-| List not found state | Navigate to an invalid list e.g. `/list/hello`             | ListNotFound component renders  |
+| State/Scenario       | How To Test                                                  | Expected Result                  |
+| -------------------- | ------------------------------------------------------------ | -------------------------------- |
+| Auth                 | Login and out of the app via Auth0                           | Auth works correctly             |
+| Fast UI              | Interact with the UI super fast (test everything)            | It shouldn't lag                 |
+| Responsive CSS       | Using dev tools mobile emulator with several viewports       | It looks and feels almost native |
+| Error boundary       | `throw new Error('test error');` from a component's `render` | ErrorBoundary component renders  |
+| Error state          | API returns a 500 response                                   | Error component renders          |
+| Loading state        | API sleeps for 2 seconds and then responds                   | Loading component renders        |
+| Heroku Cold Boot     | Deploy to Heroku and hit the URL after it goes to sleep      | Loading component renders        |
 
 Remember to:
 
@@ -108,6 +112,8 @@ To deploy to surge.sh, run the following at the root of the repo:
 ```sh
 ./deploy.sh
 ```
+
+After a release, sanity check the app's deployment to the production environment.
 
 ## Credits
 
