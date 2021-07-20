@@ -1,26 +1,26 @@
 import api from '../../api';
+import { getState } from '../store';
 import { setLoadingState, setErrorState, successState, errorState } from '.';
 
-const getUser = _state => {
-  setLoadingState();
-
-  return api.fetch(
-    '/session',
-    undefined,
-    ({ session }) => (
-      session
-        ? successState({
-            user: {
-              email: session.email,
-              name: session.name,
-              picture: session.picture,
-            },
-          })
-        : errorState()
-    ),
-    () => errorState(),
-  );
-}
+// We ignore the loading state to avoid interfering with getLists().
+// We also ignore _state because it goes stale, getState() doesn't.
+const getUser = _state => api.fetch(
+  '/session',
+  undefined,
+  ({ session }) => (
+    session
+      ? {
+          ...getState(),
+          user: {
+            email: session.email,
+            name: session.name,
+            picture: session.picture,
+          },
+        }
+      : errorState()
+  ),
+  () => errorState(),
+);
 
 const getLists = _state => {
   setLoadingState();
@@ -58,8 +58,6 @@ const editList = (state, updatedList) => {
   const { id, name, todos, additional_users } = updatedList;
   const index = prevLists.findIndex(l => l.id === updatedList.id);
 
-  setLoadingState();
-
   api.fetch(
     `/list/${id}`,
     {
@@ -84,8 +82,6 @@ const editList = (state, updatedList) => {
 const deleteList = (state, id) => {
   const { lists: prevLists } = state;
   const lists = prevLists.filter(l => l.id !== id);
-
-  setLoadingState();
 
   api.fetch(
     `/list/${id}`,
