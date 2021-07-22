@@ -5,14 +5,14 @@ const { origin, href: callbackUrl } = window.location;
 const appName                       = process.env.REACT_APP_AUTH0_APP_NAME;
 const clientId                      = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const authState                     = 'spagolemongrass231';
-const apiAuthEndpoint               = '/session';
 
 const auth0LoginUrl  =
   'https://APP_NAME.auth0.com/authorize' +
   '?response_type=code&client_id=CLIENT_ID' +
   '&redirect_uri=CALLBACK_URL&scope=SCOPE&state=STATE';
 const auth0LogoutUrl =
-  'https://APP_NAME.auth0.com/v2/logout?client_id=CLIENT_ID';
+  'https://APP_NAME.auth0.com/v2/logout' +
+  '?client_id=CLIENT_ID&returnTo=CALLBACK_URL';
 
 const buildLoginUrl = () => {
   return auth0LoginUrl
@@ -24,9 +24,12 @@ const buildLoginUrl = () => {
 }
 
 const buildLogoutUrl = () => {
+  const authUrl = `${window.location.origin}/auth`;
+
   return auth0LogoutUrl
     .replace('APP_NAME', appName)
-    .replace('CLIENT_ID', clientId);
+    .replace('CLIENT_ID', clientId)
+    .replace('CALLBACK_URL', authUrl);
 }
 
 const handleLogin = (code, state) => {
@@ -37,7 +40,7 @@ const handleLogin = (code, state) => {
   }
 
   // Auth against the API, verifying the auth code & retrieve a JWT token.
-  api.fetch(apiAuthEndpoint, {
+  api.fetch('/session', {
       method: 'POST',
       body: { authorization_code: code },
     },
@@ -49,13 +52,10 @@ const handleLogin = (code, state) => {
   );
 }
 
-// Logout of auth0 and destroy the current JWT token.
+// Destroy the current JWT token and logout of auth0.
 const handleLogout = async () => {
-  // We catch and ignore a CORS error because Auth0 doesn't set the allow-origin response header.
-  await fetch(buildLogoutUrl()).catch(() => null);
-
   localStorage.clear();
-  window.location.replace(origin + '/auth');
+  window.location.replace(buildLogoutUrl());
 }
 
 const hasToken = () => (localStorage.getItem('token') !== null);
