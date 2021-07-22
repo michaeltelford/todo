@@ -108,6 +108,7 @@ class Lists extends React.Component {
   }
 
   handleAddUser = email => {
+    email = email?.toLowerCase();
     const { editList, user: { email: currentUser } } = this.props;
     const { currentList } = this.state;
     const updatedList = {
@@ -123,7 +124,7 @@ class Lists extends React.Component {
       return;
     }
 
-    if (!EMAIL_REGEX.test(email.toLowerCase())) {
+    if (!EMAIL_REGEX.test(email)) {
       alert('Email address is invalid');
       return;
     }

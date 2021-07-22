@@ -71,7 +71,7 @@ function UserModal(props) {
         <div className='flex mb-5'>
           <input
             data-cy='user-email'
-            type='text'
+            type='email'
             placeholder='Email address'
             ref={textInput}
             className='flex-grow min-w-0 mr-1 py-1 border-2 border-gray-400 rounded-sm' />
