@@ -32,9 +32,11 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-    const { getLists } = this.props;
+    const { lists, getLists } = this.props;
 
-    getLists();
+    if (!lists) {
+      getLists();
+    }
   }
 
   handleNew = emptyList => {
