@@ -31,7 +31,29 @@ class API {
     return this.origin + separator + endpoint;
   }
 
-  // Fetch from the API.
+  // Send a HTTP request to the API and handle the response via callbacks.
+  // The return value from the success/error callback is returned here also.
+  getResponse = async (url, request, success, error) => {
+    try {
+      try {
+        const resp = await fetch(url, request);
+
+        return (
+          resp.ok
+            ? resp.json()
+                .then(json => success(json, resp))
+                .catch(_err => success({}, resp))
+            : handleError(resp, error)
+        );
+      } catch (err1) {
+        return handleError(err1, error);
+      }
+    } catch (err2) {
+      return handleError(err2, error);
+    }
+  }
+
+  // Fetch from the API. This method is the only way you should interact with the API.
   fetch = (endpoint, fetchOpts, success = empty, error = empty) => {
     const url = this.url(endpoint);
     const request = {
@@ -50,19 +72,7 @@ class API {
       request.body = JSON.stringify(fetchOpts.body);
     }
 
-    // The return value from the success/error callback is returned here also.
-    return fetch(url, request)
-      .then(
-        resp => (
-          resp.ok
-            ? resp.json()
-                .then(json => success(json, resp))
-                .catch(_err => success({}, resp))
-            : handleError(resp, error)
-        ),
-        err => handleError(err, error),
-      )
-      .catch(err => handleError(err, error));
+    return this.getResponse(url, request, success, error);
   }
 }
 
