@@ -92,7 +92,7 @@ function UserModal(props) {
           {
             (users.length > 0)
               ? users.map(user => buildUserJSX(user, handleRemove))
-              : <p className='mb-2'>This list isn't shared with anyone</p>
+              : <p className='ml-2 mb-2'>This list isn't shared with anyone</p>
           }
         </div>
         <button
