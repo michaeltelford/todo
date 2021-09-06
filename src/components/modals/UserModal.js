@@ -37,10 +37,10 @@ const buildListDisplayName = list => {
   return `${name.substring(0, maxChars)}${suffix}`;
 }
 
-const buildUserJSX = (email, clickHandler) => (
+const buildUserJSX = (email, index, clickHandler) => (
   <div
     data-cy={email}
-    key={email}
+    key={`${index}_${email}`}
     className='flex justify-between mb-2'>
       <div className='ml-2 mr-3 break-all'>
         {email}
@@ -91,7 +91,7 @@ function UserModal(props) {
         <div className='mb-2'>
           {
             (users.length > 0)
-              ? users.map(user => buildUserJSX(user, handleRemove))
+              ? users.map((user, i) => buildUserJSX(user, i, handleRemove))
               : <p className='ml-2 mb-2'>This list isn't shared with anyone</p>
           }
         </div>

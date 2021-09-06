@@ -7,17 +7,15 @@ function CheckboxGroup(props) {
 
   return (
     <div data-cy={type} className='xl:w-1/2'>
-      {todos.map((todo, i) => {
-        return (
-          <Checkbox
-            key={i}
-            name={todo.name}
-            checked={todo.done}
-            handleToggle={handleToggle}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit} />
-        );
-      })}
+      {todos.map((todo, i) => (
+        <Checkbox
+          key={`${i}_${type}_${todo.name}`}
+          name={todo.name}
+          checked={todo.done}
+          handleToggle={handleToggle}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit} />
+      ))}
     </div>
   );
 }

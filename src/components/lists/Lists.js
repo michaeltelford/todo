@@ -65,7 +65,7 @@ class Lists extends React.Component {
     const list = lists.find(l => l.id === id);
     const msg = 'All todo items will be deleted forever, are you sure?';
 
-    if (list.todos.length > 0 && !window.confirm(msg)) return;
+    if (list.todos.total_todos > 0 && !window.confirm(msg)) return;
 
     deleteList(id);
   }

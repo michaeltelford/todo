@@ -30,7 +30,7 @@ const Checkbox = React.memo(props => {
   const label = useRef();
 
   /* We use a custom label with a sexy checkbox image using a hard-coded height,
-   * requiring the <p> to be outside the label (so it's natural height applies).
+   * requiring the <p> to be outside the label (so its natural height applies).
    * We make the <p> click perform a label.click() which toggles the checkbox.
    * It's a hack, but it's necessary to properly style the checkbox.
    */

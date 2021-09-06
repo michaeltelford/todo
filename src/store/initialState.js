@@ -4,6 +4,7 @@ const initialState = {
   errored: false,
   user: null,
   lists: null,
+  list: null,
 };
 
 const buildEmptyList = () => ({

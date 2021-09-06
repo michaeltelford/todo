@@ -38,18 +38,21 @@ class API {
       try {
         const resp = await fetch(url, request);
 
-        return (
-          resp.ok
-            ? resp.json()
-                .then(json => success(json, resp))
-                .catch(_err => success({}, resp))
-            : handleError(resp, error)
-        );
-      } catch (err1) {
-        return handleError(err1, error);
+        if (resp.ok) {
+          try {
+            const json = await resp.json();
+            return success(json, resp);
+          } catch (err) {
+            return success({}, resp);
+          }
+        } else {
+          return handleError(resp, error);
+        }
+      } catch (err) {
+        return handleError(err, error);
       }
-    } catch (err2) {
-      return handleError(err2, error);
+    } catch (err) {
+      return handleError(err, error);
     }
   }
 

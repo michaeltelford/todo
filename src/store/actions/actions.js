@@ -30,10 +30,32 @@ const getLists = _state => {
     undefined,
     ({ lists }) => (
       lists
-        ? successState({ lists })
+        ? successState({
+            lists,
+            list: null,
+          })
         : errorState()
     ),
     () => errorState(),
+  );
+}
+
+const getList = (_state, id) => {
+  setLoadingState();
+
+  return api.fetch(
+    `/list/${id}`,
+    undefined,
+    ({ list }) => (
+      list
+        ? successState({ list })
+        : errorState()
+    ),
+    resp => (
+      (resp.status === 404)
+        ? successState({ list: null })
+        : errorState()
+    ),
   );
 }
 
@@ -54,10 +76,11 @@ const createList = (_state, list) => {
 }
 
 const editList = (state, updatedList) => {
-  const { lists: prevLists } = state;
   const { id, name, todos, additional_users } = updatedList;
-  const index = prevLists.findIndex(l => l.id === updatedList.id);
+  const { lists, list } = state;
+  let updatedLists = null;
 
+  // For instant UI feedback, we don't wait around for the API response.
   api.fetch(
     `/list/${id}`,
     {
@@ -74,15 +97,20 @@ const editList = (state, updatedList) => {
     () => setErrorState(),
   );
 
-  // For instant UI feedback, we don't wait around for the API response.
-  prevLists.splice(index, 1, updatedList);
-  return successState({ lists: prevLists });
+  if (lists) {
+    const index = lists.findIndex(l => l.id === id);
+    lists.splice(index, 1, updatedList);
+    updatedLists = [ ...lists ];
+  }
+
+  return successState({
+    lists: (lists === null ? null : updatedLists),
+    list: (list === null ? null : updatedList),
+  });
 }
 
 const deleteList = (state, id) => {
-  const { lists: prevLists } = state;
-  const lists = prevLists.filter(l => l.id !== id);
-
+  // For instant UI feedback, we don't wait around for the API response.
   api.fetch(
     `/list/${id}`,
     { method: 'DELETE' },
@@ -90,13 +118,16 @@ const deleteList = (state, id) => {
     () => setErrorState(),
   );
 
-  // For instant UI feedback, we don't wait around for the API response.
+  const { lists: prevLists } = state;
+  const lists = prevLists.filter(l => l.id !== id);
+
   return successState({ lists });
 }
 
 export {
   getUser,
   getLists,
+  getList,
   createList,
   editList,
   deleteList,

@@ -9,8 +9,8 @@ import Hr from '../Hr';
 function ListSummary(props) {
   const { currentUser, list, handleUsers, handleEdit, handleDelete } = props;
   const { id, name, todos, user_email, user_name, created_on } = list;
+  const { total_todos, undone_todos } = todos;
   const owner = (currentUser === user_email) ? 'you' : user_name;
-  const numItemsTodo = todos.filter(todo => !todo.done).length;
 
   return (
     <div data-cy={name} id={id} key={id}>
@@ -34,7 +34,7 @@ function ListSummary(props) {
         </span>
       </div>
       <div>
-        <p>{todos.length} items (with {numItemsTodo} still to do)</p>
+        <p>{total_todos} items (with {undone_todos} still to do)</p>
         <p>Created by {owner} on {new Date(created_on).toDateString()}</p>
         <Hr />
       </div>
@@ -47,9 +47,9 @@ ListSummary.propTypes = {
   list: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    todos: PropTypes.array,
+    todos: PropTypes.object,
     additional_users: PropTypes.array,
-  }).isRequired,
+  }),
   handleUsers: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,

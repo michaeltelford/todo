@@ -3,6 +3,7 @@ import { getState, setState } from '../store';
 import {
   getUser,
   getLists,
+  getList,
   createList,
   editList,
   deleteList,
@@ -11,6 +12,7 @@ import {
 const actions = _store => ({
   getUser,
   getLists,
+  getList,
   createList,
   editList,
   deleteList,

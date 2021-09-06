@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'redux-zero/react';
 import actions from '../store/actions';
 import Header from './Header';
@@ -25,19 +24,9 @@ Wrapper.propTypes = {
   getUser: PropTypes.func.isRequired,
 };
 
-const mapToProps = ({ user, lists }, ownProps) => {
-  const { id: urlId } = ownProps.match.params; // from withRouter()
-  let list;
+const mapToProps = ({ user, list }) => ({
+  user,
+  title: list?.name,
+});
 
-  // Find the list being displayed by the child component.
-  if (lists && urlId) {
-    list = lists.find(l => l.id.toString() === urlId);
-  }
-
-  return {
-    title: list?.name,
-    user,
-  };
-}
-
-export default withRouter(connect(mapToProps, actions)(Wrapper));
+export default connect(mapToProps, actions)(Wrapper);

@@ -33,11 +33,9 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    const { lists, getLists } = this.props;
+    const { getList, listId } = this.props;
 
-    if (!lists) {
-      getLists();
-    }
+    getList(listId);
   }
 
   // Select todos by their `done` status.
@@ -132,7 +130,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { loadingText, errored, lists, list, listId } = this.props;
+    const { loadingText, errored, list, listId } = this.props;
     const { showModal, currentTodo } = this.state;
 
     if (errored) {
@@ -141,10 +139,6 @@ class List extends React.Component {
 
     if (loadingText) {
       return <Loading message={loadingText} />;
-    }
-
-    if (!lists) {
-      return null;
     }
 
     // If the URL's listId is invalid.
@@ -206,27 +200,19 @@ class List extends React.Component {
 List.propTypes = {
   loadingText: PropTypes.string,
   errored: PropTypes.bool.isRequired,
-  lists: PropTypes.array,
   list: PropTypes.object,
   listId: PropTypes.string,
-  getLists: PropTypes.func.isRequired,
+  getList: PropTypes.func.isRequired,
   editList: PropTypes.func.isRequired,
 };
 
 const mapToProps = (state, ownProps) => {
-  const { loadingText, errored, lists } = state;
-  const { id: listId } = ownProps.match.params; // from withRouter()
-  let list;
-
-  // Find the list being displayed by this component.
-  if (lists && listId) {
-    list = lists.find(l => l.id.toString() === listId);
-  }
+  const { loadingText, errored, list } = state;
+  const { id: listId } = ownProps.match.params; // from withRouter().
 
   return {
     loadingText,
     errored,
-    lists,
     list,
     listId,
   };

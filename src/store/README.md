@@ -1,6 +1,6 @@
 # Store
 
-[Redux-zero](https://github.com/redux-zero/redux-zero) is used to provide global state. See it's `README` for more information but in a nutshell:
+[Redux-zero](https://github.com/redux-zero/redux-zero) is used to provide global state. See its `README` for more information but in a nutshell:
 
 - Based on Redux
 - Zero dependencies (and < 1KB when gzipped)
