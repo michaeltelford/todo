@@ -66,7 +66,7 @@ class List extends React.Component {
     editList({
       ...list,
       todos,
-    });
+    }, 'list');
   }
 
   handleRemoveTodo = obsoleteTodo => {
@@ -77,7 +77,7 @@ class List extends React.Component {
     editList({
       ...list,
       todos: filteredTodos,
-    });
+    }, 'list');
   }
 
   handleUpdateTodo = updatedTodo => {
@@ -89,7 +89,7 @@ class List extends React.Component {
     editList({
       ...list,
       todos,
-    });
+    }, 'list');
   }
 
   handleEdit = name => {
@@ -124,7 +124,7 @@ class List extends React.Component {
     editList({
       ...list,
       todos,
-    });
+    }, 'list');
 
     this.setState({ showModal: false });
   }

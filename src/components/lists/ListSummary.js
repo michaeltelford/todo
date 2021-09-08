@@ -8,8 +8,8 @@ import Hr from '../Hr';
 
 function ListSummary(props) {
   const { currentUser, list, handleUsers, handleEdit, handleDelete } = props;
-  const { id, name, todos, user_email, user_name, created_on } = list;
-  const { total_todos, undone_todos } = todos;
+  const { id, name, todos_summary, user_email, user_name, created_on } = list;
+  const { total_todos, undone_todos } = todos_summary;
   const owner = (currentUser === user_email) ? 'you' : user_name;
 
   return (
@@ -47,7 +47,7 @@ ListSummary.propTypes = {
   list: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    todos: PropTypes.object,
+    todos_summary: PropTypes.object,
     additional_users: PropTypes.array,
   }),
   handleUsers: PropTypes.func.isRequired,

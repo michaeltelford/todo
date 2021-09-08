@@ -65,7 +65,7 @@ class Lists extends React.Component {
     const list = lists.find(l => l.id === id);
     const msg = 'All todo items will be deleted forever, are you sure?';
 
-    if (list.todos.total_todos > 0 && !window.confirm(msg)) return;
+    if (list.todos_summary.total_todos > 0 && !window.confirm(msg)) return;
 
     deleteList(id);
   }
@@ -86,7 +86,7 @@ class Lists extends React.Component {
 
     (modalAction === 'Create')
       ? createList(currentList)
-      : editList(currentList);
+      : editList(currentList, 'lists');
 
     this.setState({ showSaveModal: false });
   }
@@ -142,7 +142,7 @@ class Lists extends React.Component {
 
     // We use connect's shallow comparison here to our advantage. Connect won't re-render
     // the component so we do it with setState, keeping the modal open for a good UX.
-    editList(updatedList);
+    editList(updatedList, 'lists');
     this.setState({ currentList: updatedList });
   }
 
@@ -164,7 +164,7 @@ class Lists extends React.Component {
 
     // We use connect's shallow comparison here to our advantage. Connect won't re-render
     // the component so we do it with setState, keeping the modal open for a good UX.
-    editList(updatedList);
+    editList(updatedList, 'lists');
     this.setState({ currentList: updatedList });
   }
 

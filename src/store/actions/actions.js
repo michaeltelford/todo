@@ -48,7 +48,10 @@ const getList = (_state, id) => {
     undefined,
     ({ list }) => (
       list
-        ? successState({ list })
+        ? successState({
+            lists: null,
+            list,
+          })
         : errorState()
     ),
     resp => (
@@ -75,10 +78,8 @@ const createList = (_state, list) => {
   );
 }
 
-const editList = (state, updatedList) => {
+const editList = (state, updatedList, stateKey) => {
   const { id, name, todos, additional_users } = updatedList;
-  const { lists, list } = state;
-  let updatedLists = null;
 
   // For instant UI feedback, we don't wait around for the API response.
   api.fetch(
@@ -97,16 +98,18 @@ const editList = (state, updatedList) => {
     () => setErrorState(),
   );
 
-  if (lists) {
-    const index = lists.findIndex(l => l.id === id);
-    lists.splice(index, 1, updatedList);
-    updatedLists = [ ...lists ];
-  }
+  switch (stateKey) {
+    case 'list':
+      return successState({ list: updatedList });
+    case 'lists':
+      const { lists } = state;
+      const index = lists.findIndex(l => l.id === id);
 
-  return successState({
-    lists: (lists === null ? null : updatedLists),
-    list: (list === null ? null : updatedList),
-  });
+      lists.splice(index, 1, updatedList);
+      return successState({ lists: [ ...lists ] });
+    default:
+      throw new Error("Missing/incorrect stateKey param, should be 'list' or 'lists'");
+  }
 }
 
 const deleteList = (state, id) => {
