@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'redux-zero/react';
 import actions from '../../store/actions';
+import { MAX_TODOS } from '../../constants';
 import { withRouter } from 'react-router';
 import AddTodo from './AddTodo';
 import CheckboxGroup from './CheckboxGroup';
@@ -51,6 +52,11 @@ class List extends React.Component {
   handleAddTodo = newTodo => {
     const { editList, list } = this.props;
     const { todos } = list;
+
+    if (todos.length >= MAX_TODOS) {
+      alert("You've reached the max number of TODO items, try removing some or create a new list");
+      return;
+    }
 
     if (newTodo.name === '') {
       alert('TODO item must have a name');
