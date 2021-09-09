@@ -35,21 +35,17 @@ class API {
   // The return value from the success/error callback is returned here also.
   getResponse = async (url, request, success, error) => {
     try {
-      try {
-        const resp = await fetch(url, request);
+      const resp = await fetch(url, request);
 
-        if (resp.ok) {
-          try {
-            const json = await resp.json();
-            return success(json, resp);
-          } catch (err) {
-            return success({}, resp);
-          }
-        } else {
-          return handleError(resp, error);
+      if (resp.ok) {
+        try {
+          const json = await resp.json();
+          return success(json, resp);
+        } catch (err) {
+          return success({}, resp);
         }
-      } catch (err) {
-        return handleError(err, error);
+      } else {
+        return handleError(resp, error);
       }
     } catch (err) {
       return handleError(err, error);
