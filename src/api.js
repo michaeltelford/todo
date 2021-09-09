@@ -61,12 +61,13 @@ class API {
     const url = this.url(endpoint);
     const request = {
       method: 'GET',
+      ...fetchOpts, // Placed here to avoid overridding headers completely.
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
         'Authorization': localStorage.getItem('token'),
+        ...fetchOpts?.headers,
       },
-      ...fetchOpts,
     }
     const isGetOrHeadRequest = ['GET', 'HEAD'].find(m => m === request.method);
 
