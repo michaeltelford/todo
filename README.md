@@ -81,15 +81,15 @@ The automated tests are great (and essential) but they can't catch everything so
 
 The following are some guidelines/scenarios to manually test with in addition to writing automated tests:
 
-| State/Scenario       | How To Test                                                  | Expected Result                  |
-| -------------------- | ------------------------------------------------------------ | -------------------------------- |
-| Auth                 | Login and out of the app via Auth0                           | Auth works correctly             |
-| Fast UI              | Interact with the UI super fast (test everything)            | It shouldn't lag                 |
-| Responsive CSS       | Using dev tools mobile emulator with several viewports       | It looks and feels almost native |
-| Error boundary       | `throw new Error('test error');` from a component's `render` | ErrorBoundary component renders  |
-| Error state          | API returns a 500 response                                   | Error component renders          |
-| Loading state        | API sleeps for 2 seconds and then responds                   | Loading component renders        |
-| Heroku Cold Boot     | Deploy to Heroku and hit the URL after it goes to sleep      | Loading component renders        |
+| State/Scenario       | How To Test                                                   | Expected Result                  |
+| -------------------- | ------------------------------------------------------------- | -------------------------------- |
+| Auth                 | Login and out of the app via Auth0                            | Auth works correctly             |
+| Fast UI              | Interact with the UI super fast (test everything)             | It shouldn't lag                 |
+| Responsive CSS       | Using dev tools mobile emulator with several viewports        | It looks and feels almost native |
+| Error boundary       | `throw new Error('test error');` from a component's `render`  | ErrorBoundary component renders  |
+| Error state          | API returns a 500 response                                    | Error component renders          |
+| Loading state        | API sleeps for 2 seconds and then responds                    | Loading component renders        |
+| Deployed Cold Boot?  | Deploy to prod and hit the URL after/if the API goes to sleep | Loading component renders        |
 
 Remember to:
 
